@@ -28,8 +28,18 @@
     <div class="container">
       <h1>Towers</h1>
       <div id="container">
-        <div id="game"></div>
+        <div id="game">
+          <canvas id="game-canvas"></canvas>
+        </div>
       </div>      
     </div>
+    <script>
+
+
+      window.addEventListener('load', () => {              
+        const renderEngine = new RenderEngine(canvas);
+        const game = new Game();
+      });
+    </script>
   </body>
 </html>

@@ -1,8 +1,6 @@
+import { Globals } from "./globals";
+
 export class Game {  
-  constructor() {
+  constructor() {    
   }
 }
-
-window.addEventListener('load', () => {
-  var game = new Game();
-});
