@@ -9,6 +9,18 @@
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
     <script src="dist/bundle.js"></script>
     <style>
+      body, html {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas {    
+        background: gray;
+        width: 800px;
+        height: 480px;
+      }
+
       h1 {
         text-align: center;
         font-size: 2em;
@@ -25,21 +37,11 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Towers</h1>
-      <div id="container">
-        <div id="game">
-          <canvas id="game-canvas"></canvas>
-        </div>
-      </div>      
-    </div>
-    <script>
-
-
-      window.addEventListener('load', () => {              
-        const renderEngine = new RenderEngine(canvas);
-        const game = new Game();
-      });
-    </script>
+    <h1>Towers</h1>
+    <div id="container">
+      <div id="game">
+        <canvas id="game-canvas"></canvas>
+      </div>
+    </div>          
   </body>
 </html>

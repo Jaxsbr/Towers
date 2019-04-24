@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/DataObjects/rectangle.ts":
+/*!**************************************!*\
+  !*** ./src/DataObjects/rectangle.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass Rectangle {\r\n    constructor(left, top, width, height) {\r\n        this.left = left;\r\n        this.top = top;\r\n        this.width = width;\r\n        this.height = height;\r\n        this.updateRight();\r\n        this.updateBottom();\r\n    }\r\n    updateRight() {\r\n        this.right = this.left + this.width;\r\n    }\r\n    updateBottom() {\r\n        this.bottom = this.top + this.height;\r\n    }\r\n    intersectRect(rectangle) {\r\n        return !(rectangle.left > this.right ||\r\n            rectangle.right < this.left ||\r\n            rectangle.top > this.bottom ||\r\n            rectangle.bottom < this.top);\r\n    }\r\n    containsRect(rectangle) {\r\n        return (this.left <= rectangle.left &&\r\n            rectangle.right <= this.right &&\r\n            this.top <= rectangle.top &&\r\n            rectangle.bottom <= this.bottom);\r\n    }\r\n    getCenterWidth() {\r\n        this.updateRight();\r\n        return this.right - this.width / 2;\r\n    }\r\n    getCenterHeight() {\r\n        this.updateRight();\r\n        return this.bottom - this.height / 2;\r\n    }\r\n    clone() {\r\n        return new Rectangle(this.left, this.top, this.width, this.height);\r\n    }\r\n    equals(rect) {\r\n        return (this.left == rect.left &&\r\n            this.top == rect.top &&\r\n            this.width == rect.width &&\r\n            this.height == rect.height);\r\n    }\r\n}\r\nexports.Rectangle = Rectangle;\r\n\n\n//# sourceURL=webpack:///./src/DataObjects/rectangle.ts?");
+
+/***/ }),
+
 /***/ "./src/game.ts":
 /*!*********************!*\
   !*** ./src/game.ts ***!
@@ -94,7 +106,31 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass Game {\r\n    constructor() {\r\n    }\r\n}\r\nexports.Game = Game;\r\nwindow.addEventListener('load', () => {\r\n    var game = new Game();\r\n});\r\n\n\n//# sourceURL=webpack:///./src/game.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst globals_1 = __webpack_require__(/*! ./globals */ \"./src/globals.ts\");\r\nconst rectangle_1 = __webpack_require__(/*! ./DataObjects/rectangle */ \"./src/DataObjects/rectangle.ts\");\r\nclass Game {\r\n    constructor(gameTime) {\r\n        this.gameTime = gameTime;\r\n    }\r\n    start() {\r\n        if (this.running) {\r\n            return;\r\n        }\r\n        this.running = true;\r\n        this.loop();\r\n    }\r\n    loop() {\r\n        this.gameTime.update();\r\n        globals_1.Globals.renderEngine.renderRect(new rectangle_1.Rectangle(0, 0, 100, 100), 'red', true);\r\n        requestAnimationFrame(() => this.loop());\r\n    }\r\n}\r\nexports.Game = Game;\r\n\n\n//# sourceURL=webpack:///./src/game.ts?");
+
+/***/ }),
+
+/***/ "./src/globals.ts":
+/*!************************!*\
+  !*** ./src/globals.ts ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst renderEngine_1 = __webpack_require__(/*! ./renderEngine */ \"./src/renderEngine.ts\");\r\nvar Globals;\r\n(function (Globals) {\r\n    Globals.gameCanvas = document.getElementById('game-canvas');\r\n    Globals.graphicsContext = Globals.gameCanvas.getContext('2d');\r\n    Globals.renderEngine = new renderEngine_1.RenderEngine(Globals.graphicsContext);\r\n})(Globals = exports.Globals || (exports.Globals = {}));\r\n\n\n//# sourceURL=webpack:///./src/globals.ts?");
+
+/***/ }),
+
+/***/ "./src/renderEngine.ts":
+/*!*****************************!*\
+  !*** ./src/renderEngine.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass RenderEngine {\r\n    constructor(context) {\r\n        this.context = context;\r\n    }\r\n    clearRect(rect) {\r\n        if (rect) {\r\n            this.context.clearRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n    renderRect(rect, color, fill) {\r\n        if (fill) {\r\n            this.context.fillStyle = color;\r\n            this.context.fillRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n        else {\r\n            this.context.beginPath();\r\n            this.context.strokeStyle = color;\r\n            this.context.strokeRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n}\r\nexports.RenderEngine = RenderEngine;\r\n\n\n//# sourceURL=webpack:///./src/renderEngine.ts?");
 
 /***/ })
 

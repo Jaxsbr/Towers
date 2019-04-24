@@ -1,15 +1,16 @@
 import { Rectangle } from "./DataObjects/rectangle";
 
 export class RenderEngine {
-    private canvas: HTMLCanvasElement;
+    private context: CanvasRenderingContext2D;
 
-    constructor(canvas: HTMLCanvasElement) {
-        this.canvas = canvas;
+    constructor() {
+        const gameCanvas = document.getElementById('game-canvas') as HTMLCanvasElement;
+        this.context = gameCanvas.getContext('2d');
     }
 
-    public clear(context: CanvasRenderingContext2D, rect: Rectangle = null) {
+    public clearRect(rect: Rectangle) {
         if (rect) { 
-            context.clearRect(
+            this.context.clearRect(
                 rect.left, 
                 rect.top, 
                 rect.width, 
@@ -17,15 +18,15 @@ export class RenderEngine {
         }
     }
 
-    public renderRect(context: CanvasRenderingContext2D, rect: Rectangle, color: string, fill:boolean) {
+    public renderRect(rect: Rectangle, color: string, fill:boolean) {
         if (fill) {
-            context.fillStyle = color;
-            context.fillRect(rect.left, rect.top, rect.width, rect.height);
+            this.context.fillStyle = color;
+            this.context.fillRect(rect.left, rect.top, rect.width, rect.height);
         }
         else {
-            context.beginPath();
-            context.strokeStyle = color;
-            context.strokeRect(rect.left, rect.top, rect.width, rect.height);            
+            this.context.beginPath();
+            this.context.strokeStyle = color;
+            this.context.strokeRect(rect.left, rect.top, rect.width, rect.height);            
         }
     }
 
