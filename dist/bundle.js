@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/DataObjects/gameTime.ts":
+/*!*************************************!*\
+  !*** ./src/DataObjects/gameTime.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass GameTime {\r\n    constructor() {\r\n        this.delta = 0;\r\n        this.previousLoopTime = Date.now();\r\n    }\r\n    update() {\r\n        const currentTime = Date.now();\r\n        let delta = currentTime - this.previousLoopTime;\r\n        this.delta = delta / 1000;\r\n        this.previousLoopTime = currentTime;\r\n    }\r\n}\r\nexports.GameTime = GameTime;\r\n\n\n//# sourceURL=webpack:///./src/DataObjects/gameTime.ts?");
+
+/***/ }),
+
 /***/ "./src/DataObjects/rectangle.ts":
 /*!**************************************!*\
   !*** ./src/DataObjects/rectangle.ts ***!
@@ -106,19 +118,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\ncl
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst globals_1 = __webpack_require__(/*! ./globals */ \"./src/globals.ts\");\r\nconst rectangle_1 = __webpack_require__(/*! ./DataObjects/rectangle */ \"./src/DataObjects/rectangle.ts\");\r\nclass Game {\r\n    constructor(gameTime) {\r\n        this.gameTime = gameTime;\r\n    }\r\n    start() {\r\n        if (this.running) {\r\n            return;\r\n        }\r\n        this.running = true;\r\n        this.loop();\r\n    }\r\n    loop() {\r\n        this.gameTime.update();\r\n        globals_1.Globals.renderEngine.renderRect(new rectangle_1.Rectangle(0, 0, 100, 100), 'red', true);\r\n        requestAnimationFrame(() => this.loop());\r\n    }\r\n}\r\nexports.Game = Game;\r\n\n\n//# sourceURL=webpack:///./src/game.ts?");
-
-/***/ }),
-
-/***/ "./src/globals.ts":
-/*!************************!*\
-  !*** ./src/globals.ts ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst renderEngine_1 = __webpack_require__(/*! ./renderEngine */ \"./src/renderEngine.ts\");\r\nvar Globals;\r\n(function (Globals) {\r\n    Globals.gameCanvas = document.getElementById('game-canvas');\r\n    Globals.graphicsContext = Globals.gameCanvas.getContext('2d');\r\n    Globals.renderEngine = new renderEngine_1.RenderEngine(Globals.graphicsContext);\r\n})(Globals = exports.Globals || (exports.Globals = {}));\r\n\n\n//# sourceURL=webpack:///./src/globals.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst gameTime_1 = __webpack_require__(/*! ./DataObjects/gameTime */ \"./src/DataObjects/gameTime.ts\");\r\nconst rectangle_1 = __webpack_require__(/*! ./DataObjects/rectangle */ \"./src/DataObjects/rectangle.ts\");\r\nconst renderEngine_1 = __webpack_require__(/*! ./renderEngine */ \"./src/renderEngine.ts\");\r\nclass Game {\r\n    constructor() {\r\n        this.gameTime = new gameTime_1.GameTime();\r\n        this.renderEngine = new renderEngine_1.RenderEngine();\r\n    }\r\n    start() {\r\n        if (this.running) {\r\n            return;\r\n        }\r\n        this.running = true;\r\n        this.loop();\r\n    }\r\n    loop() {\r\n        this.gameTime.update();\r\n        this.renderEngine.renderRect(new rectangle_1.Rectangle(0, 0, 100, 100), 'red', true);\r\n        requestAnimationFrame(() => this.loop());\r\n    }\r\n}\r\nexports.Game = Game;\r\nwindow.addEventListener('load', () => {\r\n    const game = new Game();\r\n    game.start();\r\n});\r\n\n\n//# sourceURL=webpack:///./src/game.ts?");
 
 /***/ }),
 
@@ -130,7 +130,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass RenderEngine {\r\n    constructor(context) {\r\n        this.context = context;\r\n    }\r\n    clearRect(rect) {\r\n        if (rect) {\r\n            this.context.clearRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n    renderRect(rect, color, fill) {\r\n        if (fill) {\r\n            this.context.fillStyle = color;\r\n            this.context.fillRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n        else {\r\n            this.context.beginPath();\r\n            this.context.strokeStyle = color;\r\n            this.context.strokeRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n}\r\nexports.RenderEngine = RenderEngine;\r\n\n\n//# sourceURL=webpack:///./src/renderEngine.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass RenderEngine {\r\n    constructor() {\r\n        const gameCanvas = document.getElementById('game-canvas');\r\n        this.context = gameCanvas.getContext('2d');\r\n    }\r\n    clearRect(rect) {\r\n        if (rect) {\r\n            this.context.clearRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n    renderRect(rect, color, fill) {\r\n        if (fill) {\r\n            this.context.fillStyle = color;\r\n            this.context.fillRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n        else {\r\n            this.context.beginPath();\r\n            this.context.strokeStyle = color;\r\n            this.context.strokeRect(rect.left, rect.top, rect.width, rect.height);\r\n        }\r\n    }\r\n}\r\nexports.RenderEngine = RenderEngine;\r\n\n\n//# sourceURL=webpack:///./src/renderEngine.ts?");
 
 /***/ })
 

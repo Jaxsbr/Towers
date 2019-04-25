@@ -1,15 +1,31 @@
 import { GameTime } from "./DataObjects/gameTime";
 import { Rectangle } from "./DataObjects/rectangle";
 import { RenderEngine } from "./renderEngine";
+import { AssetManager } from "./AssetLoading/assetManager";
+import { SceneManager } from "./Scenes/sceneManager";
+import { LoadScene } from "./Scenes/loadScene";
+import { GameScene } from "./Scenes/gameScene";
+import { SceneInterface } from "./Scenes/scene.interface";
 
 export class Game {  
+  public assetManager: AssetManager;
+  public currentScene: SceneInterface;
+  public loadScene: LoadScene;
+  public gameScene: GameScene;  
+  public screenBounds: Rectangle;
+
   private running: boolean;
   private gameTime: GameTime;
   private renderEngine: RenderEngine;
+  private sceneManager: SceneManager;
 
-  constructor() {        
+  constructor() {     
+    this.screenBounds = new Rectangle(0, 0, 800, 480);   
     this.gameTime = new GameTime();
-    this.renderEngine = new RenderEngine();
+    this.renderEngine = new RenderEngine();    
+    this.assetManager = new AssetManager();
+    this.assetManager.init();
+    this.initScenes();
   }
 
   public start(): void {
@@ -19,10 +35,20 @@ export class Game {
     this.loop();
   }
 
+  private initScenes(): void {
+    this.sceneManager = new SceneManager(this);
+    this.loadScene = new LoadScene(this, this.sceneManager, this.renderEngine);
+    this.gameScene = new GameScene(this, this.sceneManager, this.renderEngine);
+    this.sceneManager.toggleActiveScene(this.loadScene);
+  }
+
   private loop(): void {
     this.gameTime.update();
 
-    this.renderEngine.renderRect(new Rectangle(0, 0, 100, 100), 'red', true);
+    if (this.currentScene) {
+      this.currentScene.update(this.gameTime.delta);
+      this.currentScene.render();
+    }
 
     requestAnimationFrame(() => this.loop());
   }

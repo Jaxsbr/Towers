@@ -30,32 +30,32 @@ export class RenderEngine {
         }
     }
 
-    // renderText(context: CanvasRenderingContext2D, text: string, x: number, y: number) {
+    public renderText(text: string, x: number, y: number) {
 
-    //     // TODO:
-    //     // Manage font family, style, size and color
-    //     context.fillStyle = 'red';
-    //     context.font = '20px Calibri';
+        // TODO:
+        // Manage font family, style, size and color
+        this.context.fillStyle = 'red';
+        this.context.font = '20px Calibri';
 
-    //     context.fillText(text, x, y);
-    // }
+        this.context.fillText(text, x, y);
+    }
 
-    // renderImageRect(context: CanvasRenderingContext2D, image: HTMLImageElement, bounds: Rectangle) {
-    //     this.renderImage(context, image, bounds.x, bounds.y, bounds.width, bounds.height);
-    // }
+    renderImageRect(image: HTMLImageElement, bounds: Rectangle) {
+        this.renderImage(image, bounds.left, bounds.top, bounds.width, bounds.height);
+    }
 
-    // renderImage(context: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number = null, height: number = null) {
-    //     var w = width == null ? image.width : width;
-    //     var h = height == null ? image.height : height;
-    //     context.drawImage(image, x, y, w, h);
-    // }
+    renderImage(image: HTMLImageElement, x: number, y: number, width: number = null, height: number = null) {
+        var w = width == null ? image.width : width;
+        var h = height == null ? image.height : height;
+        this.context.drawImage(image, x, y, w, h);
+    }
 
-    // renderImageSource(context: CanvasRenderingContext2D, image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {        
-    //     if (sourceRect.x < 0 || sourceRect.y < 0 || sourceRect.height <= 0 || sourceRect.height <= 0) { return; }        
+    renderImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {        
+        if (sourceRect.left < 0 || sourceRect.top < 0 || sourceRect.height <= 0 || sourceRect.height <= 0) { return; }        
         
-    //     context.drawImage(
-    //         image,
-    //         sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
-    //         destRect.x, destRect.y, destRect.width, destRect.height);           
-    // }
+        this.context.drawImage(
+            image,
+            sourceRect.left, sourceRect.top, sourceRect.width, sourceRect.height,
+            destRect.left, destRect.top, destRect.width, destRect.height);           
+    }
 }
