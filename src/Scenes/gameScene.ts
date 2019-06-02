@@ -5,13 +5,13 @@ import { RenderEngine } from "../renderEngine";
 
 export class GameScene implements SceneInterface {
     game: Game;
-    sceneManger: SceneManager;
+    sceneManager: SceneManager;
     renderEngine: RenderEngine;
     backgroundImage: HTMLImageElement;
     
-    constructor(game: Game, sceneManger: SceneManager, renderEngine: RenderEngine) {
+    constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
         this.game = game;
-        this.sceneManger = sceneManger;
+        this.sceneManager = sceneManager;
         this.renderEngine = renderEngine;
     }
 

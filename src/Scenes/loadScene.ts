@@ -4,15 +4,16 @@ import { SceneManager } from "./sceneManager";
 import { RenderEngine } from "../renderEngine";
 import { AssetManager } from "../AssetLoading/assetManager";
 import { Rectangle } from "../DataObjects/rectangle";
+import { Scenes } from "./scenes.enum";
 
 export class LoadScene implements SceneInterface {
     game: Game;
-    sceneManger: SceneManager;
+    sceneManager: SceneManager;
     renderEngine: RenderEngine;
     
-    constructor(game: Game, sceneManger: SceneManager, renderEngine: RenderEngine) {
+    constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
         this.game = game;
-        this.sceneManger = sceneManger;
+        this.sceneManager = sceneManager;
         this.renderEngine = renderEngine;
     }
 
@@ -25,7 +26,7 @@ export class LoadScene implements SceneInterface {
             // TODO: 
             // Implement an global enum for scenes.
             // Make game and load scene private in Game class.
-            this.sceneManger.toggleActiveScene(this.game.gameScene);
+            this.sceneManager.toggleActiveScene(Scenes.game)
         }
     }
 

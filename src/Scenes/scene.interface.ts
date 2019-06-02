@@ -4,7 +4,7 @@ import { RenderEngine } from "../renderEngine";
 
 export interface SceneInterface {
     game: Game
-    sceneManger: SceneManager;
+    sceneManager: SceneManager;
     renderEngine: RenderEngine;
 
     init(): void;

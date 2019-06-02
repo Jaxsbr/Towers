@@ -6,12 +6,11 @@ import { SceneManager } from "./Scenes/sceneManager";
 import { LoadScene } from "./Scenes/loadScene";
 import { GameScene } from "./Scenes/gameScene";
 import { SceneInterface } from "./Scenes/scene.interface";
+import { Scenes } from "./Scenes/scenes.enum";
 
 export class Game {  
   public assetManager: AssetManager;
-  public currentScene: SceneInterface;
-  public loadScene: LoadScene;
-  public gameScene: GameScene;  
+  public currentScene: SceneInterface;    
   public screenBounds: Rectangle;
 
   private running: boolean;
@@ -25,7 +24,7 @@ export class Game {
     this.renderEngine = new RenderEngine();    
     this.assetManager = new AssetManager();
     this.assetManager.init();
-    this.initScenes();
+    this.initSceneManager();
   }
 
   public start(): void {
@@ -35,11 +34,9 @@ export class Game {
     this.loop();
   }
 
-  private initScenes(): void {
-    this.sceneManager = new SceneManager(this);
-    this.loadScene = new LoadScene(this, this.sceneManager, this.renderEngine);
-    this.gameScene = new GameScene(this, this.sceneManager, this.renderEngine);
-    this.sceneManager.toggleActiveScene(this.loadScene);
+  private initSceneManager(): void {
+    this.sceneManager = new SceneManager(this, this.renderEngine);    
+    this.sceneManager.toggleActiveScene(Scenes.loading);
   }
 
   private loop(): void {
