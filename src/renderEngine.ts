@@ -52,7 +52,6 @@ export class RenderEngine {
 
     renderImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {        
         if (sourceRect.left < 0 || sourceRect.top < 0 || sourceRect.height <= 0 || sourceRect.height <= 0) { return; }        
-        
         this.context.drawImage(
             image,
             sourceRect.left, sourceRect.top, sourceRect.width, sourceRect.height,
