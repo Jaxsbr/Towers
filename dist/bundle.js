@@ -134,6 +134,18 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\ncl
 
 /***/ }),
 
+/***/ "./src/DataObjects/imageObject.ts":
+/*!****************************************!*\
+  !*** ./src/DataObjects/imageObject.ts ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst rectangle_1 = __webpack_require__(/*! ./rectangle */ \"./src/DataObjects/rectangle.ts\");\r\nclass ImageObject {\r\n    constructor() {\r\n        this._sourceRectangle = null;\r\n        this._destinationRectangle = null;\r\n    }\r\n    get sourceRectangle() {\r\n        if (this._sourceRectangle == null) {\r\n            this._sourceRectangle = new rectangle_1.Rectangle(this.sx, this.sy, this.swidth, this.sheight);\r\n        }\r\n        return this._sourceRectangle;\r\n    }\r\n    get destinationRectangle() {\r\n        if (this._destinationRectangle == null) {\r\n            this._destinationRectangle = new rectangle_1.Rectangle(this.x, this.y, this.width, this.height);\r\n        }\r\n        return this._destinationRectangle;\r\n    }\r\n}\r\nexports.ImageObject = ImageObject;\r\n\n\n//# sourceURL=webpack:///./src/DataObjects/imageObject.ts?");
+
+/***/ }),
+
 /***/ "./src/DataObjects/rectangle.ts":
 /*!**************************************!*\
   !*** ./src/DataObjects/rectangle.ts ***!
@@ -154,7 +166,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\ncl
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass GameScene {\r\n    constructor(game, sceneManager, renderEngine) {\r\n        this.game = game;\r\n        this.sceneManager = sceneManager;\r\n        this.renderEngine = renderEngine;\r\n    }\r\n    init() {\r\n        this.backgroundImage = this.game.assetManager.getImage('background');\r\n    }\r\n    update(delta) {\r\n    }\r\n    render() {\r\n        this.renderEngine.clearRect(this.game.screenBounds);\r\n        this.renderEngine.renderImage(this.backgroundImage, 0, 0, 800, 480);\r\n    }\r\n    mouseDown() {\r\n    }\r\n    mouseUp() {\r\n    }\r\n    mouseMove(x, y) {\r\n    }\r\n    resize() {\r\n    }\r\n}\r\nexports.GameScene = GameScene;\r\n\n\n//# sourceURL=webpack:///./src/Scenes/gameScene.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst tile_1 = __webpack_require__(/*! ../Tiles/tile */ \"./src/Tiles/tile.ts\");\r\nconst imageObject_1 = __webpack_require__(/*! ../DataObjects/imageObject */ \"./src/DataObjects/imageObject.ts\");\r\nclass GameScene {\r\n    constructor(game, sceneManager, renderEngine) {\r\n        this.game = game;\r\n        this.sceneManager = sceneManager;\r\n        this.renderEngine = renderEngine;\r\n    }\r\n    init() {\r\n        this.backgroundImage = this.game.assetManager.getImage('background');\r\n        this.tileImage = this.game.assetManager.getImage('tiles');\r\n        this.initTiles();\r\n    }\r\n    initTiles() {\r\n        var waterTileImageObject = new imageObject_1.ImageObject();\r\n        waterTileImageObject.image = this.tileImage;\r\n        waterTileImageObject.x = 0;\r\n        waterTileImageObject.y = 0;\r\n        waterTileImageObject.width = 64;\r\n        waterTileImageObject.height = 64;\r\n        waterTileImageObject.sx = 0;\r\n        waterTileImageObject.sy = 0;\r\n        waterTileImageObject.swidth = 32;\r\n        waterTileImageObject.sheight = 32;\r\n        var pathTileImageObject = new imageObject_1.ImageObject();\r\n        pathTileImageObject.image = this.tileImage;\r\n        pathTileImageObject.x = 64;\r\n        pathTileImageObject.y = 64;\r\n        pathTileImageObject.width = 64;\r\n        pathTileImageObject.height = 64;\r\n        pathTileImageObject.sx = 32;\r\n        pathTileImageObject.sy = 0;\r\n        pathTileImageObject.swidth = 32;\r\n        pathTileImageObject.sheight = 32;\r\n        this.waterTile = new tile_1.Tile(this, null, waterTileImageObject);\r\n        this.pathTile = new tile_1.Tile(this, null, pathTileImageObject);\r\n    }\r\n    update(delta) {\r\n    }\r\n    render() {\r\n        this.renderEngine.clearRect(this.game.screenBounds);\r\n        this.renderEngine.renderImage(this.backgroundImage, 0, 0, 800, 480);\r\n        this.waterTile.draw();\r\n        this.pathTile.draw();\r\n    }\r\n    mouseDown() {\r\n    }\r\n    mouseUp() {\r\n    }\r\n    mouseMove(x, y) {\r\n    }\r\n    resize() {\r\n    }\r\n}\r\nexports.GameScene = GameScene;\r\n\n\n//# sourceURL=webpack:///./src/Scenes/gameScene.ts?");
 
 /***/ }),
 
@@ -191,6 +203,18 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 
 "use strict";
 eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar Scenes;\r\n(function (Scenes) {\r\n    Scenes[Scenes[\"loading\"] = 0] = \"loading\";\r\n    Scenes[Scenes[\"game\"] = 1] = \"game\";\r\n})(Scenes = exports.Scenes || (exports.Scenes = {}));\r\n\n\n//# sourceURL=webpack:///./src/Scenes/scenes.enum.ts?");
+
+/***/ }),
+
+/***/ "./src/Tiles/tile.ts":
+/*!***************************!*\
+  !*** ./src/Tiles/tile.ts ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass Tile {\r\n    constructor(gameScene, bounds, imageObject) {\r\n        this.gameScene = gameScene;\r\n        this.bounds = bounds;\r\n        this.imageObject = imageObject;\r\n    }\r\n    draw() {\r\n        this.gameScene.renderEngine.renderImageSource(this.imageObject.image, this.imageObject.sourceRectangle, this.imageObject.destinationRectangle);\r\n    }\r\n}\r\nexports.Tile = Tile;\r\n\n\n//# sourceURL=webpack:///./src/Tiles/tile.ts?");
 
 /***/ }),
 
