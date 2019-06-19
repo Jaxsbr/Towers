@@ -7,52 +7,81 @@ export class TileMap {
     private bounds: Rectangle;
     private gameScene: GameScene;
     private tileImage: HTMLImageElement;
-    private waterTile: Tile
-    private pathTile: Tile;
+    private waterTileImageObject: ImageObject
+    private pathTileImageObject: ImageObject;
+    private tileMatrix: Tile[][];
+    private rows: number = 10;
+    private cols: number = 10;
+    private tileWidth: number = 48;
+    private tileHeight: number = 48;
 
     constructor(gameScene: GameScene, bounds: Rectangle, tileImage: HTMLImageElement) {
         this.gameScene = gameScene;
         this.bounds = bounds;
         this.tileImage = tileImage;
 
-        this.initTiles();
+        this.initTileMatrix();
     }
 
-    private initTiles(): void {
+    private initTileMatrix(): void {
         // TODO:
-        // Initialize a tile matrix
+        // Read matrix data from configurable file
+        var matrix = [
+            [1,0,0,0,0,0,0,0,0,0],
+            [1,0,0,0,0,0,0,0,0,0],
+            [1,1,1,0,1,1,1,0,0,0],
+            [0,0,1,0,1,0,1,0,0,0],
+            [0,0,1,1,1,0,1,0,0,0],
+            [0,0,0,0,0,0,1,0,0,0],
+            [0,0,0,0,1,1,1,0,0,0],
+            [0,0,0,0,1,0,0,0,0,0],
+            [0,0,0,0,1,1,0,0,0,0],
+            [0,0,0,0,0,1,1,1,1,1],
+        ];
 
-        var waterTileImageObject = new ImageObject();
-        waterTileImageObject.image = this.tileImage;
-        waterTileImageObject.x = 0;
-        waterTileImageObject.y = 0;
-        waterTileImageObject.width = 64;
-        waterTileImageObject.height = 64;
-        waterTileImageObject.sx = 0;
-        waterTileImageObject.sy = 0;
-        waterTileImageObject.swidth = 32;
-        waterTileImageObject.sheight = 32;
+        this.tileMatrix = [];
+        for (var row = 0; row < this.rows; row++) {
+            this.tileMatrix[row] = [];
+            for (var col = 0; col < this.cols; col++) {
+                var matrixValue = matrix[row][col];
+                var tileImageObject = this.getTileImageObject(matrixValue, this.tileWidth * col, this.tileHeight * row);
 
-        var pathTileImageObject = new ImageObject();
-        pathTileImageObject.image = this.tileImage;
-        pathTileImageObject.x = 64;
-        pathTileImageObject.y = 64;
-        pathTileImageObject.width = 64;
-        pathTileImageObject.height = 64;
-        pathTileImageObject.sx = 32;
-        pathTileImageObject.sy = 0;
-        pathTileImageObject.swidth = 32;
-        pathTileImageObject.sheight = 32;
-
-        this.waterTile = new Tile(this.gameScene, null, waterTileImageObject);
-        this.pathTile = new Tile(this.gameScene, null, pathTileImageObject);
+                // TODO:
+                // Tile should provide underlying imageObject with coordinates and size values.                
+                // Abstract source rectangle values into "tilesSpriteSheet" configuration.
+                
+                this.tileMatrix[row][col] = new Tile(this.gameScene, null, tileImageObject);
+            }
+        }        
     }
 
-    public draw(): void {
-        // TODO:
-        // Draw tile matrix
+    private getTileImageObject(matrixValue: number, destinationX: number, destinationY: number): ImageObject {
+        var tileImageObject = new ImageObject();
+        tileImageObject.image = this.tileImage;
+        tileImageObject.x = destinationX;
+        tileImageObject.y = destinationY;
+        tileImageObject.width = this.tileWidth;
+        tileImageObject.height = this.tileHeight;
+        tileImageObject.swidth = 32;
+        tileImageObject.sheight = 32;
 
-        this.waterTile.draw();
-        this.pathTile.draw();
+        if (matrixValue == 0) {            
+            tileImageObject.sx = 0;
+            tileImageObject.sy = 0;            
+        }
+        else {            
+            tileImageObject.sx = 32;
+            tileImageObject.sy = 0;            
+        }
+
+        return tileImageObject;
+    }
+
+    public draw(): void {        
+        for (var row = 0; row < this.rows; row++) {
+            for (var col = 0; col < this.cols; col++) {
+                this.tileMatrix[row][col].draw();
+            }
+        }
     }
 }
