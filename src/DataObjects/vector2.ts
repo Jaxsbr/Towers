@@ -11,9 +11,7 @@ export class Vector2 {
       return new Vector2(this.x - vector2.x, this.y - vector2.y);
     }
 
-    public magnitude(): number {
-      // TODO:
-      // could be - instead of +, test this
+    public magnitude(): number {      
       return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
