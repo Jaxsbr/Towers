@@ -17,10 +17,14 @@ export class Vector2 {
       return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
-    // public normalize(): Vector2 {
-    //   let x = this.X - point.X;
-    //   let y = this.Y - point.Y;
-    //   let distance = Math.sqrt(x * x - y * y);
-    //   return new Point(x / distance, y / distance);
-    // }
+    public normalize(): Vector2 {      
+      let distance = Math.sqrt(this.x * this.x + this.y * this.y);
+
+      var normalX = this.x / distance;
+      var normalY = this.y / distance;
+
+      return new Vector2(
+        isNaN(normalX) ? 0 : normalX, 
+        isNaN(normalY) ? 0 : normalY);
+    }
 }

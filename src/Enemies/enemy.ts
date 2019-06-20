@@ -5,6 +5,7 @@ import { Rectangle } from '../DataObjects/rectangle';
 export class Enemy {
   public position: Vector2;
   public size: Vector2;
+  public active: boolean;
   private bounds: Rectangle;
   private gameScene: GameScene;
   private enemyImage: HTMLImageElement;
@@ -16,8 +17,9 @@ export class Enemy {
   private direction: Vector2;
   private center: Vector2;
   private nextMovePoint: Vector2;
-  private active: boolean;
+  private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
+  private moveSpeed: number = 0.5;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
@@ -36,13 +38,13 @@ export class Enemy {
 
     if (!this.nextMovePoint) {
       var firstWayPoint = this.movementWayPoints.shift();
-      var waypointBounds = this.gameScene.tileMap[firstWayPoint.y][firstWayPoint.x].bounds;
+      var waypointBounds = this.gameScene.tileMap.tileMatrix[firstWayPoint.y][firstWayPoint.x].bounds;
       this.nextMovePoint = new Vector2(waypointBounds.getCenterWidth(), waypointBounds.getCenterHeight());
     }
 
     this.updateBounds();
 
-    this.direction = this.center.subtract(this.nextMovePoint);
+    this.direction = this.nextMovePoint.subtract(this.center);
     this.distanceFromNextWaypoint = this.direction.magnitude();
 
     if (this.nextWaypointReached()) {
@@ -53,19 +55,20 @@ export class Enemy {
       }
       else {
         var nextWayPoint = this.movementWayPoints.shift();
-        var waypointBounds = this.gameScene.tileMap[nextWayPoint.y][nextWayPoint.x].bounds;
+        var waypointBounds = this.gameScene.tileMap.tileMatrix[nextWayPoint.y][nextWayPoint.x].bounds;
         this.nextMovePoint.x = waypointBounds.getCenterWidth();
         this.nextMovePoint.y = waypointBounds.getCenterHeight();
         this.direction = this.center.subtract(this.nextMovePoint);
       }
     }
 
-    // TODO:
-    // Calculate a direction vector and normalize it
-    // Set velocity by applying move speed to the normalized vector
-    
+    this.normalizedDirection = this.direction.normalize();
+    if (!isNaN(this.normalizedDirection.x) && !isNaN(this.normalizedDirection.y)) {
+      this.velocity.x = this.normalizedDirection.x * this.moveSpeed;  
+      this.velocity.y = this.normalizedDirection.y * this.moveSpeed;
+      this.setMoveDirection();
+    }
 
-    this.setMoveDirection();
     this.applyVelocity();
   }
 

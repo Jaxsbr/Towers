@@ -5,12 +5,12 @@ import { Tile } from "./tile";
 
 export class TileMap {
     public wayPoints: any = [];
+    public tileMatrix: Tile[][];    
     private bounds: Rectangle;
     private gameScene: GameScene;
     private tileImage: HTMLImageElement;
     private waterTileImageObject: ImageObject
-    private pathTileImageObject: ImageObject;
-    private tileMatrix: Tile[][];    
+    private pathTileImageObject: ImageObject;    
     private rows: number = 10;
     private cols: number = 10;
     private tileWidth: number = 48;
@@ -80,8 +80,8 @@ export class TileMap {
                 // TODO:
                 // Tile should provide underlying imageObject with coordinates and size values.                
                 // Abstract source rectangle values into "tilesSpriteSheet" configuration.
-                
-                this.tileMatrix[row][col] = new Tile(this.gameScene, null, tileImageObject);
+                var tileBounds = new Rectangle(this.tileWidth * col, this.tileHeight * row, this.tileWidth, this.tileHeight);
+                this.tileMatrix[row][col] = new Tile(this.gameScene, tileBounds, tileImageObject);
             }
         }        
     }

@@ -6,6 +6,7 @@ export class EnemySpawner {
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement) {
     this.enemy1 = new Enemy(gameScene, enemyImage, gameScene.tileMap.wayPoints);
+    this.enemy1.active = true;
   }
 
   public update(): void {
