@@ -4,12 +4,13 @@ import { ImageObject } from "../DataObjects/imageObject";
 import { Tile } from "./tile";
 
 export class TileMap {
+    public wayPoints: any = [];
     private bounds: Rectangle;
     private gameScene: GameScene;
     private tileImage: HTMLImageElement;
     private waterTileImageObject: ImageObject
     private pathTileImageObject: ImageObject;
-    private tileMatrix: Tile[][];
+    private tileMatrix: Tile[][];    
     private rows: number = 10;
     private cols: number = 10;
     private tileWidth: number = 48;
@@ -37,6 +38,36 @@ export class TileMap {
             [0,0,0,0,1,0,0,0,0,0],
             [0,0,0,0,1,1,0,0,0,0],
             [0,0,0,0,0,1,1,1,1,1],
+        ];
+
+        this.wayPoints = [
+          {x:0, y:0},
+          {x:0, y:1},
+          {x:0, y:2},
+          {x:1, y:2},
+          {x:2, y:2},
+          {x:2, y:3},
+          {x:2, y:4},
+          {x:3, y:4},
+          {x:4, y:4},
+          {x:4, y:3},
+          {x:4, y:2},
+          {x:5, y:2},
+          {x:6, y:2},
+          {x:6, y:3},
+          {x:6, y:4},
+          {x:6, y:5},
+          {x:6, y:6},
+          {x:5, y:6},
+          {x:4, y:6},
+          {x:4, y:7},
+          {x:4, y:8},
+          {x:5, y:8},
+          {x:5, y:9},
+          {x:6, y:9},
+          {x:7, y:9},
+          {x:8, y:9},
+          {x:9, y:9},
         ];
 
         this.tileMatrix = [];

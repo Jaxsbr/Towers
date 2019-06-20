@@ -12,8 +12,7 @@ export class Rectangle {
         this.width = width;
         this.height = height;
 
-        this.updateRight();
-        this.updateBottom();
+        this.update();   
     }
 
     private updateRight(): void {        
@@ -22,6 +21,11 @@ export class Rectangle {
 
     private updateBottom(): void {
         this.bottom = this.top + this.height;
+    }
+
+    public update(): void {
+      this.updateRight();
+      this.updateBottom();
     }
 
     public intersectRect(rectangle: Rectangle): boolean {
