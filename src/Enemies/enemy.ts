@@ -8,41 +8,70 @@ export class Enemy {
   private bounds: Rectangle;
   private gameScene: GameScene;
   private enemyImage: HTMLImageElement;
+  private originalWayPoints: any;
   private movementWayPoints: any;
   private wayPointReachedThreshold: number = 0.5;
   private movements: any;
   private velocity: Vector2;
   private direction: Vector2;
   private center: Vector2;
+  private nextMovePoint: Vector2;
+  private active: boolean;
+  private distanceFromNextWaypoint: number;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
     this.enemyImage = enemyImage;
-    this.movementWayPoints = movementWayPoints;
-    this.movements = { left: false, right: false, up: false, down: false };
-
-    this.position = new Vector2(0, 0);
-    this.size = new Vector2(48, 48);
-    this.center = new Vector2(0, 0);
-    this.velocity = new Vector2(0, 0);
-    this.bounds = new Rectangle(0, 0, 0, 0);
+    this.originalWayPoints = movementWayPoints;
+    this.reset();
   }
 
   public update(): void {
-    this.bounds.left = this.position.x;
-    this.bounds.top = this.position.y;
-    this.bounds.width = this.size.x;
-    this.bounds.height = this.size.y;
-    this.bounds.update();
+    if (!this.active) { return; }
 
-    this.center.x = this.bounds.getCenterWidth();
-    this.center.y = this.bounds.getCenterHeight();
+    var onLastWaypoint = false;
+    if (this.movementWayPoints.length <= 0) {
+      onLastWaypoint = true;
+    }
+
+    if (!this.nextMovePoint) {
+      var firstWayPoint = this.movementWayPoints.shift();
+      var waypointBounds = this.gameScene.tileMap[firstWayPoint.y][firstWayPoint.x].bounds;
+      this.nextMovePoint = new Vector2(waypointBounds.getCenterWidth(), waypointBounds.getCenterHeight());
+    }
+
+    this.updateBounds();
+
+    this.direction = this.center.subtract(this.nextMovePoint);
+    this.distanceFromNextWaypoint = this.direction.magnitude();
+
+    if (this.nextWaypointReached()) {
+      if (onLastWaypoint) {
+        this.nextMovePoint = null;
+        this.active = false;
+        return;
+      }
+      else {
+        var nextWayPoint = this.movementWayPoints.shift();
+        var waypointBounds = this.gameScene.tileMap[nextWayPoint.y][nextWayPoint.x].bounds;
+        this.nextMovePoint.x = waypointBounds.getCenterWidth();
+        this.nextMovePoint.y = waypointBounds.getCenterHeight();
+        this.direction = this.center.subtract(this.nextMovePoint);
+      }
+    }
+
+    // TODO:
+    // Calculate a direction vector and normalize it
+    // Set velocity by applying move speed to the normalized vector
+    
 
     this.setMoveDirection();
     this.applyVelocity();
   }
 
   public draw(): void {
+    if (!this.active) { return; }
+
     // TODO:
     // Implement animation class and call draw
     // Animation class to handle source rect updates.
@@ -52,6 +81,32 @@ export class Enemy {
       this.enemyImage,
       sourceRectangle,
       this.bounds);   
+  }
+
+  public reset(): void {
+    this.active = false;
+    this.movementWayPoints = this.originalWayPoints.slice();
+    this.movements = { left: false, right: false, up: false, down: false };
+    this.position = new Vector2(0, 0);
+    this.size = new Vector2(48, 48);
+    this.center = new Vector2(0, 0);
+    this.velocity = new Vector2(0, 0);
+    this.bounds = new Rectangle(0, 0, 0, 0);
+  }
+
+  private nextWaypointReached(): boolean {
+    return this.distanceFromNextWaypoint < this.wayPointReachedThreshold;
+  }
+
+  private updateBounds(): void {
+    this.bounds.left = this.position.x;
+    this.bounds.top = this.position.y;
+    this.bounds.width = this.size.x;
+    this.bounds.height = this.size.y;
+    this.bounds.update();
+
+    this.center.x = this.bounds.getCenterWidth();
+    this.center.y = this.bounds.getCenterHeight();
   }
 
   private setMoveDirection(): void {

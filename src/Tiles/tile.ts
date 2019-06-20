@@ -3,7 +3,7 @@ import { Rectangle } from "../DataObjects/rectangle";
 import { ImageObject } from "../DataObjects/imageObject";
 
 export class Tile {
-    private bounds: Rectangle;
+    public bounds: Rectangle;
     private gameScene: GameScene;
     private imageObject: ImageObject;
 
