@@ -2,18 +2,29 @@ import { Enemy } from './enemy';
 import { GameScene } from '../Scenes/gameScene';
 
 export class EnemySpawner {
-  private enemy1: Enemy;
+  public enemies: Enemy[] = [];
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement) {
-    this.enemy1 = new Enemy(gameScene, enemyImage, gameScene.tileMap.wayPoints);
-    this.enemy1.active = true;
+    var enemy = new Enemy(gameScene, enemyImage, gameScene.tileMap.wayPoints);
+    enemy.active = true;
+
+    this.enemies.push(enemy);
   }
 
   public update(): void {
-    this.enemy1.update();
+    this.enemies.forEach(enemy => {
+      enemy.update();
+
+      if (!enemy.active) {
+        enemy.reset();
+        enemy.active = true;
+      }
+    });    
   }
 
   public draw(): void {
-    this.enemy1.draw();
+    this.enemies.forEach(enemy => {
+      enemy.draw();
+    });
   }
 }

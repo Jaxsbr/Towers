@@ -6,6 +6,7 @@ export class Enemy {
   public position: Vector2;
   public size: Vector2;
   public active: boolean;
+  public center: Vector2;
   private bounds: Rectangle;
   private gameScene: GameScene;
   private enemyImage: HTMLImageElement;
@@ -14,12 +15,11 @@ export class Enemy {
   private wayPointReachedThreshold: number = 0.5;
   private movements: any;
   private velocity: Vector2;
-  private direction: Vector2;
-  private center: Vector2;
+  private direction: Vector2;  
   private nextMovePoint: Vector2;
   private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
-  private moveSpeed: number = 0.5;
+  private moveSpeed: number = 2;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;

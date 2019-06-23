@@ -11,6 +11,12 @@ export class Vector2 {
       return new Vector2(this.x - vector2.x, this.y - vector2.y);
     }
 
+    public distance(vector2: Vector2): number {
+      var x = (this.x - vector2.x) * (this.x - vector2.x);
+      var y = (this.y - vector2.y) * (this.y - vector2.y);
+      return Math.sqrt(x + y);
+    }
+
     public magnitude(): number {      
       return Math.sqrt(this.x * this.x + this.y * this.y);
     }
