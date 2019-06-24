@@ -6,6 +6,7 @@ import { Tile } from "../Tiles/tile";
 import { ImageObject } from "../DataObjects/imageObject";
 import { TileMap } from "../Tiles/tileMap";
 import { EnemySpawner } from '../Enemies/enemySpawner';
+import { BaseTower } from '../Towers/baseTower';
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -15,7 +16,10 @@ export class GameScene implements SceneInterface {
     enemyImage: HTMLImageElement;
     tileMap: TileMap;
     tileImage: HTMLImageElement;
+    towerImage: HTMLImageElement;
     enemySpawner: EnemySpawner;
+
+    tower1: BaseTower;
     
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
       this.game = game;
@@ -27,13 +31,18 @@ export class GameScene implements SceneInterface {
       this.backgroundImage = this.game.assetManager.getImage('background');
       this.tileImage = this.game.assetManager.getImage('tiles');
       this.enemyImage = this.game.assetManager.getImage('squid');
+      this.towerImage = this.game.assetManager.getImage('towerplain');
 
       this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
       this.enemySpawner = new EnemySpawner(this, this.enemyImage);
+
+      var randomTile = this.tileMap.tileMatrix[1][1];
+      this.tower1 = new BaseTower(this, randomTile, this.towerImage);
     }
 
     update(delta: number): void {
       this.enemySpawner.update();
+      this.tower1.update();
     }
 
     render(): void {
@@ -41,6 +50,7 @@ export class GameScene implements SceneInterface {
       this.renderEngine.renderImage(this.backgroundImage, 0, 0, 800, 480);        
       this.tileMap.draw();
       this.enemySpawner.draw();
+      this.tower1.draw();
     }
 
     mouseDown(): void {

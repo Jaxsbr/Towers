@@ -39,7 +39,7 @@ export class Enemy {
     if (!this.nextMovePoint) {
       var firstWayPoint = this.movementWayPoints.shift();
       var waypointBounds = this.gameScene.tileMap.tileMatrix[firstWayPoint.y][firstWayPoint.x].bounds;
-      this.nextMovePoint = new Vector2(waypointBounds.getCenterWidth(), waypointBounds.getCenterHeight());
+      this.nextMovePoint = new Vector2(waypointBounds.getCenterWidth, waypointBounds.getCenterHeight);
     }
 
     this.updateBounds();
@@ -56,8 +56,8 @@ export class Enemy {
       else {
         var nextWayPoint = this.movementWayPoints.shift();
         var waypointBounds = this.gameScene.tileMap.tileMatrix[nextWayPoint.y][nextWayPoint.x].bounds;
-        this.nextMovePoint.x = waypointBounds.getCenterWidth();
-        this.nextMovePoint.y = waypointBounds.getCenterHeight();
+        this.nextMovePoint.x = waypointBounds.getCenterWidth;
+        this.nextMovePoint.y = waypointBounds.getCenterHeight;
         this.direction = this.center.subtract(this.nextMovePoint);
       }
     }
@@ -108,8 +108,8 @@ export class Enemy {
     this.bounds.height = this.size.y;
     this.bounds.update();
 
-    this.center.x = this.bounds.getCenterWidth();
-    this.center.y = this.bounds.getCenterHeight();
+    this.center.x = this.bounds.getCenterWidth;
+    this.center.y = this.bounds.getCenterHeight;
   }
 
   private setMoveDirection(): void {

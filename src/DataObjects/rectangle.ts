@@ -42,12 +42,12 @@ export class Rectangle {
                 rectangle.bottom <= this.bottom);
     }
 
-    public getCenterWidth(): number {
+    public get getCenterWidth(): number {
         this.updateRight();
         return this.right - this.width / 2;
     }
 
-    public getCenterHeight(): number {
+    public get getCenterHeight(): number {
         this.updateRight();
         return this.bottom - this.height / 2;
     }

@@ -40,21 +40,40 @@ export class RenderEngine {
         this.context.fillText(text, x, y);
     }
 
-    renderImageRect(image: HTMLImageElement, bounds: Rectangle) {
+    public renderImageRect(image: HTMLImageElement, bounds: Rectangle) {
         this.renderImage(image, bounds.left, bounds.top, bounds.width, bounds.height);
     }
 
-    renderImage(image: HTMLImageElement, x: number, y: number, width: number = null, height: number = null) {
+    public renderImage(image: HTMLImageElement, x: number, y: number, width: number = null, height: number = null) {
         var w = width == null ? image.width : width;
         var h = height == null ? image.height : height;
         this.context.drawImage(image, x, y, w, h);
     }
 
-    renderImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {        
-        if (sourceRect.left < 0 || sourceRect.top < 0 || sourceRect.height <= 0 || sourceRect.height <= 0) { return; }        
+    public renderImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {
+        if (sourceRect.left < 0 || sourceRect.top < 0 || sourceRect.height <= 0 || sourceRect.height <= 0) { return; }                
         this.context.drawImage(
             image,
             sourceRect.left, sourceRect.top, sourceRect.width, sourceRect.height,
             destRect.left, destRect.top, destRect.width, destRect.height);           
+    }
+
+    public renderRotatedImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle, rotation: number = 0) {
+        this.context.save();
+        this.context.translate(destRect.getCenterWidth, destRect.getCenterWidth);
+        this.context.rotate((rotation - 90) * (Math.PI / 180));
+
+        var rotatedDestRect = new Rectangle(
+            -((destRect.width) / 2),
+            -((destRect.height) / 2),
+            destRect.width,
+            destRect.height);
+
+        this.renderImageSource(
+            image,
+            sourceRect,
+            rotatedDestRect);
+
+        this.context.restore();
     }
 }
