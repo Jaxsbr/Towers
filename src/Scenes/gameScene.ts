@@ -7,19 +7,17 @@ import { ImageObject } from "../DataObjects/imageObject";
 import { TileMap } from "../Tiles/tileMap";
 import { EnemySpawner } from '../Enemies/enemySpawner';
 import { BaseTower } from '../Towers/baseTower';
+import { TowerManager } from '../Towers/towerManager';
 
 export class GameScene implements SceneInterface {
     game: Game;
     sceneManager: SceneManager;
     renderEngine: RenderEngine;
     backgroundImage: HTMLImageElement;
-    enemyImage: HTMLImageElement;
     tileMap: TileMap;
     tileImage: HTMLImageElement;
-    towerImage: HTMLImageElement;
-    enemySpawner: EnemySpawner;
-
-    tower1: BaseTower;
+    enemySpawner: EnemySpawner;   
+    towerManager: TowerManager; 
     
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
       this.game = game;
@@ -29,20 +27,22 @@ export class GameScene implements SceneInterface {
 
     init(): void {
       this.backgroundImage = this.game.assetManager.getImage('background');
-      this.tileImage = this.game.assetManager.getImage('tiles');
-      this.enemyImage = this.game.assetManager.getImage('squid');
-      this.towerImage = this.game.assetManager.getImage('towerplain');
+      this.tileImage = this.game.assetManager.getImage('tiles');      
 
       this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
-      this.enemySpawner = new EnemySpawner(this, this.enemyImage);
+      this.enemySpawner = new EnemySpawner(this);          
+      this.towerManager = new TowerManager(this);
 
-      var randomTile = this.tileMap.tileMatrix[1][1];
-      this.tower1 = new BaseTower(this, randomTile, this.towerImage);
+      // TODO: Remove, towers to be added with user input
+      this.towerManager.createTower(this.tileMap.tileMatrix[1][1]);
+
+      // TODO: Remove, enemies to spawned per round from enemy spawner
+      this.enemySpawner.createEnemy();
     }
 
     update(delta: number): void {
       this.enemySpawner.update();
-      this.tower1.update();
+      this.towerManager.update();
     }
 
     render(): void {
@@ -50,7 +50,7 @@ export class GameScene implements SceneInterface {
       this.renderEngine.renderImage(this.backgroundImage, 0, 0, 800, 480);        
       this.tileMap.draw();
       this.enemySpawner.draw();
-      this.tower1.draw();
+      this.towerManager.draw();
     }
 
     mouseDown(): void {

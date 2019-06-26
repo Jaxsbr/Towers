@@ -4,9 +4,9 @@ import { Vector2 } from "../DataObjects/vector2";
 import { Enemy } from "../Enemies/enemy";
 import { Rectangle } from '../DataObjects/rectangle';
 
-export class BaseTower {
+export abstract class BaseTower {
     private gameScene: GameScene
-    private boundingTile: Tile;
+    private destinationTile: Tile;
     private shootRange: number = 128;
     private shootRate: number = 0.5;
     private shootElapsed: number = 0;
@@ -16,17 +16,17 @@ export class BaseTower {
     private targetInRange: boolean;
     private towerImage: HTMLImageElement;
 
-    constructor(gameScene: GameScene, boundingTile: Tile, towerImage: HTMLImageElement) {
+    constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
         this.gameScene = gameScene;
-        this.boundingTile = boundingTile;
+        this.destinationTile = destinationTile;
         this.towerImage = towerImage;
 
         this.center = new Vector2(0, 0);
     }
 
     public update(): void {
-        this.center.x = this.boundingTile.bounds.getCenterWidth;
-        this.center.y = this.boundingTile.bounds.getCenterHeight;
+        this.center.x = this.destinationTile.bounds.getCenterWidth;
+        this.center.y = this.destinationTile.bounds.getCenterHeight;
 
         this.updateTarget();
         this.updateTargetInRange();
@@ -44,7 +44,7 @@ export class BaseTower {
         this.gameScene.renderEngine.renderRotatedImageSource(
             this.towerImage,
             sourceRectangle,
-            this.boundingTile.bounds,
+            this.destinationTile.bounds,
             this.rotation);
     }
 
@@ -60,7 +60,7 @@ export class BaseTower {
         }
     
         this.targetInRange = false;
-      }
+    }
 
     private updateRotation(): void {
         // Rotate the tower towards it's current target or
