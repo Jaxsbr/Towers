@@ -5,9 +5,9 @@ import { Enemy } from "../Enemies/enemy";
 import { Rectangle } from '../DataObjects/rectangle';
 
 export abstract class BaseTower {
+    public shootRange: number = 128;
     private gameScene: GameScene
-    private destinationTile: Tile;
-    private shootRange: number = 128;
+    private destinationTile: Tile;    
     private shootRate: number = 0.5;
     private shootElapsed: number = 0;
     private center: Vector2;

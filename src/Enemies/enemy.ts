@@ -19,7 +19,7 @@ export class Enemy {
   private nextMovePoint: Vector2;
   private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
-  private moveSpeed: number = 2;
+  private moveSpeed: number = 200;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
@@ -28,7 +28,9 @@ export class Enemy {
     this.reset();
   }
 
-  public update(): void {
+  public update(delta: number): void {
+    console.log("enemy: " + delta);
+    console.log("enemy coords: x:" + this.position.x + " y:" + this.position.y);
     if (!this.active) { return; }
 
     var onLastWaypoint = false;
@@ -64,8 +66,8 @@ export class Enemy {
 
     this.normalizedDirection = this.direction.normalize();
     if (!isNaN(this.normalizedDirection.x) && !isNaN(this.normalizedDirection.y)) {
-      this.velocity.x = this.normalizedDirection.x * this.moveSpeed;  
-      this.velocity.y = this.normalizedDirection.y * this.moveSpeed;
+      this.velocity.x = this.normalizedDirection.x * (this.moveSpeed * delta);  
+      this.velocity.y = this.normalizedDirection.y * (this.moveSpeed * delta);
       this.setMoveDirection();
     }
 

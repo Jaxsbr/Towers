@@ -11,9 +11,9 @@ export class EnemySpawner {
     this.enemyImage = this.gameScene.game.assetManager.getImage('squid');
   }
 
-  public update(): void {
+  public update(delta: number): void {
     this.enemies.forEach(enemy => {
-      enemy.update();
+      enemy.update(delta);
 
       if (!enemy.active) {
         enemy.reset();

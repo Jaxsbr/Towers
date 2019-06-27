@@ -47,7 +47,8 @@ export class Game {
       this.currentScene.render();
     }
 
-    requestAnimationFrame(() => this.loop());
+    //requestAnimationFrame(() => this.loop());
+    setInterval(this.loop.bind(this), 1);
   }
 }
 

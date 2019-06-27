@@ -41,7 +41,7 @@ export class GameScene implements SceneInterface {
     }
 
     update(delta: number): void {
-      this.enemySpawner.update();
+      this.enemySpawner.update(delta);
       this.towerManager.update();
     }
 
