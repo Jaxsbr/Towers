@@ -5,15 +5,16 @@ import { Enemy } from "../Enemies/enemy";
 import { Rectangle } from '../DataObjects/rectangle';
 
 export abstract class BaseTower {
-    public shootRange: number = 128;
-    private gameScene: GameScene
-    private destinationTile: Tile;    
-    private shootRate: number = 0.5;
-    private shootElapsed: number = 0;
+    public shootRange: number = 20000;
+    public targetInRange: boolean;
+    public targetDirection: Vector2;
+    public destinationTile: Tile;  
+    public gameScene: GameScene;      
+    public shootRate: number = 0.5;
+    public shootElapsed: number = 0;
     private center: Vector2;
     private rotation: number;
-    private target: Enemy;
-    private targetInRange: boolean;
+    private target: Enemy;        
     private towerImage: HTMLImageElement;
 
     constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
@@ -24,7 +25,7 @@ export abstract class BaseTower {
         this.center = new Vector2(0, 0);
     }
 
-    public update(): void {
+    public update(delta: number): void {
         this.center.x = this.destinationTile.bounds.getCenterWidth;
         this.center.y = this.destinationTile.bounds.getCenterHeight;
 
@@ -50,10 +51,11 @@ export abstract class BaseTower {
 
     private updateTargetInRange(): void {
         if (this.target !== null && this.target.active) {            
-          let targetDirection = this.center.subtract(this.target.center);
-          let distance = targetDirection.magnitude();          
+          this.targetDirection = this.center.subtract(this.target.center);
+          //console.log('target direction  y: ' + this.targetDirection.x + ' y: ' + this.targetDirection.y);
+          let distance = this.targetDirection.magnitude();          
           if (distance <= this.shootRange) {
-            console.log('ranged');
+            //console.log('ranged');
             this.targetInRange = true;
             return;
           }      

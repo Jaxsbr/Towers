@@ -8,6 +8,7 @@ import { TileMap } from "../Tiles/tileMap";
 import { EnemySpawner } from '../Enemies/enemySpawner';
 import { BaseTower } from '../Towers/baseTower';
 import { TowerManager } from '../Towers/towerManager';
+import { ProjectileEngine } from "../Projectiles/projectileEngine";
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -17,7 +18,8 @@ export class GameScene implements SceneInterface {
     tileMap: TileMap;
     tileImage: HTMLImageElement;
     enemySpawner: EnemySpawner;   
-    towerManager: TowerManager; 
+    towerManager: TowerManager;
+    projectileEngine: ProjectileEngine;
     
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
       this.game = game;
@@ -32,6 +34,7 @@ export class GameScene implements SceneInterface {
       this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
       this.enemySpawner = new EnemySpawner(this);          
       this.towerManager = new TowerManager(this);
+      this.projectileEngine = new ProjectileEngine(this);
 
       // TODO: Remove, towers to be added with user input
       this.towerManager.createTower(this.tileMap.tileMatrix[1][1]);
@@ -42,7 +45,8 @@ export class GameScene implements SceneInterface {
 
     update(delta: number): void {
       this.enemySpawner.update(delta);
-      this.towerManager.update();
+      this.towerManager.update(delta);
+      this.projectileEngine.update(delta);
     }
 
     render(): void {
@@ -51,6 +55,7 @@ export class GameScene implements SceneInterface {
       this.tileMap.draw();
       this.enemySpawner.draw();
       this.towerManager.draw();
+      this.projectileEngine.draw();
     }
 
     mouseDown(): void {
