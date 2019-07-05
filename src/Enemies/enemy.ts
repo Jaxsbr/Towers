@@ -7,7 +7,7 @@ export class Enemy {
   public size: Vector2;
   public active: boolean;
   public center: Vector2;
-  private bounds: Rectangle;
+  public bounds: Rectangle;
   private gameScene: GameScene;
   private enemyImage: HTMLImageElement;
   private originalWayPoints: any;

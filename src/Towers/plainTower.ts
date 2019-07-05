@@ -4,7 +4,9 @@ import { Tile } from '../Tiles/tile';
 import { Vector2 } from '../DataObjects/vector2';
 
 export class PlainTower extends BaseTower {  
-  private plainTowerMoveSpeed: number = 20;
+  private plainTowerShootSpeed: number = 500;
+  private plainTowerShootRate: number = 1;
+  private shootElapsed: number = 0;
 
   constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
     super(gameScene, destinationTile, towerImage);
@@ -20,13 +22,18 @@ export class PlainTower extends BaseTower {
 
   private updateShoot(delta: number): void {
     this.shootElapsed += delta;
-    if (this.targetInRange && this.shootElapsed >= this.shootRate) {
+    if (this.targetInRange && this.shootElapsed >= this.plainTowerShootRate) {
       this.shootElapsed = 0;
+
       //console.log('shoot');
+
+      var direction = this.target.center.subtract(this.center);
+      var normalizedDirection = direction.normalize();
+
       this.gameScene.projectileEngine.activateProjectile(
-          new Vector2(this.destinationTile.bounds.left, this.destinationTile.bounds.right),
-          this.targetDirection, 
-          this.plainTowerMoveSpeed);      
+          this.center,
+          normalizedDirection, 
+          this.plainTowerShootSpeed);      
     }
   }
 

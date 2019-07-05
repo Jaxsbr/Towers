@@ -10,11 +10,9 @@ export abstract class BaseTower {
     public targetDirection: Vector2;
     public destinationTile: Tile;  
     public gameScene: GameScene;      
-    public shootRate: number = 0.5;
-    public shootElapsed: number = 0;
-    private center: Vector2;
-    private rotation: number;
-    private target: Enemy;        
+    public target: Enemy;            
+    public center: Vector2;
+    private rotation: number;    
     private towerImage: HTMLImageElement;
 
     constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
