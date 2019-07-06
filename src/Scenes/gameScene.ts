@@ -20,6 +20,9 @@ export class GameScene implements SceneInterface {
     enemySpawner: EnemySpawner;   
     towerManager: TowerManager;
     projectileEngine: ProjectileEngine;
+
+    // TODO: Abstract into a manager
+    collisionCheckElapsed: number = 0;
     
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
       this.game = game;
@@ -37,21 +40,47 @@ export class GameScene implements SceneInterface {
       this.projectileEngine = new ProjectileEngine(this);
 
       // TODO: Remove, towers to be added with user input
-      this.towerManager.createTower(this.tileMap.tileMatrix[1][1]);
+      //this.towerManager.createTower(this.tileMap.tileMatrix[1][1]);
+      this.towerManager.createTower(this.tileMap.tileMatrix[3][3]);
+      this.towerManager.createTower(this.tileMap.tileMatrix[5][5]);
 
       // TODO: Remove, enemies to spawned per round from enemy spawner
       this.enemySpawner.createEnemy();
     }
 
     update(delta: number): void {
+      this.checkProjectileEnemyCollision(delta);
       this.enemySpawner.update(delta);
       this.towerManager.update(delta);
-      this.projectileEngine.update(delta);
+      this.projectileEngine.update(delta);      
+    }
+
+    // TODO: Abstract into a manager
+    private checkProjectileEnemyCollision(delta: number): void {
+      // TODO: Reduce the rate at which collision check is done
+      //       This saves browser performance but is less accurate, 
+      //       missing some collisions.
+      this.collisionCheckElapsed += delta;
+      if (this.collisionCheckElapsed <= 0.5) {
+        return;
+      }
+      this.collisionCheckElapsed = 0;      
+      this.enemySpawner.enemies.forEach((enemy) => {
+        this.projectileEngine.projectiles.forEach((projectile) => {
+          if (projectile.active && enemy.active && enemy.bounds.containsRect(projectile.bounds)) {
+            enemy.hit();
+            projectile.active = false;            
+            // TODO: Raise enemy hit event
+            console.log('enemy hit');            
+          }
+        })
+      })    
+
     }
 
     render(): void {
       this.renderEngine.clearRect(this.game.screenBounds);
-      this.renderEngine.renderImage(this.backgroundImage, 0, 0, 800, 480);        
+      this.renderEngine.renderImage(this.backgroundImage, 0, 0, 480, 480);        
       this.tileMap.draw();
       this.enemySpawner.draw();
       this.towerManager.draw();

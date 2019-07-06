@@ -20,6 +20,8 @@ export class Enemy {
   private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
   private moveSpeed: number = 100;
+  private hp: number = 0;
+  private maxHp: number = 5;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
@@ -88,13 +90,15 @@ export class Enemy {
 
   public reset(): void {
     this.active = false;
+    this.hp = 5;
     this.movementWayPoints = this.originalWayPoints.slice();
     this.movements = { left: false, right: false, up: false, down: false };
     this.position = new Vector2(0, 0);
     this.size = new Vector2(48, 48);
     this.center = new Vector2(0, 0);
     this.velocity = new Vector2(0, 0);
-    this.bounds = new Rectangle(0, 0, 0, 0);
+    this.bounds = new Rectangle(0, 0, 0, 0);   
+    this.nextMovePoint = null; 
   }
 
   private nextWaypointReached(): boolean {
@@ -150,5 +154,16 @@ export class Enemy {
   private applyVelocity(): void {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
+  }
+
+  public hit(): void {
+    if (this.active) {
+      this.hp--;
+      //console.log('enemy hp: ' + this.hp);
+
+      if (this.hp <= 0) {
+        this.active = false;
+      }
+    }
   }
 }

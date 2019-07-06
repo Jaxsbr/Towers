@@ -9,18 +9,20 @@ export class Projectile {
     private direction: Vector2;
     private worldBounds: Rectangle;
     private inWorldBounds: boolean;
-    private bounds: Rectangle;
+    public bounds: Rectangle;
     private moveSpeed: number = 0.5;
     private velocity: Vector2;
     private ttl: number  = 0;
     private ttlMax: number = 2;
+    private projectileColor: string;
 
     constructor(gameScene: GameScene) {
         this.gameScene = gameScene;        
         this.worldBounds = this.gameScene.game.screenBounds;
 
-        this.bounds = new Rectangle(0, 0, 5, 5);
+        this.bounds = new Rectangle(0, 0, 10, 10);
         this.velocity = new Vector2(0, 0);
+        this.projectileColor = 'black';
     }
 
     public update(delta: number): void {
@@ -47,7 +49,7 @@ export class Projectile {
 
     public draw(): void {
         if (!this.active) { return; }
-        this.gameScene.renderEngine.renderRect(this.bounds, 'white', true);
+        this.gameScene.renderEngine.renderRect(this.bounds, this.projectileColor, true);
     }
 
     public reset(startPosition: Vector2, direction: Vector2, moveSpeed: number): void {        
@@ -57,7 +59,11 @@ export class Projectile {
         this.direction = direction;
         this.moveSpeed = moveSpeed;
 
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
         this.bounds.left = this.startPosition.x;
         this.bounds.top = this.startPosition.y;
+        this.bounds.update();
     }
 }
