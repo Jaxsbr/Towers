@@ -39,9 +39,9 @@ export class GameScene implements SceneInterface {
       this.towerManager = new TowerManager(this);
       this.projectileEngine = new ProjectileEngine(this);
 
-      // TODO: Remove, towers to be added with user input
-      //this.towerManager.createTower(this.tileMap.tileMatrix[1][1]);
+      // TODO: Remove, towers to be added with user input      
       this.towerManager.createTower(this.tileMap.tileMatrix[3][3]);
+      //this.towerManager.createTower(this.tileMap.tileMatrix[4][4]);
       this.towerManager.createTower(this.tileMap.tileMatrix[5][5]);
 
       // TODO: Remove, enemies to spawned per round from enemy spawner
@@ -61,7 +61,7 @@ export class GameScene implements SceneInterface {
       //       This saves browser performance but is less accurate, 
       //       missing some collisions.
       this.collisionCheckElapsed += delta;
-      if (this.collisionCheckElapsed <= 0.5) {
+      if (this.collisionCheckElapsed <= 0.001) {
         return;
       }
       this.collisionCheckElapsed = 0;      

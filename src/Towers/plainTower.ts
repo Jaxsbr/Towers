@@ -4,8 +4,8 @@ import { Tile } from '../Tiles/tile';
 import { Vector2 } from '../DataObjects/vector2';
 
 export class PlainTower extends BaseTower {  
-  private plainTowerShootSpeed: number = 500;
-  private plainTowerShootRate: number = 1;
+  private plainTowerShootSpeed: number = 750;
+  private plainTowerShootRate: number = 0.2;
   private shootElapsed: number = 0;
 
   constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {

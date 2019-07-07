@@ -26,8 +26,9 @@ export class Projectile {
     }
 
     public update(delta: number): void {
+        this.bounds.update();
         this.updateTTL(delta);
-        this.updateVelocity(delta);
+        this.updateVelocity(delta);        
     }
 
     private updateTTL(delta: number): void {
@@ -44,7 +45,7 @@ export class Projectile {
         this.velocity.y = this.direction.y * (this.moveSpeed * delta);
 
         this.bounds.left += this.velocity.x;
-        this.bounds.top += this.velocity.y;
+        this.bounds.top += this.velocity.y;        
     }
 
     public draw(): void {

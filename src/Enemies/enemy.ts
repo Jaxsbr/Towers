@@ -19,14 +19,18 @@ export class Enemy {
   private nextMovePoint: Vector2;
   private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
-  private moveSpeed: number = 100;
+  private moveSpeed: number = 200;
   private hp: number = 0;
   private maxHp: number = 5;
+  private hpBounds: Rectangle;
+  private liveBounds: Rectangle;
+  private topPadding: number = 10;
+  private enemyName: string;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
     this.enemyImage = enemyImage;
-    this.originalWayPoints = movementWayPoints;
+    this.originalWayPoints = movementWayPoints;    
     this.reset();
   }
 
@@ -45,6 +49,7 @@ export class Enemy {
     }
 
     this.updateBounds();
+    this.updateHpBounds();
 
     this.direction = this.nextMovePoint.subtract(this.center);
     this.distanceFromNextWaypoint = this.direction.magnitude();
@@ -53,6 +58,7 @@ export class Enemy {
       if (onLastWaypoint) {
         this.nextMovePoint = null;
         this.active = false;
+        console.log(this.enemyName + ': end reached');
         return;
       }
       else {
@@ -86,11 +92,26 @@ export class Enemy {
       this.enemyImage,
       sourceRectangle,
       this.bounds);   
+
+
+      // TODO:
+      // Introduce damage percentage bar
+      this.drawHPBar("red", this.liveBounds);
+      this.drawHPBar("green", this.hpBounds);
+  }
+
+  private drawHPBar(color: string, bounds: Rectangle): void {
+    //debugger;
+    this.gameScene.renderEngine.renderRect(
+      bounds, 
+      color, 
+      true);
   }
 
   public reset(): void {
-    this.active = false;
-    this.hp = 5;
+    this.active = false;    
+    this.maxHp = 20;
+    this.hp = this.maxHp;
     this.movementWayPoints = this.originalWayPoints.slice();
     this.movements = { left: false, right: false, up: false, down: false };
     this.position = new Vector2(0, 0);
@@ -98,7 +119,14 @@ export class Enemy {
     this.center = new Vector2(0, 0);
     this.velocity = new Vector2(0, 0);
     this.bounds = new Rectangle(0, 0, 0, 0);   
-    this.nextMovePoint = null; 
+    this.nextMovePoint = null;     
+    this.hpBounds = new Rectangle(
+      this.bounds.left,
+      this.bounds.top - this.topPadding,
+      this.bounds.width,
+      this.bounds.height)
+    this.liveBounds = this.hpBounds.clone();
+    this.enemyName = Math.random().toString();
   }
 
   private nextWaypointReached(): boolean {
@@ -112,8 +140,31 @@ export class Enemy {
     this.bounds.height = this.size.y;
     this.bounds.update();
 
+    this.updateHpBounds();
+    this.updateLifeBounds();
+
     this.center.x = this.bounds.getCenterWidth;
     this.center.y = this.bounds.getCenterHeight;
+  }
+
+  private updateHpBounds(): void {
+    
+    var percentageRemaining = this.hp * 100 / this.maxHp;
+
+    this.hpBounds.width = this.liveBounds.width - (this.liveBounds.width / percentageRemaining);
+
+    this.hpBounds.left = this.bounds.left;
+    this.hpBounds.top = this.bounds.top;    
+    this.hpBounds.height = this.bounds.height / this.topPadding;
+    this.hpBounds.update();
+  }
+
+  private updateLifeBounds(): void {
+    this.liveBounds.left = this.bounds.left;
+    this.liveBounds.top = this.bounds.top;
+    this.liveBounds.width = this.bounds.width;
+    this.liveBounds.height = this.bounds.height / this.topPadding;    
+    this.liveBounds.update();
   }
 
   private setMoveDirection(): void {
@@ -159,10 +210,11 @@ export class Enemy {
   public hit(): void {
     if (this.active) {
       this.hp--;
-      //console.log('enemy hp: ' + this.hp);
+      console.log(this.enemyName + ': hit ' + this.hp);
 
       if (this.hp <= 0) {
         this.active = false;
+        console.log(this.enemyName + ': killed');
       }
     }
   }

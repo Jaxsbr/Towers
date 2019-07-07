@@ -45,6 +45,14 @@ export abstract class BaseTower {
             sourceRectangle,
             this.destinationTile.bounds,
             this.rotation);
+
+        // this.gameScene.renderEngine.renderText(
+        //     this.destinationTile + '_' + row, 
+        //     this.imageObject.destinationRectangle.left,
+        //     this.imageObject.destinationRectangle.top + this.fontSize,
+        //     'black',
+        //     this.fontSize,
+        //     'Calibri');
     }
 
     private updateTargetInRange(): void {

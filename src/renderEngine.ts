@@ -30,13 +30,9 @@ export class RenderEngine {
         }
     }
 
-    public renderText(text: string, x: number, y: number) {
-
-        // TODO:
-        // Manage font family, style, size and color
-        this.context.fillStyle = 'red';
-        this.context.font = '20px Calibri';
-
+    public renderText(text: string, x: number, y: number, color: string, fontSize: number, fontFamily: string) {        
+        this.context.fillStyle = color;
+        this.context.font = fontSize + 'px ' + fontFamily;
         this.context.fillText(text, x, y);
     }
 
