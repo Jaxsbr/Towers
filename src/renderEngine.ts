@@ -56,7 +56,7 @@ export class RenderEngine {
 
     public renderRotatedImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle, rotation: number = 0) {
         this.context.save();
-        this.context.translate(destRect.getCenterWidth, destRect.getCenterWidth);
+        this.context.translate(destRect.getCenterWidth, destRect.getCenterHeight);
         this.context.rotate((rotation - 90) * (Math.PI / 180));
 
         var rotatedDestRect = new Rectangle(

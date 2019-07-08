@@ -16,13 +16,18 @@ export class Projectile {
     private ttlMax: number = 2;
     private projectileColor: string;
 
-    constructor(gameScene: GameScene) {
-        this.gameScene = gameScene;        
+    private projectileImage: HTMLImageElement;
+    private imageSourceRect: Rectangle;
+
+    constructor(gameScene: GameScene, projectileImage: HTMLImageElement) {
+        this.gameScene = gameScene;     
+        this.projectileImage = projectileImage;   
         this.worldBounds = this.gameScene.game.screenBounds;
 
-        this.bounds = new Rectangle(0, 0, 10, 10);
+        this.bounds = new Rectangle(0, 0, 16, 16);        
         this.velocity = new Vector2(0, 0);
         this.projectileColor = 'black';
+        this.imageSourceRect = new Rectangle(0, 0, 32, 32);
     }
 
     public update(delta: number): void {
@@ -50,6 +55,12 @@ export class Projectile {
 
     public draw(): void {
         if (!this.active) { return; }
+        
+        // this.gameScene.renderEngine.renderImageSource(
+        //     this.projectileImage,
+        //     this.imageSourceRect,
+        //     this.bounds);      
+
         this.gameScene.renderEngine.renderRect(this.bounds, this.projectileColor, true);
     }
 

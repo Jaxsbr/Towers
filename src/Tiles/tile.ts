@@ -12,7 +12,6 @@ export class Tile {
         this.gameScene = gameScene;
         this.bounds = bounds;
         this.imageObject = imageObject;
-        this.imageObject.destinationRectangle.update();
     }
 
     public draw(col: number, row: number): void {
@@ -21,12 +20,13 @@ export class Tile {
             this.imageObject.sourceRectangle,
             this.imageObject.destinationRectangle);       
             
-        this.gameScene.renderEngine.renderText(
-            col + '_' + row, 
-            this.imageObject.destinationRectangle.left,
-            this.imageObject.destinationRectangle.top + this.fontSize,
-            'black',
-            this.fontSize,
-            'Calibri');
+
+        // this.gameScene.renderEngine.renderText(
+        //     col + '_' + row, 
+        //     this.bounds.left,
+        //     this.bounds.top + this.fontSize,
+        //     'black',
+        //     this.fontSize,
+        //     'Calibri');
     }
 }

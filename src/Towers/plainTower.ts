@@ -4,14 +4,14 @@ import { Tile } from '../Tiles/tile';
 import { Vector2 } from '../DataObjects/vector2';
 
 export class PlainTower extends BaseTower {  
-  private plainTowerShootSpeed: number = 750;
-  private plainTowerShootRate: number = 0.2;
+  private plainTowerShootSpeed: number = 1000;
+  private plainTowerShootRate: number = 0.7;
   private shootElapsed: number = 0;
 
   constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
     super(gameScene, destinationTile, towerImage);
     this.gameScene = gameScene;
-    super.shootRange = 1024;
+    super.shootRange = 128;
   }
 
   public update(delta: number): void {

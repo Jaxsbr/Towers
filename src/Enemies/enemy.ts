@@ -150,8 +150,10 @@ export class Enemy {
   private updateHpBounds(): void {
     
     var percentageRemaining = this.hp * 100 / this.maxHp;
+    var percentageDiff = 100 - percentageRemaining;
 
-    this.hpBounds.width = this.liveBounds.width - (this.liveBounds.width / percentageRemaining);
+    var percentageLive = this.liveBounds.width * percentageDiff / 100;
+    this.hpBounds.width = this.liveBounds.width - (percentageLive);
 
     this.hpBounds.left = this.bounds.left;
     this.hpBounds.top = this.bounds.top;    

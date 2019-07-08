@@ -5,19 +5,12 @@ import { Vector2 } from "../DataObjects/vector2";
 export class ProjectileEngine {
     private gameScene: GameScene;
     public projectiles: Projectile[] = [];
+    private projectileImage: HTMLImageElement;
 
     constructor(gameScene: GameScene) {
         this.gameScene = gameScene;        
 
-        // Seed pool
-        // var seed1 = this.expandProjectilePool(new Vector2(0, 0), new Vector2(0, 0), 0);        
-        // seed1.active = false;
-
-        // var seed2 = this.expandProjectilePool(new Vector2(0, 0), new Vector2(0, 0), 0);        
-        // seed2.active = false;
-
-        // var seed3 = this.expandProjectilePool(new Vector2(0, 0), new Vector2(0, 0), 0);        
-        // seed3.active = false;
+        this.projectileImage = this.gameScene.game.assetManager.getImage('projectile');
     }
 
     public update(delta: number): void {
@@ -49,7 +42,7 @@ export class ProjectileEngine {
     }
 
     private expandProjectilePool(startPosition: Vector2, direction: Vector2, moveSpeed: number): Projectile {
-        var projectile = new Projectile(this.gameScene);
+        var projectile = new Projectile(this.gameScene, this.projectileImage);
         this.projectiles.push(projectile);
         console.log('grow pool size: ' + this.projectiles.length);
         this.activateProjectile(startPosition, direction, moveSpeed); 

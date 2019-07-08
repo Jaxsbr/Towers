@@ -48,7 +48,7 @@ export class Rectangle {
     }
 
     public get getCenterHeight(): number {
-        this.updateRight();
+        this.updateBottom();
         return this.bottom - this.height / 2;
     }
 
@@ -61,5 +61,9 @@ export class Rectangle {
                 this.top == rect.top &&
                 this.width == rect.width &&
                 this.height == rect.height);
+    }
+
+    public toString(): string {
+        return 'x:' + this.left + ' y: ' + this.top + ' w: ' + this.width + ' h:' + this.height;
     }
 }

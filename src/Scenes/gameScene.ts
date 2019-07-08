@@ -41,8 +41,8 @@ export class GameScene implements SceneInterface {
 
       // TODO: Remove, towers to be added with user input      
       this.towerManager.createTower(this.tileMap.tileMatrix[3][3]);
-      //this.towerManager.createTower(this.tileMap.tileMatrix[4][4]);
-      this.towerManager.createTower(this.tileMap.tileMatrix[5][5]);
+      this.towerManager.createTower(this.tileMap.tileMatrix[5][5]);      
+      this.towerManager.createTower(this.tileMap.tileMatrix[8][7]);
 
       // TODO: Remove, enemies to spawned per round from enemy spawner
       this.enemySpawner.createEnemy();

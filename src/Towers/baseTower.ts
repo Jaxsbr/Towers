@@ -23,7 +23,7 @@ export abstract class BaseTower {
         this.center = new Vector2(0, 0);
     }
 
-    public update(delta: number): void {
+    public update(delta: number): void {        
         this.center.x = this.destinationTile.bounds.getCenterWidth;
         this.center.y = this.destinationTile.bounds.getCenterHeight;
 
@@ -45,14 +45,6 @@ export abstract class BaseTower {
             sourceRectangle,
             this.destinationTile.bounds,
             this.rotation);
-
-        // this.gameScene.renderEngine.renderText(
-        //     this.destinationTile + '_' + row, 
-        //     this.imageObject.destinationRectangle.left,
-        //     this.imageObject.destinationRectangle.top + this.fontSize,
-        //     'black',
-        //     this.fontSize,
-        //     'Calibri');
     }
 
     private updateTargetInRange(): void {
