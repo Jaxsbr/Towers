@@ -26,3 +26,4 @@ npm run dev
 - Refactor: De-Couple dependencies, implement global access mechanism
 - Performance optimization
 - Menu and hosting page
+- PIXI: Can pixi improve performance, asset loading...ect
