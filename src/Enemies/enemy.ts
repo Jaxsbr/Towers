@@ -12,14 +12,14 @@ export class Enemy {
   private enemyImage: HTMLImageElement;
   private originalWayPoints: any;
   private movementWayPoints: any;
-  private wayPointReachedThreshold: number = 0.5;
+  private wayPointReachedThreshold: number = 2;
   private movements: any;
   private velocity: Vector2;
   private direction: Vector2;  
   private nextMovePoint: Vector2;
   private normalizedDirection: Vector2;  
   private distanceFromNextWaypoint: number;
-  private moveSpeed: number = 200;
+  private moveSpeed: number = 75;
   private hp: number = 0;
   private maxHp: number = 5;
   private hpBounds: Rectangle;

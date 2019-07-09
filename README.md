@@ -23,5 +23,6 @@ npm run dev
 
 ## Todo
 - Refactor: Magic variables need a home
+- Refactor: De-Couple dependencies, implement global access mechanism
 - Performance optimization
 - Menu and hosting page
