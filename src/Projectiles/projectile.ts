@@ -24,7 +24,7 @@ export class Projectile {
         this.projectileImage = projectileImage;   
         this.worldBounds = this.gameScene.game.screenBounds;
 
-        this.bounds = new Rectangle(0, 0, 16, 16);        
+        this.bounds = new Rectangle(0, 0, 24, 24);        
         this.velocity = new Vector2(0, 0);
         this.projectileColor = 'black';
         this.imageSourceRect = new Rectangle(0, 0, 32, 32);
@@ -56,12 +56,12 @@ export class Projectile {
     public draw(): void {
         if (!this.active) { return; }
         
-        // this.gameScene.renderEngine.renderImageSource(
-        //     this.projectileImage,
-        //     this.imageSourceRect,
-        //     this.bounds);      
+        this.gameScene.renderEngine.renderImageSource(
+            this.projectileImage,
+            this.imageSourceRect,
+            this.bounds);      
 
-        this.gameScene.renderEngine.renderRect(this.bounds, this.projectileColor, true);
+        //this.gameScene.renderEngine.renderRect(this.bounds, this.projectileColor, true);
     }
 
     public reset(startPosition: Vector2, direction: Vector2, moveSpeed: number): void {        
@@ -74,8 +74,8 @@ export class Projectile {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
-        this.bounds.left = this.startPosition.x;
-        this.bounds.top = this.startPosition.y;
+        this.bounds.left = this.startPosition.x - (this.bounds.width / 2);
+        this.bounds.top = this.startPosition.y - (this.bounds.height / 2);
         this.bounds.update();
     }
 }
