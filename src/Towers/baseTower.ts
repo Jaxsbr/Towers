@@ -26,6 +26,7 @@ export abstract class BaseTower {
     public update(delta: number): void {        
         this.center.x = this.destinationTile.bounds.getCenterWidth;
         this.center.y = this.destinationTile.bounds.getCenterHeight;
+        this.destinationTile.bounds.update();
 
         this.updateTarget();
         this.updateTargetInRange();
@@ -35,6 +36,8 @@ export abstract class BaseTower {
     }
 
     public draw(): void {
+        this.drawRange();
+
         // TODO:
         // Implement animation class and call draw
         // Animation class to handle source rect updates.
@@ -47,13 +50,18 @@ export abstract class BaseTower {
             this.rotation);
     }
 
+    private drawRange(): void {
+        // this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.8, this.shootRange, true);
+        this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.5, this.shootRange, false);
+    }
+
     private updateTargetInRange(): void {
-        if (this.target !== null && this.target.active) {            
+        if (this.target != null && this.target.active) {            
           this.targetDirection = this.center.subtract(this.target.center);
           //console.log('target direction  y: ' + this.targetDirection.x + ' y: ' + this.targetDirection.y);
           let distance = this.targetDirection.magnitude();          
           if (distance <= this.shootRange) {
-            //console.log('ranged');
+            //console.log('ranged');            
             this.targetInRange = true;
             return;
           }      

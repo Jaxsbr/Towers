@@ -9,6 +9,7 @@ import { EnemySpawner } from '../Enemies/enemySpawner';
 import { BaseTower } from '../Towers/baseTower';
 import { TowerManager } from '../Towers/towerManager';
 import { ProjectileEngine } from "../Projectiles/projectileEngine";
+import { Level } from "../Levels/level";
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -20,6 +21,7 @@ export class GameScene implements SceneInterface {
     enemySpawner: EnemySpawner;   
     towerManager: TowerManager;
     projectileEngine: ProjectileEngine;
+    currentLevel: Level;
 
     // TODO: Abstract into a manager
     collisionCheckElapsed: number = 0;
@@ -28,6 +30,10 @@ export class GameScene implements SceneInterface {
       this.game = game;
       this.sceneManager = sceneManager;
       this.renderEngine = renderEngine;
+
+      this.currentLevel = new Level();
+      this.currentLevel.enemySpawnRate = 2;
+      this.currentLevel.enemySpawnCountMax = 10;
     }
 
     init(): void {
@@ -42,16 +48,14 @@ export class GameScene implements SceneInterface {
       // TODO: Remove, towers to be added with user input      
       this.towerManager.createTower(this.tileMap.tileMatrix[3][3]);
       this.towerManager.createTower(this.tileMap.tileMatrix[5][5]);      
-      this.towerManager.createTower(this.tileMap.tileMatrix[8][7]);
-
-      // TODO: Remove, enemies to spawned per round from enemy spawner
-      this.enemySpawner.createEnemy();
+      this.towerManager.createTower(this.tileMap.tileMatrix[8][7]);      
     }
 
     update(delta: number): void {
       this.checkProjectileEnemyCollision(delta);
-      this.enemySpawner.update(delta);
+      
       this.towerManager.update(delta);
+      this.enemySpawner.update(delta);
       this.projectileEngine.update(delta);      
     }
 

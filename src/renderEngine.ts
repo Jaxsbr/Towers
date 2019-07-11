@@ -19,6 +19,9 @@ export class RenderEngine {
     }
 
     public renderRect(rect: Rectangle, color: string, fill:boolean) {
+        var originalFillStyle = this.context.fillStyle;
+        var originalStrokeStyle = this.context.strokeStyle;
+        
         if (fill) {
             this.context.fillStyle = color;
             this.context.fillRect(rect.left, rect.top, rect.width, rect.height);
@@ -28,6 +31,9 @@ export class RenderEngine {
             this.context.strokeStyle = color;
             this.context.strokeRect(rect.left, rect.top, rect.width, rect.height);            
         }
+
+        this.context.fillStyle = originalFillStyle;
+        this.context.strokeStyle = originalStrokeStyle;
     }
 
     public renderText(text: string, x: number, y: number, color: string, fontSize: number, fontFamily: string) {        
@@ -70,6 +76,18 @@ export class RenderEngine {
             sourceRect,
             rotatedDestRect);
 
+        this.context.restore();
+    }
+
+    public renderEllipse(centerX: number, centerY: number, color: string, opacity: number, radius: number, fill: boolean): void {
+        this.context.save();
+        this.context.globalAlpha = opacity;
+        this.context.strokeStyle = color;
+        this.context.beginPath();
+            this.context.ellipse(centerX, centerY, radius, radius, Math.PI / 4, 0, 2 * Math.PI);
+
+        if (fill) { this.context.fill(); } 
+        else { this.context.stroke(); }        
         this.context.restore();
     }
 }
