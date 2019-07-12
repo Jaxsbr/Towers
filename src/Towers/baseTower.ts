@@ -97,7 +97,7 @@ export abstract class BaseTower {
             var enemy = this.gameScene.enemySpawner.enemies[e];
             distance = enemy.center.distance(this.center);
 
-            if (closestEnemy) {
+            if (closestEnemy == null) {
                 closestDistance = distance;
                 closestEnemy = enemy;
                 continue;
