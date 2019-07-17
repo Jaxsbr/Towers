@@ -72,9 +72,7 @@ export class GameScene implements SceneInterface {
         this.projectileEngine.projectiles.forEach((projectile) => {
           if (projectile.active && enemy.active && enemy.bounds.containsRect(projectile.bounds)) {
             enemy.hit();
-            projectile.active = false;            
-            // TODO: Raise enemy hit event
-            console.log('enemy hit');            
+            projectile.active = false;                                
           }
         })
       })    
@@ -85,7 +83,7 @@ export class GameScene implements SceneInterface {
       this.renderEngine.clearRect(this.game.screenBounds);
       this.renderEngine.renderImage(this.backgroundImage, 0, 0, 480, 480);        
       this.tileMap.draw();
-      this.renderEngine.renderText(this.levelManager.currentLevel.levelName, 0, 0, 'red', 32, 'impact');
+      this.renderEngine.renderText(this.levelManager.currentLevel.levelName, 0, 32, 'red', 32, 'impact');
       this.enemySpawner.draw();
       this.towerManager.draw();
       this.projectileEngine.draw();

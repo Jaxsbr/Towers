@@ -26,13 +26,38 @@ export class Enemy {
   private liveBounds: Rectangle;
   private topPadding: number = 10;
   private enemyName: string;
+  private alive: boolean = false;
 
   constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
     this.gameScene = gameScene;
     this.enemyImage = enemyImage;
     this.originalWayPoints = movementWayPoints;    
-    this.reset();
+    this.reset(0, 0);    
   }
+
+  public reset(moveSpeed: number, maxHp: number): void {
+    this.active = false;    
+    this.alive = false;
+    this.maxHp = maxHp;
+    this.hp = this.maxHp;
+    this.moveSpeed = moveSpeed;
+    this.movementWayPoints = this.originalWayPoints.slice();
+    this.movements = { left: false, right: false, up: false, down: false };
+    this.position = new Vector2(0, 0);
+    this.size = new Vector2(48, 48);
+    this.center = new Vector2(0, 0);
+    this.velocity = new Vector2(0, 0);
+    this.bounds = new Rectangle(0, 0, 0, 0);   
+    this.nextMovePoint = null;     
+    this.hpBounds = new Rectangle(
+      this.bounds.left,
+      this.bounds.top - this.topPadding,
+      this.bounds.width,
+      this.bounds.height)
+    this.liveBounds = this.hpBounds.clone();
+    this.enemyName = Math.random().toString();
+  }
+
 
   public update(delta: number): void {    
     if (!this.active) { return; }
@@ -58,7 +83,8 @@ export class Enemy {
       if (onLastWaypoint) {
         this.nextMovePoint = null;
         this.active = false;
-        console.log(this.enemyName + ': end reached');
+        //console.log(this.enemyName + ': end reached');
+        window.dispatchEvent(new CustomEvent('enemyReachedEnd'));
         return;
       }
       else {
@@ -78,55 +104,6 @@ export class Enemy {
     }
 
     this.applyVelocity();
-  }
-
-  public draw(): void {
-    if (!this.active) { return; }
-
-    // TODO:
-    // Implement animation class and call draw
-    // Animation class to handle source rect updates.
-    var sourceRectangle = new Rectangle(0, 0, 68, 80);
-
-    this.gameScene.renderEngine.renderImageSource(
-      this.enemyImage,
-      sourceRectangle,
-      this.bounds);   
-
-
-      // TODO:
-      // Introduce damage percentage bar
-      this.drawHPBar("red", this.liveBounds);
-      this.drawHPBar("green", this.hpBounds);
-  }
-
-  private drawHPBar(color: string, bounds: Rectangle): void {
-    //debugger;
-    this.gameScene.renderEngine.renderRect(
-      bounds, 
-      color, 
-      true);
-  }
-
-  public reset(): void {
-    this.active = false;    
-    this.maxHp = 20;
-    this.hp = this.maxHp;
-    this.movementWayPoints = this.originalWayPoints.slice();
-    this.movements = { left: false, right: false, up: false, down: false };
-    this.position = new Vector2(0, 0);
-    this.size = new Vector2(48, 48);
-    this.center = new Vector2(0, 0);
-    this.velocity = new Vector2(0, 0);
-    this.bounds = new Rectangle(0, 0, 0, 0);   
-    this.nextMovePoint = null;     
-    this.hpBounds = new Rectangle(
-      this.bounds.left,
-      this.bounds.top - this.topPadding,
-      this.bounds.width,
-      this.bounds.height)
-    this.liveBounds = this.hpBounds.clone();
-    this.enemyName = Math.random().toString();
   }
 
   private nextWaypointReached(): boolean {
@@ -167,6 +144,34 @@ export class Enemy {
     this.liveBounds.width = this.bounds.width;
     this.liveBounds.height = this.bounds.height / this.topPadding;    
     this.liveBounds.update();
+  }
+
+  public draw(): void {
+    if (!this.active) { return; }
+
+    // TODO:
+    // Implement animation class and call draw
+    // Animation class to handle source rect updates.
+    var sourceRectangle = new Rectangle(0, 0, 68, 80);
+
+    this.gameScene.renderEngine.renderImageSource(
+      this.enemyImage,
+      sourceRectangle,
+      this.bounds);   
+
+
+      // TODO:
+      // Introduce damage percentage bar
+      this.drawHPBar("red", this.liveBounds);
+      this.drawHPBar("green", this.hpBounds);
+  }
+
+  private drawHPBar(color: string, bounds: Rectangle): void {
+    //debugger;
+    this.gameScene.renderEngine.renderRect(
+      bounds, 
+      color, 
+      true);
   }
 
   private setMoveDirection(): void {
@@ -212,11 +217,12 @@ export class Enemy {
   public hit(): void {
     if (this.active) {
       this.hp--;
-      console.log(this.enemyName + ': hit ' + this.hp);
+      //console.log(this.enemyName + ': hit ' + this.hp);
 
       if (this.hp <= 0) {
         this.active = false;
-        console.log(this.enemyName + ': killed');
+        //console.log(this.enemyName + ': killed');
+        window.dispatchEvent(new CustomEvent('enemyKilled'));
       }
     }
   }

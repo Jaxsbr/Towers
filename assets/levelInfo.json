@@ -3,18 +3,24 @@
     "levelName": "Level 1",
     "levelIndex": 1,
     "enemySpawnRate": 2,
-    "enemySpawnCountMax": 10
+    "enemySpawnCountMax": 1,
+    "enemyMoveSpeed": 75,
+    "enemyMaxHp": 10
   },
   {
     "levelName": "Level 2",
     "levelIndex": 2,
     "enemySpawnRate": 1.8,
-    "enemySpawnCountMax": 15
+    "enemySpawnCountMax": 2,
+    "enemyMoveSpeed": 75,
+    "enemyMaxHp": 15
   },
   {
     "levelName": "Level 3",
     "levelIndex": 3,
-    "enemySpawnRate": 1.6,
-    "enemySpawnCountMax": 20
+    "enemySpawnRate": 0.2,
+    "enemySpawnCountMax": 3,
+    "enemyMoveSpeed": 75,
+    "enemyMaxHp": 20
   }
 ]

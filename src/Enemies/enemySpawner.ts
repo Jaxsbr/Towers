@@ -5,17 +5,20 @@ export class EnemySpawner {
   public enemies: Enemy[] = [];
   private gameScene: GameScene;
   private enemyImage: HTMLImageElement;
-
   private enemySpawnCount: number = 0;
   private enemySpawnCountMax: number;
   private enemySpawnRate: number;
-  private enemySpawnElapsed: number = 0;
+  private enemySpawnElapsed: number = 0;    
+  private enemiesKilled: number = 0;
+  private enemiesEscaped: number = 0;
 
   constructor(gameScene: GameScene) {
     this.gameScene = gameScene;
     this.enemyImage = this.gameScene.game.assetManager.getImage('squid');
-    this.enemySpawnCountMax = this.gameScene.levelManager.currentLevel.enemySpawnCountMax;
-    this.enemySpawnRate = this.gameScene.levelManager.currentLevel.enemySpawnRate;
+    this.setCurrentLevel();
+
+    window.addEventListener('enemyKilled', () => { this.enemiesKilled++; });
+    window.addEventListener('enemyReachedEnd', () => { this.enemiesEscaped++; });
   }
 
   public update(delta: number): void {
@@ -38,13 +41,12 @@ export class EnemySpawner {
   }
 
   private updateRoundCheck(): void {
-    var enemiesDead = true;
-    this.enemies.forEach((enemy) => {
-      if (enemy.active) { enemiesDead = false; }
-    })
-
-    if (enemiesDead) {
-      this.enemySpawnCount = 0;
+    if (this.enemiesEscaped + this.enemiesKilled == this.gameScene.levelManager.currentLevel.enemySpawnCountMax) {
+      this.enemiesKilled = 0;
+      this.enemiesEscaped = 0;
+      this.enemySpawnCount = 0;      
+      this.gameScene.levelManager.nextLevel();
+      this.setCurrentLevel();
     }
   }
 
@@ -55,9 +57,20 @@ export class EnemySpawner {
   }
 
   public createEnemy(): void {
-    var enemy = new Enemy(this.gameScene, this.enemyImage, this.gameScene.tileMap.wayPoints);
-    enemy.active = true;
+    // TODO:
+    // Reset inactive enemies from pool instead of creating new ones
+    // THIS IS A LEAK BTW
+    console.clear();
+    console.log("enemy in array count: " + this.enemies.length);
 
-    this.enemies.push(enemy);
+    var enemy = new Enemy(this.gameScene, this.enemyImage, this.gameScene.tileMap.wayPoints);
+    enemy.reset(this.gameScene.levelManager.currentLevel.enemyMoveSpeed, this.gameScene.levelManager.currentLevel.enemyMaxHp)
+    enemy.active = true;
+    this.enemies.push(enemy);    
+  }
+
+  private setCurrentLevel(): void {
+    this.enemySpawnCountMax = this.gameScene.levelManager.currentLevel.enemySpawnCountMax;
+    this.enemySpawnRate = this.gameScene.levelManager.currentLevel.enemySpawnRate;
   }
 }

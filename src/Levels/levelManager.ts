@@ -28,5 +28,6 @@ export class LevelManager {
     // NOTE: If we get here, no more level exist
     // TODO:
     // Raise end of level notification
+    console.log("last level done")
   }
 }
