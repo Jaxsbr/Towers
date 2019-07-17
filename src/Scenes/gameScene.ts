@@ -10,6 +10,7 @@ import { BaseTower } from '../Towers/baseTower';
 import { TowerManager } from '../Towers/towerManager';
 import { ProjectileEngine } from "../Projectiles/projectileEngine";
 import { Level } from "../Levels/level";
+import { LevelManager } from '../Levels/levelManager';
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -21,7 +22,8 @@ export class GameScene implements SceneInterface {
     enemySpawner: EnemySpawner;   
     towerManager: TowerManager;
     projectileEngine: ProjectileEngine;
-    currentLevel: Level;
+    //currentLevel: Level;
+    levelManager: LevelManager;
 
     // TODO: Abstract into a manager
     collisionCheckElapsed: number = 0;
@@ -29,16 +31,13 @@ export class GameScene implements SceneInterface {
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
       this.game = game;
       this.sceneManager = sceneManager;
-      this.renderEngine = renderEngine;
-
-      this.currentLevel = new Level();
-      this.currentLevel.enemySpawnRate = 2;
-      this.currentLevel.enemySpawnCountMax = 10;
+      this.renderEngine = renderEngine;      
     }
 
     init(): void {
       this.backgroundImage = this.game.assetManager.getImage('background');
       this.tileImage = this.game.assetManager.getImage('tiles');      
+      this.levelManager = new LevelManager(this.game.assetManager.levelInfo);      
 
       this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
       this.enemySpawner = new EnemySpawner(this);          
@@ -86,6 +85,7 @@ export class GameScene implements SceneInterface {
       this.renderEngine.clearRect(this.game.screenBounds);
       this.renderEngine.renderImage(this.backgroundImage, 0, 0, 480, 480);        
       this.tileMap.draw();
+      this.renderEngine.renderText(this.levelManager.currentLevel.levelName, 0, 0, 'red', 32, 'impact');
       this.enemySpawner.draw();
       this.towerManager.draw();
       this.projectileEngine.draw();

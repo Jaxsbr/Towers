@@ -1,7 +1,6 @@
-export class Level {
-    public enemyWaves: number;
-    public enemyBaseCount: number;
-    public enemyMultiplier: number;
-    public enemySpawnRate: number;
-    public enemySpawnCountMax: number;
+export class Level {    
+  public levelName: string;
+  public levelIndex: number;
+  public enemySpawnRate: number;
+  public enemySpawnCountMax: number;
 }

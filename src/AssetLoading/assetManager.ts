@@ -1,9 +1,11 @@
 import { ImageAsset } from "./imageAsset";
 import { MapAsset } from "./mapAsset";
+import { Level } from '../Levels/level';
 
 export class AssetManager {
     images: ImageAsset[] = [];
     maps: MapAsset[] = [];
+    levelInfo: Level[] = [];
     totalAssets: number;
     loadedAssets: number;
     public loadCompleted: boolean;
@@ -23,22 +25,19 @@ export class AssetManager {
         request.onload = event => {
             if (request.status === 200) {
                 let data = JSON.parse(request.responseText);
+                this.totalAssets = data.assetCount;
                 imageAssets = data.imageAssets;
                 mapAssets = data.mapAssets;
-
+                
                 this.initImages(imageAssets);
-                //this.initMaps(mapAssets);
+                this.initLevelInfo(data.levelInfoFile);
             }
         }
         request.open('get', './assets/assetManifest.json', true);
         request.send();
     }
 
-    initImages(imageAssets: any) {
-        if (imageAssets) {
-            this.totalAssets += imageAssets.length;
-        }
-        
+    initImages(imageAssets: any) {  
         imageAssets.forEach(asset => {
             let image = new ImageAsset(this, asset.key, asset.src);
             this.images.push(image);
@@ -50,10 +49,6 @@ export class AssetManager {
     }
 
     initMaps(mapAssets: any) {
-        if (mapAssets) {
-            this.totalAssets += mapAssets.length;
-        }        
-
         mapAssets.forEach(asset => {
             let map = new MapAsset(this, asset.key, asset.src);
             this.maps.push(map);
@@ -62,6 +57,25 @@ export class AssetManager {
         this.maps.forEach(map => {
              map.init();
         });
+    }
+
+    initLevelInfo(levelInfoFile: string): void {
+      if (!levelInfoFile) {
+        console.error("no level info file provided");
+        return;
+      }
+
+      let request = new XMLHttpRequest();
+
+      request.onload = event => {
+          if (request.status === 200) {
+            let data = JSON.parse(request.responseText);            
+            this.levelInfo = data;
+            this.loadedAssets++;
+          }
+      }
+      request.open('get', levelInfoFile, true);
+      request.send();
     }
 
     update() {

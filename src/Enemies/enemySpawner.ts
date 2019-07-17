@@ -14,8 +14,8 @@ export class EnemySpawner {
   constructor(gameScene: GameScene) {
     this.gameScene = gameScene;
     this.enemyImage = this.gameScene.game.assetManager.getImage('squid');
-    this.enemySpawnCountMax = this.gameScene.currentLevel.enemySpawnCountMax;
-    this.enemySpawnRate = this.gameScene.currentLevel.enemySpawnRate;
+    this.enemySpawnCountMax = this.gameScene.levelManager.currentLevel.enemySpawnCountMax;
+    this.enemySpawnRate = this.gameScene.levelManager.currentLevel.enemySpawnRate;
   }
 
   public update(delta: number): void {
