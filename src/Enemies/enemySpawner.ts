@@ -60,8 +60,8 @@ export class EnemySpawner {
     // TODO:
     // Reset inactive enemies from pool instead of creating new ones
     // THIS IS A LEAK BTW
-    console.clear();
-    console.log("enemy in array count: " + this.enemies.length);
+    //console.clear();
+    //console.log("enemy in array count: " + this.enemies.length);
 
     var enemy = new Enemy(this.gameScene, this.enemyImage, this.gameScene.tileMap.wayPoints);
     enemy.reset(this.gameScene.levelManager.currentLevel.enemyMoveSpeed, this.gameScene.levelManager.currentLevel.enemyMaxHp)

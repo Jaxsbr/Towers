@@ -11,6 +11,7 @@ import { TowerManager } from '../Towers/towerManager';
 import { ProjectileEngine } from "../Projectiles/projectileEngine";
 import { Level } from "../Levels/level";
 import { LevelManager } from '../Levels/levelManager';
+import { Menu } from "../Menu/menu";
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -24,6 +25,7 @@ export class GameScene implements SceneInterface {
     projectileEngine: ProjectileEngine;
     //currentLevel: Level;
     levelManager: LevelManager;
+    menu: Menu;
 
     // TODO: Abstract into a manager
     collisionCheckElapsed: number = 0;
@@ -38,6 +40,7 @@ export class GameScene implements SceneInterface {
       this.backgroundImage = this.game.assetManager.getImage('background');
       this.tileImage = this.game.assetManager.getImage('tiles');      
       this.levelManager = new LevelManager(this.game.assetManager.levelInfo);      
+      this.menu = new Menu(this);
 
       this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
       this.enemySpawner = new EnemySpawner(this);          
@@ -83,19 +86,27 @@ export class GameScene implements SceneInterface {
       this.renderEngine.clearRect(this.game.screenBounds);
       this.renderEngine.renderImage(this.backgroundImage, 0, 0, 480, 480);        
       this.tileMap.draw();
-      this.renderEngine.renderText(this.levelManager.currentLevel.levelName, 0, 32, 'red', 32, 'impact');
+
+      // TODO:
+      // Create abstraction into animated text rendering.
+      this.renderEngine.renderText(this.levelManager.currentLevel.levelName, 64, 32, 'red', 32, 'impact');
+
       this.enemySpawner.draw();
       this.towerManager.draw();
       this.projectileEngine.draw();
+      this.menu.draw();
     }
 
-    mouseDown(): void {
+    mouseDown(): void {      
+      
     }
 
-    mouseUp(): void {
+    mouseUp(): void {      
+      this.menu.clearStagedTower();
     }
 
     mouseMove(x: number, y: number): void {
+      this.menu.updateMouse(x, y);
     }
     
     resize(): void {

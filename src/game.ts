@@ -25,6 +25,10 @@ export class Game {
     this.assetManager = new AssetManager();
     this.assetManager.init();
     this.initSceneManager();
+
+    window.addEventListener('mousemove', (e) => { this.mouseMove(e); } );
+    window.addEventListener('mousedown', () => { this.mouseDown(); } );
+    window.addEventListener('mouseup', () => { this.mouseUp(); } );
   }
 
   public start(): void {
@@ -49,6 +53,21 @@ export class Game {
 
     requestAnimationFrame(() => this.loop());
     //setInterval(this.loop.bind(this), 1);
+  }  
+
+  private mouseMove(event: any): void {
+    console.log(event.x + ' ' + event.y);
+    this.currentScene.mouseMove(event.x, event.y);
+  }
+
+  private mouseDown(): void {
+    console.log('mousedown');
+    this.currentScene.mouseDown();
+  }
+
+  private mouseUp(): void {
+    console.log('mouseup');
+    this.currentScene.mouseUp();
   }
 }
 
@@ -56,3 +75,5 @@ window.addEventListener('load', () => {
   const game = new Game();
   game.start();
 });
+
+
