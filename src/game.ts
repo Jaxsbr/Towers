@@ -56,7 +56,6 @@ export class Game {
   }  
 
   private mouseMove(event: any): void {
-    console.log(event.x + ' ' + event.y);
     this.currentScene.mouseMove(event.x, event.y);
   }
 
