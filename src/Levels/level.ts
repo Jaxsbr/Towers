@@ -5,4 +5,5 @@ export class Level {
   public enemySpawnCountMax: number;
   public enemyMoveSpeed: number;
   public enemyMaxHp: number;
+  public enemyType: string;
 }

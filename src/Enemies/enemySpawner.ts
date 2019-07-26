@@ -14,7 +14,7 @@ export class EnemySpawner {
 
   constructor(gameScene: GameScene) {
     this.gameScene = gameScene;
-    this.enemyImage = this.gameScene.game.assetManager.getImage('squid');
+    this.enemyImage = this.gameScene.game.assetManager.getImage('squid');    
     this.setCurrentLevel();
 
     window.addEventListener('enemyKilled', () => { this.enemiesKilled++; });
