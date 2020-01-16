@@ -6,15 +6,15 @@ import { Tile } from "./tile";
 export class TileMap {
     public wayPoints: any = [];
     public tileMatrix: Tile[][];    
+    public rows: number = 10;
+    public cols: number = 10;
+    public tileWidth: number = 48;
+    public tileHeight: number = 48;
     private bounds: Rectangle;
     private gameScene: GameScene;
     private tileImage: HTMLImageElement;
     private waterTileImageObject: ImageObject
     private pathTileImageObject: ImageObject;    
-    private rows: number = 10;
-    private cols: number = 10;
-    private tileWidth: number = 48;
-    private tileHeight: number = 48;
 
     constructor(gameScene: GameScene, bounds: Rectangle, tileImage: HTMLImageElement) {
         this.gameScene = gameScene;

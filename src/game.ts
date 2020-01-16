@@ -56,6 +56,7 @@ export class Game {
   }  
 
   private mouseMove(event: any): void {
+    this.currentScene.mouseInfo = {x: event.x, y: event.y};
     this.currentScene.mouseMove(event.x, event.y);
   }
 

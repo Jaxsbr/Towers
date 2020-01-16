@@ -14,6 +14,7 @@ export abstract class BaseTower {
     public center: Vector2;
     private rotation: number;    
     private towerImage: HTMLImageElement;
+    private selected: boolean;
 
     constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
         this.gameScene = gameScene;
@@ -48,11 +49,22 @@ export abstract class BaseTower {
             sourceRectangle,
             this.destinationTile.bounds,
             this.rotation);
+
+        this.drawSelection();
+    }
+
+    public setSelection(selected: boolean): void {
+        this.selected = selected;
     }
 
     private drawRange(): void {
         // this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.8, this.shootRange, true);
         this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.5, this.shootRange, false);
+    }
+
+    private drawSelection(): void {
+        // TODO:
+        // Draw any overlay selection effects 
     }
 
     private updateTargetInRange(): void {
@@ -110,5 +122,5 @@ export abstract class BaseTower {
         };
 
         this.target = closestEnemy;
-    }
+    }    
 }

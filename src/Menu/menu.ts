@@ -8,9 +8,7 @@ export class Menu {
     private plainTowerImage: HTMLImageElement;
     private slowTowerImage: HTMLImageElement;
     private gameScene: GameScene;
-    private stagedTower: string;
-    private mouseX: number = 0;
-    private mouseY: number = 0;
+    private stagedTower: string;    
 
     constructor(gameScene: GameScene) {
         this.gameScene = gameScene;
@@ -28,20 +26,15 @@ export class Menu {
     private towerClicked(type: string): void {       
         this.stagedTower = type;
         
-    }
-
-    public updateMouse(x: number, y: number) {
-        this.mouseX = x;
-        this.mouseY = y;
     }    
 
     public draw(): void {
         switch (this.stagedTower) {
             case 'plain':
-                    this.gameScene.renderEngine.renderImage(this.plainTowerImage, this.mouseX, this.mouseY, this.stagedTowerImageWidth, this.stagedTowerImageHeight);
+                    this.gameScene.renderEngine.renderImage(this.plainTowerImage, this.gameScene.mouseInfo.x, this.gameScene.mouseInfo.y, this.stagedTowerImageWidth, this.stagedTowerImageHeight);
                 break;
             case 'slow':
-                    this.gameScene.renderEngine.renderImage(this.slowTowerImage, this.mouseX, this.mouseY, this.stagedTowerImageWidth, this.stagedTowerImageHeight);
+                    this.gameScene.renderEngine.renderImage(this.slowTowerImage, this.gameScene.mouseInfo.x, this.gameScene.mouseInfo.y, this.stagedTowerImageWidth, this.stagedTowerImageHeight);
                 break;
             default:
                     

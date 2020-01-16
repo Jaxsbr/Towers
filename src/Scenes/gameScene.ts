@@ -12,11 +12,13 @@ import { ProjectileEngine } from "../Projectiles/projectileEngine";
 import { Level } from "../Levels/level";
 import { LevelManager } from '../Levels/levelManager';
 import { Menu } from "../Menu/menu";
+import { MouseInfo } from "../Types/MouseInfo";
 
 export class GameScene implements SceneInterface {
     game: Game;
     sceneManager: SceneManager;
     renderEngine: RenderEngine;
+    mouseInfo: MouseInfo;
     backgroundImage: HTMLImageElement;
     tileMap: TileMap;
     tileImage: HTMLImageElement;
@@ -101,12 +103,16 @@ export class GameScene implements SceneInterface {
       
     }
 
-    mouseUp(): void {      
+    mouseUp() {          
+      // TODO: TEST
+      let x = Math.floor(this.mouseInfo.x / this.tileMap.tileWidth);
+      let y = Math.floor(this.mouseInfo.y / this.tileMap.tileHeight);
+      let destinationTile = this.tileMap.tileMatrix[x][y];
       this.menu.clearStagedTower();
+      this.towerManager.createTower(destinationTile);
     }
 
     mouseMove(x: number, y: number): void {
-      this.menu.updateMouse(x, y);
     }
     
     resize(): void {

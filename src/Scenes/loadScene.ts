@@ -5,11 +5,13 @@ import { RenderEngine } from "../renderEngine";
 import { AssetManager } from "../AssetLoading/assetManager";
 import { Rectangle } from "../DataObjects/rectangle";
 import { Scenes } from "./scenes.enum";
+import { MouseInfo } from "../Types/MouseInfo";
 
 export class LoadScene implements SceneInterface {
     game: Game;
     sceneManager: SceneManager;
     renderEngine: RenderEngine;
+    mouseInfo: MouseInfo;
     
     constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
         this.game = game;
