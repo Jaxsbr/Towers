@@ -9,11 +9,13 @@ export class Menu {
     private slowTowerImage: HTMLImageElement;
     private gameScene: GameScene;
     private stagedTower: string;    
+    private menuHeight: number;
 
     constructor(gameScene: GameScene) {
         this.gameScene = gameScene;
         window.addEventListener('plainTowerClicked', () => { this.towerClicked("plain"); } );
         window.addEventListener('slowTowerClicked', () => { this.towerClicked("slow"); } );
+        this.menuHeight = document.getElementById('tower_menu').clientHeight;
 
         this.plainTowerImage = this.gameScene.game.assetManager.getImage("towerplain");
         this.slowTowerImage = this.gameScene.game.assetManager.getImage("towerslow");
@@ -32,14 +34,14 @@ export class Menu {
         // TODO: Refactor this, code being duplicated here when only image changes        
 
         // TODO: Fix staged image render layout
-        // Behavoir: The staged tower renders it's top/left on the mouse pointer. 
+        // Behavoir: The staged tower renders at the mouse pointer y and x + 1/2. 
         //           On clicking, the tower can be placed on an adjacent tile to the expected tile.
         // Fix: Render the staged tower image's center over the mouse pointer.
 
         if (!this.gameScene.mouseInfo) { return; }
         
         const tX = this.gameScene.mouseInfo.x - (this.stagedTowerImageWidth / 2);
-        const tY = this.gameScene.mouseInfo.y - (this.stagedTowerImageHeight);
+        const tY = this.gameScene.mouseInfo.y - (this.stagedTowerImageHeight / 2) - this.menuHeight;
 
         switch (this.stagedTower) {
             case 'plain':

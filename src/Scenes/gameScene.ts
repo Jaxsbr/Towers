@@ -117,9 +117,6 @@ export class GameScene implements SceneInterface {
     mouseUp() {       
       if (this.isOverMouseMenu()) {return;}
       
-      // TODO: Fix placement behavior - tower place on incorrect tile
-      // Behavoir: Tower is placed in proximity to mouse, roughtly a tile heigh to low.
-      // Theory: The menu height is not factored into the calculation.
       let x = Math.floor(this.mouseInfo.x / this.tileMap.tileWidth);
       let y = Math.floor((this.mouseInfo.y - this.tileMap.tileHeight) / this.tileMap.tileHeight);
       let destinationTile = this.tileMap.tileMatrix[y][x];
