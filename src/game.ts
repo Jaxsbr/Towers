@@ -61,14 +61,14 @@ export class Game {
   }
 
   private mouseDown(): void {
-    console.log('mousedown');
+    //console.log('mousedown');
     this.currentScene.mouseDown();
   }
 
   private mouseUp(): void {
-    console.log('mouseup');
+    //console.log('mouseup');
     this.currentScene.mouseUp();
-  }
+  }  
 }
 
 window.addEventListener('load', () => {               

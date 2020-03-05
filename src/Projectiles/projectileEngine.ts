@@ -44,7 +44,7 @@ export class ProjectileEngine {
     private expandProjectilePool(startPosition: Vector2, direction: Vector2, moveSpeed: number): Projectile {
         var projectile = new Projectile(this.gameScene, this.projectileImage);
         this.projectiles.push(projectile);
-        console.log('grow pool size: ' + this.projectiles.length);
+        //console.log('grow pool size: ' + this.projectiles.length);
         this.activateProjectile(startPosition, direction, moveSpeed); 
         return projectile;         
     }

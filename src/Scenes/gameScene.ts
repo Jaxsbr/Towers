@@ -13,6 +13,7 @@ import { Level } from "../Levels/level";
 import { LevelManager } from '../Levels/levelManager';
 import { Menu } from "../Menu/menu";
 import { MouseInfo } from "../Types/MouseInfo";
+import { Rectangle } from "../DataObjects/rectangle";
 
 export class GameScene implements SceneInterface {
     game: Game;
@@ -99,17 +100,33 @@ export class GameScene implements SceneInterface {
       this.menu.draw();
     }
 
+    private isOverMouseMenu(): boolean {
+      let menuBounds = this.getElementBounds("tower_menu");    
+      return menuBounds.containsRect(new Rectangle(this.mouseInfo.x, this.mouseInfo.y, 1, 1));
+    }
+  
+    private getElementBounds(elementId: string): Rectangle {
+      let element = document.getElementById(elementId);
+      return new Rectangle(element.clientLeft, element.clientTop, element.clientWidth, element.clientHeight);
+    }
+
     mouseDown(): void {      
       
     }
 
-    mouseUp() {          
-      // TODO: TEST
+    mouseUp() {       
+      if (this.isOverMouseMenu()) {return;}
+      
+      // TODO: Fix placement behavior - tower place on incorrect tile
+      // Behavoir: Tower is placed in proximity to mouse, roughtly a tile heigh to low.
+      // Theory: The menu height is not factored into the calculation.
       let x = Math.floor(this.mouseInfo.x / this.tileMap.tileWidth);
-      let y = Math.floor(this.mouseInfo.y / this.tileMap.tileHeight);
-      let destinationTile = this.tileMap.tileMatrix[x][y];
+      let y = Math.floor((this.mouseInfo.y - this.tileMap.tileHeight) / this.tileMap.tileHeight);
+      let destinationTile = this.tileMap.tileMatrix[y][x];
       this.menu.clearStagedTower();
       this.towerManager.createTower(destinationTile);
+
+      console.log(`tileX:${x} tileY:${y} destTile:${destinationTile.bounds} mouseX:${this.mouseInfo.x} mouseY:${this.mouseInfo.y}`)
     }
 
     mouseMove(x: number, y: number): void {

@@ -81,7 +81,7 @@ export class TileMap {
                 // Tile should provide underlying imageObject with coordinates and size values.                
                 // Abstract source rectangle values into "tilesSpriteSheet" configuration.
                 var tileBounds = new Rectangle(this.tileWidth * col, this.tileHeight * row, this.tileWidth, this.tileHeight);
-                console.log('col:' + col + ' row:' + row)
+                //console.log('col:' + col + ' row:' + row)
                 this.tileMatrix[row][col] = new Tile(this.gameScene, tileBounds, tileImageObject);
             }
         }        
