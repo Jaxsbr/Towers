@@ -17,13 +17,5 @@ npm run dev
 ## Goal
 - Create a fun tower defence with TypeScript
 - Learning Webpack, build/bundle
-- Host and deploy on Azure
+- Host and deploy on AWS
 - Open game to public, track scores
-
-
-## Todo
-- Refactor: Magic variables need a home
-- Refactor: De-Couple dependencies, implement global access mechanism
-- Performance optimization
-- Menu and hosting page
-- PIXI: Can pixi improve performance, asset loading...ect
