@@ -3,6 +3,10 @@ I've always been facinated with tower defence games. This genre got me into prog
 My idea is to get the game 95% polished before doing any art or fancy effects, so dev art will have to do :(
 
 
+## Play
+https://jaxsbr.github.io/Towers/
+
+
 ## Run
 ```
 npm install
