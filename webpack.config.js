@@ -5,7 +5,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: 'Towers'
+    publicPath: '/dist/'
   },
   module: {
     rules: [
@@ -14,8 +14,9 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, './'),
-    publicPath: '/dist/',
+    static: {
+      directory: path.resolve(__dirname, './'),
+    },
     host: '127.0.0.1',
     port: 323,
     open: true
