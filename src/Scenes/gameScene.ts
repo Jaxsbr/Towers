@@ -45,7 +45,7 @@ export class GameScene implements SceneInterface {
       this.levelManager = new LevelManager(this.game.assetManager.levelInfo);      
       this.menu = new Menu(this);
 
-      this.tileMap = new TileMap(this, this.game.screenBounds, this.tileImage);
+      this.tileMap = new TileMap(this, this.tileImage);
       this.enemySpawner = new EnemySpawner(this);          
       this.towerManager = new TowerManager(this);
       this.projectileEngine = new ProjectileEngine(this);
@@ -104,6 +104,10 @@ export class GameScene implements SceneInterface {
       let menuBounds = this.getElementBounds("tower_menu");    
       return menuBounds.containsRect(new Rectangle(this.mouseInfo.x, this.mouseInfo.y, 1, 1));
     }
+
+    private isOverGameBounds(): boolean {
+      return this.tileMap.bounds.containsRect(new Rectangle(this.mouseInfo.x, this.mouseInfo.y, 1, 1));
+    }
   
     private getElementBounds(elementId: string): Rectangle {
       let element = document.getElementById(elementId);
@@ -116,6 +120,7 @@ export class GameScene implements SceneInterface {
 
     mouseUp() {       
       if (this.isOverMouseMenu()) {return;}
+      if (!this.isOverGameBounds()) {return;}
       
       let x = Math.floor(this.mouseInfo.x / this.tileMap.tileWidth);
       let y = Math.floor((this.mouseInfo.y - this.tileMap.tileHeight) / this.tileMap.tileHeight);

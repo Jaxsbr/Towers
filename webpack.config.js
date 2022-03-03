@@ -1,6 +1,7 @@
 var path = require('path');
 
 module.exports = {
+  devtool: 'source-map',
   entry: './src/game.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -19,7 +20,8 @@ module.exports = {
     },
     host: '127.0.0.1',
     port: 323,
-    open: true
+    open: true,
+    hot: false
   },
   resolve: {
     extensions: ['.ts', '.js'],    
