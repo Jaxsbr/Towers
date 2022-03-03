@@ -29,8 +29,8 @@ npm run dev
 - Undefine Bounds error freezes the game
   - Launch the game
   - Open devtools F12
-  - Wait until you see an eney moving
-  - Right/Left click anyware outside the blue game rectangle
+  - Wait until you see an enemy moving
+  - Right/Left click anyware on right side outside the blue game rectangle
   - bug: Game freezes
   - bug: Console shows a undefine error (reading 'bounds')
   - expectation: Game proceeds without freezing of logging a console error

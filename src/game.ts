@@ -19,7 +19,6 @@ export class Game {
   private sceneManager: SceneManager;
 
   constructor() {     
-    this.screenBounds = new Rectangle(0, 0, 800, 480);   
     this.gameTime = new GameTime();
     this.renderEngine = new RenderEngine();    
     this.assetManager = new AssetManager();

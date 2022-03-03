@@ -10,18 +10,18 @@ export class TileMap {
     public cols: number = 10;
     public tileWidth: number = 48;
     public tileHeight: number = 48;
-    private bounds: Rectangle;
+    public bounds: Rectangle;
     private gameScene: GameScene;
     private tileImage: HTMLImageElement;
     private waterTileImageObject: ImageObject
     private pathTileImageObject: ImageObject;    
 
-    constructor(gameScene: GameScene, bounds: Rectangle, tileImage: HTMLImageElement) {
+    constructor(gameScene: GameScene, tileImage: HTMLImageElement) {
         this.gameScene = gameScene;
-        this.bounds = bounds;
         this.tileImage = tileImage;
 
         this.initTileMatrix();
+        this.bounds = new Rectangle(0, 0, this.cols * this.tileWidth, this.rows * this.tileHeight);
     }
 
     private initTileMatrix(): void {
