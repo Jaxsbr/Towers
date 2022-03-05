@@ -1,31 +1,29 @@
+import { Tile } from '../Tiles/tile';
 import { BaseTower } from './baseTower';
 import { PlainTower } from './plainTower';
-import { GameScene } from '../Scenes/gameScene';
-import { Tile } from '../Tiles/tile';
 
 export class TowerManager {
-  public towers: BaseTower[] = [];  
-  private gameScene: GameScene;
-  private towerImage: HTMLImageElement;    
+    public towers: BaseTower[] = [];
 
-  constructor(gameScene: GameScene) {
-    this.gameScene = gameScene;    
-    this.towerImage = this.gameScene.game.assetManager.getImage('towerplain');    
-  }
+    private towerImage: HTMLImageElement;
 
-  public update(delta: number): void {
-    this.towers.forEach(tower => {
-      tower.update(delta);
-    })
-  }
+    constructor() {
+        this.towerImage = window.assetManager.getImage('towerplain');
+    }
 
-  public draw(): void {
-    this.towers.forEach(tower => {
-      tower.draw();
-    })
-  }
+    public update(): void {
+        this.towers.forEach(tower => {
+            tower.update();
+        });
+    }
 
-  public createTower(destinationTile: Tile): void {    
-    this.towers.push(new PlainTower(this.gameScene, destinationTile, this.towerImage));
-  }
+    public draw(): void {
+        this.towers.forEach(tower => {
+            tower.draw();
+        });
+    }
+
+    public createTower(destinationTile: Tile): void {
+        this.towers.push(new PlainTower(destinationTile, this.towerImage));
+    }
 }

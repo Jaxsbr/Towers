@@ -1,36 +1,43 @@
-import { SceneInterface } from "./scene.interface";
-import { Game } from "../game";
-import { LoadScene } from "../Scenes/loadScene";
-import { GameScene } from "../Scenes/gameScene";
-import { RenderEngine } from "../renderEngine";
-import { Scenes } from "./scenes.enum";
+import { GameScene } from './gameScene';
+import { LoadScene } from './loadScene';
+import { SceneInterface } from './scene.interface';
+import { Scenes } from './scenes.enum';
 
 export class SceneManager {
-    game: Game;
+    private currentScene: SceneInterface;
 
     private loadScene: LoadScene;
-    private gameScene: GameScene;  
-    private renderEngine: RenderEngine;
 
-    constructor(game: Game, renderEngine: RenderEngine) {
-        this.game = game;
-        this.renderEngine = renderEngine;
+    private gameScene: GameScene;
 
+    constructor() {
         // TODO:
         // Inject depependencies, no initialization
-        this.loadScene = new LoadScene(this.game, this, this.renderEngine);
-        this.gameScene = new GameScene(this.game, this, this.renderEngine);
+        this.loadScene = new LoadScene();
+        this.gameScene = new GameScene();
     }
 
-    public toggleActiveScene(newScene: Scenes): void {        
-        switch (+newScene) {
-            case Scenes.loading:
-            this.game.currentScene = this.loadScene;
-            break;
-            case Scenes.game:
-            this.game.currentScene = this.gameScene;
-            break;
-        }        
-        this.game.currentScene.init();
+    public toggleActiveScene(newScene: Scenes): void {
+        if (newScene === Scenes.loading) {
+            this.currentScene = this.loadScene;
+        }
+
+        if (newScene === Scenes.game) {
+            this.currentScene = this.gameScene;
+        }
+
+        this.currentScene.init();
+    }
+
+    public update(): void {
+        if (this.currentScene) {
+            this.currentScene.update();
+        }
+    }
+
+    public render(): void {
+        if (this.currentScene) {
+            this.currentScene.render();
+        }
     }
 }

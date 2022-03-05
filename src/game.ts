@@ -1,78 +1,56 @@
-import { GameTime } from "./DataObjects/gameTime";
-import { Rectangle } from "./DataObjects/rectangle";
-import { RenderEngine } from "./renderEngine";
-import { AssetManager } from "./AssetLoading/assetManager";
-import { SceneManager } from "./Scenes/sceneManager";
-import { LoadScene } from "./Scenes/loadScene";
-import { GameScene } from "./Scenes/gameScene";
-import { SceneInterface } from "./Scenes/scene.interface";
-import { Scenes } from "./Scenes/scenes.enum";
+import { AssetManager } from './AssetLoading/assetManager';
+import { GameTime } from './DataObjects/gameTime';
+import { RenderEngine } from './renderEngine';
+import { SceneInterface } from './Scenes/scene.interface';
+import { SceneManager } from './Scenes/sceneManager';
+import { Scenes } from './Scenes/scenes.enum';
 
-export class Game {  
-  public assetManager: AssetManager;
-  public currentScene: SceneInterface;    
-  public screenBounds: Rectangle;
+export class Game {
+    public assetManager: AssetManager;
 
-  private running: boolean;
-  private gameTime: GameTime;
-  private renderEngine: RenderEngine;
-  private sceneManager: SceneManager;
+    public currentScene: SceneInterface;
 
-  constructor() {     
-    this.gameTime = new GameTime();
-    this.renderEngine = new RenderEngine();    
-    this.assetManager = new AssetManager();
-    this.assetManager.init();
-    this.initSceneManager();
+    private running: boolean;
 
-    window.addEventListener('mousemove', (e) => { this.mouseMove(e); } );
-    window.addEventListener('mousedown', () => { this.mouseDown(); } );
-    window.addEventListener('mouseup', () => { this.mouseUp(); } );
-  }
+    constructor() {
+        window.renderEngine = new RenderEngine();
+        window.assetManager = new AssetManager();
+        window.assetManager.init();
+        window.sceneManager = new SceneManager();
+        window.sceneManager.toggleActiveScene(Scenes.loading);
+        window.gameTime = new GameTime();
 
-  public start(): void {
-    if (this.running) { return; }
-
-    this.running = true;
-    this.loop();
-  }
-
-  private initSceneManager(): void {
-    this.sceneManager = new SceneManager(this, this.renderEngine);    
-    this.sceneManager.toggleActiveScene(Scenes.loading);
-  }
-
-  private loop(): void {
-    this.gameTime.update();
-
-    if (this.currentScene) {
-      this.currentScene.update(this.gameTime.delta);
-      this.currentScene.render();
+        window.addEventListener('mousemove', e => {
+            Game.mouseMove(e);
+        });
     }
 
-    requestAnimationFrame(() => this.loop());
-    //setInterval(this.loop.bind(this), 1);
-  }  
+    public start(): void {
+        if (this.running) {
+            return;
+        }
 
-  private mouseMove(event: any): void {
-    this.currentScene.mouseInfo = {x: event.x, y: event.y};
-    this.currentScene.mouseMove(event.x, event.y);
-  }
+        this.running = true;
+        this.loop();
+    }
 
-  private mouseDown(): void {
-    //console.log('mousedown');
-    this.currentScene.mouseDown();
-  }
+    private loop(): void {
+        window.gameTime.update();
 
-  private mouseUp(): void {
-    //console.log('mouseup');
-    this.currentScene.mouseUp();
-  }  
+        if (window.sceneManager) {
+            window.sceneManager.update();
+            window.sceneManager.render();
+        }
+
+        requestAnimationFrame(() => this.loop());
+    }
+
+    static mouseMove(event: any): void {
+        window.mouseInfo = { x: event.x, y: event.y };
+    }
 }
 
-window.addEventListener('load', () => {               
-  const game = new Game();
-  game.start();
+window.addEventListener('load', () => {
+    const game = new Game();
+    game.start();
 });
-
-

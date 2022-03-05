@@ -1,95 +1,82 @@
-import { ImageAsset } from "./imageAsset";
-import { MapAsset } from "./mapAsset";
 import { Level } from '../Levels/level';
+import { ImageAsset } from './imageAsset';
 
 export class AssetManager {
     images: ImageAsset[] = [];
-    maps: MapAsset[] = [];
+
     levelInfo: Level[] = [];
+
+    levelInfoLoaded: boolean;
+
     totalAssets: number;
-    loadedAssets: number;
+
+    public loadedAssetCount: number;
+
     public loadCompleted: boolean;
 
     init(): void {
+        this.levelInfoLoaded = false;
         this.loadCompleted = false;
         this.totalAssets = 0;
-        this.loadedAssets = 0;
         this.initAssets();
     }
 
-    initAssets() {
-        let imageAssets: string;
-        let mapAssets: string;
-        let request = new XMLHttpRequest();
-
-        request.onload = event => {
+    initAssets(): void {
+        const request = new XMLHttpRequest();
+        request.onload = (): void => {
             if (request.status === 200) {
-                let data = JSON.parse(request.responseText);
+                const data = JSON.parse(request.responseText);
                 this.totalAssets = data.assetCount;
-                imageAssets = data.imageAssets;
-                mapAssets = data.mapAssets;
-                
-                this.initImages(imageAssets);
+                this.initImages(data.imageAssets);
                 this.initLevelInfo(data.levelInfoFile);
             }
-        }
+        };
         request.open('get', './assets/assetManifest.json', true);
         request.send();
     }
 
-    initImages(imageAssets: any) {  
+    initImages(imageAssets: any): void {
         imageAssets.forEach(asset => {
-            let image = new ImageAsset(this, asset.key, asset.src);
+            const image = new ImageAsset(asset.key, asset.src);
             this.images.push(image);
-        });        
+        });
 
         this.images.forEach(img => {
             img.init();
         });
     }
 
-    initMaps(mapAssets: any) {
-        mapAssets.forEach(asset => {
-            let map = new MapAsset(this, asset.key, asset.src);
-            this.maps.push(map);
-        });      
-
-        this.maps.forEach(map => {
-             map.init();
-        });
-    }
-
     initLevelInfo(levelInfoFile: string): void {
-      if (!levelInfoFile) {
-        console.error("no level info file provided");
-        return;
-      }
+        if (!levelInfoFile) {
+            console.error('no level info file provided');
+            return;
+        }
 
-      let request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
 
-      request.onload = event => {
-          if (request.status === 200) {
-            let data = JSON.parse(request.responseText);            
-            this.levelInfo = data;
-            this.loadedAssets++;
-          }
-      }
-      request.open('get', levelInfoFile, true);
-      request.send();
+        request.onload = (): void => {
+            if (request.status === 200) {
+                const data = JSON.parse(request.responseText);
+                this.levelInfo = data;
+                this.levelInfoLoaded = true;
+            }
+        };
+        request.open('get', levelInfoFile, true);
+        request.send();
     }
 
-    update() {
-        if (this.totalAssets !== 0 && this.totalAssets === this.loadedAssets) {
+    update(): void {
+        this.loadedAssetCount = this.images.filter(x => x.loaded).length;
+        this.loadedAssetCount = this.levelInfoLoaded
+            ? (this.loadedAssetCount += 1)
+            : this.loadedAssetCount;
+
+        if (this.totalAssets !== 0 && this.totalAssets === this.loadedAssetCount) {
             this.loadCompleted = true;
         }
     }
 
     getImage(key: string): HTMLImageElement {
-        let image;
-        for (let img of this.images) {
-            if (img.key === key) {
-                return img.image;
-            }
-        }
+        return this.images.filter(x => x.key === key).at(0).image;
     }
 }

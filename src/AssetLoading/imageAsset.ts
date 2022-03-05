@@ -1,23 +1,23 @@
-import { AssetInterface } from "./asset.interface";
-import { AssetManager } from "./assetManager";
+export class ImageAsset {
+    public loaded: boolean;
 
-export class ImageAsset implements AssetInterface {
-    assetManager: AssetManager;
     public image: HTMLImageElement;
+
     public key: string;
+
     src: string;
 
-    constructor(assetManager: AssetManager, key: string, src: string) {
-        this.assetManager = assetManager;
+    constructor(key: string, src: string) {
+        this.loaded = false;
         this.key = key;
         this.src = src;
     }
 
-    init() {
+    init(): void {
         this.image = new Image();
-        this.image.onload = () => {
-            this.assetManager.loadedAssets++;
-        }
+        this.image.onload = (): void => {
+            this.loaded = true;
+        };
         this.image.src = this.src;
     }
 }

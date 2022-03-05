@@ -1,10 +1,11 @@
 export class GameTime {
-    public delta: number = 0;
+    public delta = 0;
+
     private previousLoopTime: number = Date.now();
 
-    public update() {
+    public update(): void {
         const currentTime = Date.now();
-        let delta = currentTime - this.previousLoopTime;
+        const delta = currentTime - this.previousLoopTime;
         this.delta = delta / 1000;
         this.previousLoopTime = currentTime;
     }

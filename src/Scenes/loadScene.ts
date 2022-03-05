@@ -1,50 +1,36 @@
-import { SceneInterface } from "./scene.interface";
-import { Game } from "../game";
-import { SceneManager } from "./sceneManager";
-import { RenderEngine } from "../renderEngine";
-import { AssetManager } from "../AssetLoading/assetManager";
-import { Rectangle } from "../DataObjects/rectangle";
-import { Scenes } from "./scenes.enum";
-import { MouseInfo } from "../Types/MouseInfo";
+import { Rectangle } from '../DataObjects/rectangle';
+import { SceneInterface } from './scene.interface';
+import { Scenes } from './scenes.enum';
 
 export class LoadScene implements SceneInterface {
-    game: Game;
-    sceneManager: SceneManager;
-    renderEngine: RenderEngine;
-    mouseInfo: MouseInfo;
-    
-    constructor(game: Game, sceneManager: SceneManager, renderEngine: RenderEngine) {
-        this.game = game;
-        this.sceneManager = sceneManager;
-        this.renderEngine = renderEngine;
+    private loadScreenRect: Rectangle;
+
+    private loadingText: string;
+
+    constructor() {
+        this.loadScreenRect = new Rectangle(0, 0, 800, 480);
     }
 
-    init(): void {
-    }
+    init(): void {}
 
-    update(delta: number): void {
-        this.game.assetManager.update();
-        if (this.game.assetManager.loadCompleted) {
-            // TODO: 
-            // Implement an global enum for scenes.
-            // Make game and load scene private in Game class.
-            this.sceneManager.toggleActiveScene(Scenes.game)
+    update(): void {
+        this.loadingText = `${window.assetManager.loadedAssetCount}/${window.assetManager.totalAssets}`;
+        window.assetManager.update();
+        if (window.assetManager.loadCompleted) {
+            window.sceneManager.toggleActiveScene(Scenes.game);
         }
     }
 
     render(): void {
-        this.renderEngine.renderRect(new Rectangle(0, 0, 800, 480), 'black', true);
+        window.renderEngine.renderText(this.loadingText, 0, 0, 'blue', 30, 'impact');
+        window.renderEngine.renderRect(this.loadScreenRect, 'black', true);
     }
 
-    mouseDown(): void {
-    }
+    mouseDown(): void {}
 
-    mouseUp(): void {
-    }
+    mouseUp(): void {}
 
-    mouseMove(x: number, y: number): void {
-    }
-    
-    resize(): void {
-    }    
+    mouseMove(x: number, y: number): void {}
+
+    resize(): void {}
 }

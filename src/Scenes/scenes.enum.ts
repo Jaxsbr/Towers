@@ -1,4 +1,4 @@
 export enum Scenes {
     loading,
-    game,
+    game
 }

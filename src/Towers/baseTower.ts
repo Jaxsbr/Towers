@@ -1,39 +1,44 @@
-import { Tile } from "../Tiles/tile";
-import { GameScene } from "../Scenes/gameScene";
-import { Vector2 } from "../DataObjects/vector2";
-import { Enemy } from "../Enemies/enemy";
 import { Rectangle } from '../DataObjects/rectangle';
+import { Vector2 } from '../DataObjects/vector2';
+import { Enemy } from '../Enemies/enemy';
+import { Tile } from '../Tiles/tile';
 
 export abstract class BaseTower {
-    public shootRange: number = 20000;
+    public shootRange = 20000;
+
     public targetInRange: boolean;
+
     public targetDirection: Vector2;
-    public destinationTile: Tile;  
-    public gameScene: GameScene;      
-    public target: Enemy;            
+
+    public destinationTile: Tile;
+
+    public target: Enemy;
+
     public center: Vector2;
-    private rotation: number;    
+
+    private rotation: number;
+
     private towerImage: HTMLImageElement;
+
     private selected: boolean;
 
-    constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
-        this.gameScene = gameScene;
+    constructor(destinationTile: Tile, towerImage: HTMLImageElement) {
         this.destinationTile = destinationTile;
         this.towerImage = towerImage;
 
         this.center = new Vector2(0, 0);
     }
 
-    public update(delta: number): void {        
+    public update(): void {
         this.center.x = this.destinationTile.bounds.getCenterWidth;
         this.center.y = this.destinationTile.bounds.getCenterHeight;
         this.destinationTile.bounds.update();
 
         this.updateTarget();
         this.updateTargetInRange();
-        this.updateRotation();        
+        this.updateRotation();
 
-        //console.log('targetInRange: ' + this.targetInRange);
+        // console.log('targetInRange: ' + this.targetInRange);
     }
 
     public draw(): void {
@@ -42,13 +47,14 @@ export abstract class BaseTower {
         // TODO:
         // Implement animation class and call draw
         // Animation class to handle source rect updates.
-        var sourceRectangle = new Rectangle(0, 0, 32, 32);
+        const sourceRectangle = new Rectangle(0, 0, 32, 32);
 
-        this.gameScene.renderEngine.renderRotatedImageSource(
+        window.renderEngine.renderRotatedImageSource(
             this.towerImage,
             sourceRectangle,
             this.destinationTile.bounds,
-            this.rotation);
+            this.rotation
+        );
 
         this.drawSelection();
     }
@@ -58,27 +64,33 @@ export abstract class BaseTower {
     }
 
     private drawRange(): void {
-        // this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.8, this.shootRange, true);
-        this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.5, this.shootRange, false);
+        window.renderEngine.renderEllipse(
+            this.center.x,
+            this.center.y,
+            'red',
+            0.5,
+            this.shootRange,
+            false
+        );
     }
 
     private drawSelection(): void {
         // TODO:
-        // Draw any overlay selection effects 
+        // Draw any overlay selection effects
     }
 
     private updateTargetInRange(): void {
-        if (this.target != null && this.target.active) {            
-          this.targetDirection = this.center.subtract(this.target.center);
-          //console.log('target direction  y: ' + this.targetDirection.x + ' y: ' + this.targetDirection.y);
-          let distance = this.targetDirection.magnitude();          
-          if (distance <= this.shootRange) {
-            //console.log('ranged');            
-            this.targetInRange = true;
-            return;
-          }      
+        if (this.target != null && this.target.active) {
+            this.targetDirection = this.center.subtract(this.target.center);
+            // console.log('target direction  y: ' + this.targetDirection.x + ' y: ' + this.targetDirection.y);
+            const distance = this.targetDirection.magnitude();
+            if (distance <= this.shootRange) {
+                // console.log('ranged');
+                this.targetInRange = true;
+                return;
+            }
         }
-    
+
         this.targetInRange = false;
     }
 
@@ -86,41 +98,35 @@ export abstract class BaseTower {
         // Rotate the tower towards it's current target or
         // rotate to default position if no target exist or if target not in range.
         if (this.targetInRange) {
-            var xDistance = this.target.center.x - this.center.x;
-            var yDistance = this.target.center.y - this.center.y;
-            this.rotation = (Math.atan2(yDistance, xDistance) * (180 / Math.PI)) - 270;
-        } 
+            const xDistance = this.target.center.x - this.center.x;
+            const yDistance = this.target.center.y - this.center.y;
+            this.rotation = Math.atan2(yDistance, xDistance) * (180 / Math.PI) - 270;
+        }
         // else {
         //     if (this.rotation > 0) {
         //         this.rotation = this.rotation - 0.01;
         //     } else {
         //         this.rotation = -90;
         //     }
-        // }        
+        // }
         // this.rotation = this.rotation - 270;
     }
 
     private updateTarget(): void {
-        var distance = 0;
-        var closestDistance = 99999;
-        var closestEnemy: Enemy;
+        let distance = 0;
+        let closestDistance = 99999;
+        let closestEnemy: Enemy;
 
-        for (var e = 0; e < this.gameScene.enemySpawner.enemies.length; e++) {
-            var enemy = this.gameScene.enemySpawner.enemies[e];
+        for (let e = 0; e < window.enemySpawner.enemies.length; e += 1) {
+            const enemy = window.enemySpawner.enemies[e];
             distance = enemy.center.distance(this.center);
 
-            if (closestEnemy == null) {
-                closestDistance = distance;
-                closestEnemy = enemy;
-                continue;
-            }
-
-            if (distance < closestDistance) {
+            if (distance < closestDistance || closestEnemy == null) {
                 closestDistance = distance;
                 closestEnemy = enemy;
             }
-        };
+        }
 
         this.target = closestEnemy;
-    }    
+    }
 }
