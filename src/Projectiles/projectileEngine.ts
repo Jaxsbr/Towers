@@ -1,16 +1,12 @@
-import { GameScene, Projectile, Vector2 } from '../internal';
+import { Projectile, Vector2 } from '../internal';
 
 export class ProjectileEngine {
-    private gameScene: GameScene;
-
     public projectiles: Projectile[] = [];
 
     private projectileImage: HTMLImageElement;
 
-    constructor(gameScene: GameScene) {
-        this.gameScene = gameScene;
-
-        this.projectileImage = this.gameScene.game.assetManager.getImage('projectile');
+    constructor() {
+        this.projectileImage = window.assetManager.getImage('projectile');
     }
 
     public update(delta: number): void {
@@ -46,7 +42,7 @@ export class ProjectileEngine {
         direction: Vector2,
         moveSpeed: number
     ): Projectile {
-        const projectile = new Projectile(this.gameScene, this.projectileImage);
+        const projectile = new Projectile(this.projectileImage);
         this.projectiles.push(projectile);
         // console.log('grow pool size: ' + this.projectiles.length);
         this.activateProjectile(startPosition, direction, moveSpeed);

@@ -1,4 +1,4 @@
-import { GameScene, Rectangle, Vector2 } from '../internal';
+import { Rectangle, Vector2 } from '../internal';
 
 export class Enemy {
     public position: Vector2;
@@ -10,8 +10,6 @@ export class Enemy {
     public center: Vector2;
 
     public bounds: Rectangle;
-
-    private gameScene: GameScene;
 
     private enemyImage: HTMLImageElement;
 
@@ -45,14 +43,17 @@ export class Enemy {
 
     private topPadding = 10;
 
+    private hpRemainingBarColor = 'red';
+
+    private hpFullBarColor = 'green';
+
     private enemyName: string;
 
     private alive = false;
 
-    constructor(gameScene: GameScene, enemyImage: HTMLImageElement, movementWayPoints: any) {
-        this.gameScene = gameScene;
+    constructor(enemyImage: HTMLImageElement) {
         this.enemyImage = enemyImage;
-        this.originalWayPoints = movementWayPoints;
+        this.originalWayPoints = window.tileMap.wayPoints;
         this.reset(0, 0);
     }
 
@@ -92,8 +93,8 @@ export class Enemy {
 
         if (!this.nextMovePoint) {
             const firstWayPoint = this.movementWayPoints.shift();
-            var waypointBounds = this.gameScene.tileMap.tileMatrix[firstWayPoint.y][firstWayPoint.x]
-                .bounds;
+            const waypointBounds =
+                window.tileMap.tileMatrix[firstWayPoint.y][firstWayPoint.x].bounds;
             this.nextMovePoint = new Vector2(
                 waypointBounds.getCenterWidth,
                 waypointBounds.getCenterHeight
@@ -115,15 +116,17 @@ export class Enemy {
                 return;
             }
             const nextWayPoint = this.movementWayPoints.shift();
-            var waypointBounds = this.gameScene.tileMap.tileMatrix[nextWayPoint.y][nextWayPoint.x]
-                .bounds;
+            const waypointBounds = window.tileMap.tileMatrix[nextWayPoint.y][nextWayPoint.x].bounds;
             this.nextMovePoint.x = waypointBounds.getCenterWidth;
             this.nextMovePoint.y = waypointBounds.getCenterHeight;
             this.direction = this.center.subtract(this.nextMovePoint);
         }
 
         this.normalizedDirection = this.direction.normalize();
-        if (!isNaN(this.normalizedDirection.x) && !isNaN(this.normalizedDirection.y)) {
+        if (
+            !Number.isNaN(this.normalizedDirection.x) &&
+            !Number.isNaN(this.normalizedDirection.y)
+        ) {
             this.velocity.x = this.normalizedDirection.x * (this.moveSpeed * delta);
             this.velocity.y = this.normalizedDirection.y * (this.moveSpeed * delta);
             this.setMoveDirection();
@@ -181,21 +184,22 @@ export class Enemy {
         // Animation class to handle source rect updates.
         const sourceRectangle = new Rectangle(0, 0, 68, 80);
 
-        this.gameScene.renderEngine.renderImageSource(
-            this.enemyImage,
-            sourceRectangle,
-            this.bounds
-        );
+        window.renderEngine.renderImageSource(this.enemyImage, sourceRectangle, this.bounds);
 
         // TODO:
         // Introduce damage percentage bar
-        this.drawHPBar('red', this.liveBounds);
-        this.drawHPBar('green', this.hpBounds);
+        this.drawRemainingHPBar();
+        this.drawFullHPBar();
     }
 
-    private drawHPBar(color: string, bounds: Rectangle): void {
+    private drawRemainingHPBar(): void {
         // debugger;
-        this.gameScene.renderEngine.renderRect(bounds, color, true);
+        window.renderEngine.renderRect(this.liveBounds, this.hpRemainingBarColor, true);
+    }
+
+    private drawFullHPBar(): void {
+        // debugger;
+        window.renderEngine.renderRect(this.hpBounds, this.hpFullBarColor, true);
     }
 
     private setMoveDirection(): void {
@@ -238,7 +242,7 @@ export class Enemy {
 
     public hit(): void {
         if (this.active) {
-            this.hp--;
+            this.hp -= 1;
             // console.log(this.enemyName + ': hit ' + this.hp);
 
             if (this.hp <= 0) {

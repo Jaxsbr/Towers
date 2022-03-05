@@ -1,4 +1,4 @@
-import { Enemy, GameScene, Rectangle, Tile, Vector2 } from '../internal';
+import { Enemy, Rectangle, Tile, Vector2 } from '../internal';
 
 export abstract class BaseTower {
     public shootRange = 20000;
@@ -8,8 +8,6 @@ export abstract class BaseTower {
     public targetDirection: Vector2;
 
     public destinationTile: Tile;
-
-    public gameScene: GameScene;
 
     public target: Enemy;
 
@@ -21,15 +19,14 @@ export abstract class BaseTower {
 
     private selected: boolean;
 
-    constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
-        this.gameScene = gameScene;
+    constructor(destinationTile: Tile, towerImage: HTMLImageElement) {
         this.destinationTile = destinationTile;
         this.towerImage = towerImage;
 
         this.center = new Vector2(0, 0);
     }
 
-    public update(delta: number): void {
+    public update(): void {
         this.center.x = this.destinationTile.bounds.getCenterWidth;
         this.center.y = this.destinationTile.bounds.getCenterHeight;
         this.destinationTile.bounds.update();
@@ -49,7 +46,7 @@ export abstract class BaseTower {
         // Animation class to handle source rect updates.
         const sourceRectangle = new Rectangle(0, 0, 32, 32);
 
-        this.gameScene.renderEngine.renderRotatedImageSource(
+        window.renderEngine.renderRotatedImageSource(
             this.towerImage,
             sourceRectangle,
             this.destinationTile.bounds,
@@ -64,8 +61,7 @@ export abstract class BaseTower {
     }
 
     private drawRange(): void {
-        // this.gameScene.renderEngine.renderEllipse(this.center.x, this.center.y, "red", 0.8, this.shootRange, true);
-        this.gameScene.renderEngine.renderEllipse(
+        window.renderEngine.renderEllipse(
             this.center.x,
             this.center.y,
             'red',
@@ -118,17 +114,11 @@ export abstract class BaseTower {
         let closestDistance = 99999;
         let closestEnemy: Enemy;
 
-        for (let e = 0; e < this.gameScene.enemySpawner.enemies.length; e++) {
-            const enemy = this.gameScene.enemySpawner.enemies[e];
+        for (let e = 0; e < window.enemySpawner.enemies.length; e += 1) {
+            const enemy = window.enemySpawner.enemies[e];
             distance = enemy.center.distance(this.center);
 
-            if (closestEnemy == null) {
-                closestDistance = distance;
-                closestEnemy = enemy;
-                continue;
-            }
-
-            if (distance < closestDistance) {
+            if (distance < closestDistance || closestEnemy == null) {
                 closestDistance = distance;
                 closestEnemy = enemy;
             }

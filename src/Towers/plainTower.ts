@@ -1,4 +1,4 @@
-import { BaseTower, GameScene, Tile, Vector2 } from '../internal';
+import { BaseTower, Tile } from '../internal';
 
 export class PlainTower extends BaseTower {
     private plainTowerShootSpeed = 250;
@@ -7,19 +7,19 @@ export class PlainTower extends BaseTower {
 
     private shootElapsed = 0;
 
-    constructor(gameScene: GameScene, destinationTile: Tile, towerImage: HTMLImageElement) {
-        super(gameScene, destinationTile, towerImage);
-        this.gameScene = gameScene;
+    constructor(destinationTile: Tile, towerImage: HTMLImageElement) {
+        super(destinationTile, towerImage);
         super.shootRange = 128;
     }
 
-    public update(delta: number): void {
-        super.update(delta);
+    public update(): void {
+        super.update();
 
-        this.updateShoot(delta);
+        this.updateShoot();
     }
 
-    private updateShoot(delta: number): void {
+    private updateShoot(): void {
+        const { delta } = window.gameTime;
         this.shootElapsed += delta;
         if (this.targetInRange && this.shootElapsed >= this.plainTowerShootRate) {
             this.shootElapsed = 0;
@@ -29,7 +29,7 @@ export class PlainTower extends BaseTower {
             const direction = this.target.center.subtract(this.center);
             const normalizedDirection = direction.normalize();
 
-            this.gameScene.projectileEngine.activateProjectile(
+            window.projectileEngine.activateProjectile(
                 this.center,
                 normalizedDirection,
                 this.plainTowerShootSpeed

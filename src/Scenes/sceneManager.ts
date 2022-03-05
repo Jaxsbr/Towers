@@ -1,33 +1,40 @@
-import { Game, GameScene, LoadScene, RenderEngine, SceneInterface, Scenes } from '../internal';
+import { GameScene, LoadScene, Scenes, SceneInterface } from '../internal';
 
 export class SceneManager {
-    game: Game;
+    private currentScene: SceneInterface;
 
     private loadScene: LoadScene;
 
     private gameScene: GameScene;
 
-    private renderEngine: RenderEngine;
-
-    constructor(game: Game, renderEngine: RenderEngine) {
-        this.game = game;
-        this.renderEngine = renderEngine;
-
+    constructor() {
         // TODO:
         // Inject depependencies, no initialization
-        this.loadScene = new LoadScene(this.game, this, this.renderEngine);
-        this.gameScene = new GameScene(this.game, this, this.renderEngine);
+        this.loadScene = new LoadScene();
+        this.gameScene = new GameScene();
     }
 
     public toggleActiveScene(newScene: Scenes): void {
-        switch (+newScene) {
-            case Scenes.loading:
-                this.game.currentScene = this.loadScene;
-                break;
-            case Scenes.game:
-                this.game.currentScene = this.gameScene;
-                break;
+        if (newScene === Scenes.loading) {
+            this.currentScene = this.loadScene;
         }
-        this.game.currentScene.init();
+
+        if (newScene === Scenes.game) {
+            this.currentScene = this.gameScene;
+        }
+
+        this.currentScene.init();
+    }
+
+    public update(): void {
+        if (this.currentScene) {
+            this.currentScene.update();
+        }
+    }
+
+    public render(): void {
+        if (this.currentScene) {
+            this.currentScene.render();
+        }
     }
 }

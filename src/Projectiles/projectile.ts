@@ -29,10 +29,9 @@ export class Projectile {
 
     private imageSourceRect: Rectangle;
 
-    constructor(gameScene: GameScene, projectileImage: HTMLImageElement) {
-        this.gameScene = gameScene;
+    constructor(projectileImage: HTMLImageElement) {
         this.projectileImage = projectileImage;
-        this.worldBounds = this.gameScene.game.screenBounds;
+        this.worldBounds = window.tileMap.bounds;
 
         this.bounds = new Rectangle(0, 0, 24, 24);
         this.velocity = new Vector2(0, 0);
@@ -72,7 +71,7 @@ export class Projectile {
             return;
         }
 
-        this.gameScene.renderEngine.renderImageSource(
+        window.renderEngine.renderImageSource(
             this.projectileImage,
             this.imageSourceRect,
             this.bounds

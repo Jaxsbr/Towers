@@ -1,38 +1,32 @@
-import { ImageAsset, Level, MapAsset } from '../internal';
+import { ImageAsset, Level } from '../internal';
 
 export class AssetManager {
     images: ImageAsset[] = [];
 
-    maps: MapAsset[] = [];
-
     levelInfo: Level[] = [];
+
+    levelInfoLoaded: boolean;
 
     totalAssets: number;
 
-    loadedAssets: number;
+    public loadedAssetCount: number;
 
     public loadCompleted: boolean;
 
     init(): void {
+        this.levelInfoLoaded = false;
         this.loadCompleted = false;
         this.totalAssets = 0;
-        this.loadedAssets = 0;
         this.initAssets();
     }
 
-    initAssets() {
-        let imageAssets: string;
-        let mapAssets: string;
+    initAssets(): void {
         const request = new XMLHttpRequest();
-
         request.onload = event => {
             if (request.status === 200) {
                 const data = JSON.parse(request.responseText);
                 this.totalAssets = data.assetCount;
-                imageAssets = data.imageAssets;
-                mapAssets = data.mapAssets;
-
-                this.initImages(imageAssets);
+                this.initImages(data.imageAssets);
                 this.initLevelInfo(data.levelInfoFile);
             }
         };
@@ -40,25 +34,14 @@ export class AssetManager {
         request.send();
     }
 
-    initImages(imageAssets: any) {
+    initImages(imageAssets: any): void {
         imageAssets.forEach(asset => {
-            const image = new ImageAsset(this, asset.key, asset.src);
+            const image = new ImageAsset(asset.key, asset.src);
             this.images.push(image);
         });
 
         this.images.forEach(img => {
             img.init();
-        });
-    }
-
-    initMaps(mapAssets: any) {
-        mapAssets.forEach(asset => {
-            const map = new MapAsset(this, asset.key, asset.src);
-            this.maps.push(map);
-        });
-
-        this.maps.forEach(map => {
-            map.init();
         });
     }
 
@@ -74,25 +57,23 @@ export class AssetManager {
             if (request.status === 200) {
                 const data = JSON.parse(request.responseText);
                 this.levelInfo = data;
-                this.loadedAssets++;
+                this.levelInfoLoaded = true;
             }
         };
         request.open('get', levelInfoFile, true);
         request.send();
     }
 
-    update() {
-        if (this.totalAssets !== 0 && this.totalAssets === this.loadedAssets) {
+    update(): void {
+        this.loadedAssetCount = this.images.filter(x => x.loaded).length;
+        this.loadedAssetCount = this.levelInfoLoaded ? (this.loadedAssetCount += 1) : this.loadedAssetCount;
+
+        if (this.totalAssets !== 0 && this.totalAssets === this.loadedAssetCount) {
             this.loadCompleted = true;
         }
     }
 
     getImage(key: string): HTMLImageElement {
-        let image;
-        for (const img of this.images) {
-            if (img.key === key) {
-                return img.image;
-            }
-        }
+        return this.images.filter(x => x.key === key).at(0).image;
     }
 }

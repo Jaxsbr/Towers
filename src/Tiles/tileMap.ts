@@ -15,16 +15,13 @@ export class TileMap {
 
     public bounds: Rectangle;
 
-    private gameScene: GameScene;
-
     private tileImage: HTMLImageElement;
 
     private waterTileImageObject: ImageObject;
 
     private pathTileImageObject: ImageObject;
 
-    constructor(gameScene: GameScene, tileImage: HTMLImageElement) {
-        this.gameScene = gameScene;
+    constructor(tileImage: HTMLImageElement) {
         this.tileImage = tileImage;
 
         this.initTileMatrix();
@@ -98,7 +95,7 @@ export class TileMap {
                     this.tileHeight
                 );
                 // console.log('col:' + col + ' row:' + row)
-                this.tileMatrix[row][col] = new Tile(this.gameScene, tileBounds, tileImageObject);
+                this.tileMatrix[row][col] = new Tile(tileBounds, tileImageObject);
             }
         }
     }

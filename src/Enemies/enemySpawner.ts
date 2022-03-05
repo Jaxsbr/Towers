@@ -1,9 +1,7 @@
-import { Enemy, GameScene } from '../internal';
+import { Enemy } from '../internal';
 
 export class EnemySpawner {
     public enemies: Enemy[] = [];
-
-    private gameScene: GameScene;
 
     private enemyImage: HTMLImageElement;
 
@@ -19,16 +17,15 @@ export class EnemySpawner {
 
     private enemiesEscaped = 0;
 
-    constructor(gameScene: GameScene) {
-        this.gameScene = gameScene;
-        this.enemyImage = this.gameScene.game.assetManager.getImage('squid');
+    constructor() {
+        this.enemyImage = window.assetManager.getImage('squid');
         this.setCurrentLevel();
 
         window.addEventListener('enemyKilled', () => {
-            this.enemiesKilled++;
+            this.enemiesKilled += 1;
         });
         window.addEventListener('enemyReachedEnd', () => {
-            this.enemiesEscaped++;
+            this.enemiesEscaped += 1;
         });
     }
 
@@ -49,19 +46,19 @@ export class EnemySpawner {
         if (this.enemySpawnElapsed >= this.enemySpawnRate) {
             this.enemySpawnElapsed = 0;
             this.createEnemy();
-            this.enemySpawnCount++;
+            this.enemySpawnCount += 1;
         }
     }
 
     private updateRoundCheck(): void {
         if (
-            this.enemiesEscaped + this.enemiesKilled ==
-            this.gameScene.levelManager.currentLevel.enemySpawnCountMax
+            this.enemiesEscaped + this.enemiesKilled ===
+            window.levelManager.currentLevel.enemySpawnCountMax
         ) {
             this.enemiesKilled = 0;
             this.enemiesEscaped = 0;
             this.enemySpawnCount = 0;
-            this.gameScene.levelManager.nextLevel();
+            window.levelManager.nextLevel();
             this.setCurrentLevel();
         }
     }
@@ -79,17 +76,17 @@ export class EnemySpawner {
         // console.clear();
         // console.log("enemy in array count: " + this.enemies.length);
 
-        const enemy = new Enemy(this.gameScene, this.enemyImage, this.gameScene.tileMap.wayPoints);
+        const enemy = new Enemy(this.enemyImage);
         enemy.reset(
-            this.gameScene.levelManager.currentLevel.enemyMoveSpeed,
-            this.gameScene.levelManager.currentLevel.enemyMaxHp
+            window.levelManager.currentLevel.enemyMoveSpeed,
+            window.levelManager.currentLevel.enemyMaxHp
         );
         enemy.active = true;
         this.enemies.push(enemy);
     }
 
     private setCurrentLevel(): void {
-        this.enemySpawnCountMax = this.gameScene.levelManager.currentLevel.enemySpawnCountMax;
-        this.enemySpawnRate = this.gameScene.levelManager.currentLevel.enemySpawnRate;
+        this.enemySpawnCountMax = window.levelManager.currentLevel.enemySpawnCountMax;
+        this.enemySpawnRate = window.levelManager.currentLevel.enemySpawnRate;
     }
 }
