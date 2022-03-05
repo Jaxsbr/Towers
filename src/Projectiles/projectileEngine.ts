@@ -1,4 +1,5 @@
-import { Projectile, Vector2 } from '../internal';
+import { Vector2 } from '../DataObjects/vector2';
+import { Projectile } from './projectile';
 
 export class ProjectileEngine {
     public projectiles: Projectile[] = [];
@@ -23,7 +24,7 @@ export class ProjectileEngine {
 
     public activateProjectile(startPosition: Vector2, direction: Vector2, moveSpeed: number): void {
         let poolSufficient = false;
-        for (let i = 0; i < this.projectiles.length; i++) {
+        for (let i = 0; i < this.projectiles.length; i += 1) {
             if (!this.projectiles[i].active) {
                 this.projectiles[i].reset(startPosition, direction, moveSpeed);
                 poolSufficient = true;

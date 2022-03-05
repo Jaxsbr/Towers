@@ -1,4 +1,5 @@
-import { ImageObject, Rectangle } from '../internal';
+import { ImageObject } from '../DataObjects/imageObject';
+import { Rectangle } from '../DataObjects/rectangle';
 
 export class Tile {
     public bounds: Rectangle;

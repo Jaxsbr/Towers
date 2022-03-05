@@ -1,13 +1,11 @@
-import {
-    EnemySpawner,
-    LevelManager,
-    Menu,
-    ProjectileEngine,
-    Rectangle,
-    SceneInterface,
-    TileMap,
-    TowerManager
-} from '../internal';
+import { Rectangle } from '../DataObjects/rectangle';
+import { EnemySpawner } from '../Enemies/enemySpawner';
+import { LevelManager } from '../Levels/levelManager';
+import { Menu } from '../Menu/menu';
+import { ProjectileEngine } from '../Projectiles/projectileEngine';
+import { TileMap } from '../Tiles/tileMap';
+import { TowerManager } from '../Towers/towerManager';
+import { SceneInterface } from './scene.interface';
 
 export class GameScene implements SceneInterface {
     backgroundImage: HTMLImageElement;

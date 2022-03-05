@@ -1,4 +1,6 @@
-import { Rectangle, SceneInterface, Scenes } from '../internal';
+import { Rectangle } from '../DataObjects/rectangle';
+import { SceneInterface } from './scene.interface';
+import { Scenes } from './scenes.enum';
 
 export class LoadScene implements SceneInterface {
     private loadScreenRect: Rectangle;

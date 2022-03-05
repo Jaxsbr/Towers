@@ -1,4 +1,5 @@
-import { BaseTower, Tile } from '../internal';
+import { Tile } from '../Tiles/tile';
+import { BaseTower } from './baseTower';
 
 export class PlainTower extends BaseTower {
     private plainTowerShootSpeed = 250;

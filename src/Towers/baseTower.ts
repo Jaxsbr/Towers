@@ -1,4 +1,7 @@
-import { Enemy, Rectangle, Tile, Vector2 } from '../internal';
+import { Rectangle } from '../DataObjects/rectangle';
+import { Vector2 } from '../DataObjects/vector2';
+import { Enemy } from '../Enemies/enemy';
+import { Tile } from '../Tiles/tile';
 
 export abstract class BaseTower {
     public shootRange = 20000;

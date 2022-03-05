@@ -1,4 +1,5 @@
-import { ImageAsset, Level } from '../internal';
+import { Level } from '../Levels/level';
+import { ImageAsset } from './imageAsset';
 
 export class AssetManager {
     images: ImageAsset[] = [];
@@ -22,7 +23,7 @@ export class AssetManager {
 
     initAssets(): void {
         const request = new XMLHttpRequest();
-        request.onload = event => {
+        request.onload = (): void => {
             if (request.status === 200) {
                 const data = JSON.parse(request.responseText);
                 this.totalAssets = data.assetCount;
@@ -53,7 +54,7 @@ export class AssetManager {
 
         const request = new XMLHttpRequest();
 
-        request.onload = event => {
+        request.onload = (): void => {
             if (request.status === 200) {
                 const data = JSON.parse(request.responseText);
                 this.levelInfo = data;
@@ -66,7 +67,9 @@ export class AssetManager {
 
     update(): void {
         this.loadedAssetCount = this.images.filter(x => x.loaded).length;
-        this.loadedAssetCount = this.levelInfoLoaded ? (this.loadedAssetCount += 1) : this.loadedAssetCount;
+        this.loadedAssetCount = this.levelInfoLoaded
+            ? (this.loadedAssetCount += 1)
+            : this.loadedAssetCount;
 
         if (this.totalAssets !== 0 && this.totalAssets === this.loadedAssetCount) {
             this.loadCompleted = true;

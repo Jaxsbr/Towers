@@ -1,8 +1,4 @@
-import { RenderEngine } from '../internal';
-
 export class Animation {
-    private renderEngine: RenderEngine;
-
     private image: HTMLImageElement;
 
     private frames: number[] = [];
@@ -26,7 +22,6 @@ export class Animation {
     private elapsed = 0;
 
     constructor(
-        renderEngine: RenderEngine,
         image: HTMLImageElement,
         frames: number[],
         frameWidth: number,
@@ -35,12 +30,11 @@ export class Animation {
         speed: number,
         loop: boolean
     ) {
-        this.renderEngine = renderEngine;
         this.image = image;
         this.frames = frames;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
-        this.frameIndex = this.frames[0];
+        this.frameIndex = this.frames.at(0);
         this.row = row;
         this.speed = speed;
         this.playing = false;
@@ -50,7 +44,7 @@ export class Animation {
 
     public play(): void {
         this.playing = true;
-        this.frameIndex = this.frames[0];
+        this.frameIndex = this.frames.at(0);
         this.elapsed = 0;
         this.playedOnce = false;
     }

@@ -1,4 +1,4 @@
-import { Level } from '../internal';
+import { Level } from './level';
 
 export class LevelManager {
     private levelInfo: Level[];
@@ -12,14 +12,14 @@ export class LevelManager {
 
     private loadLevel(): void {
         if (this.currentLevel == null) {
-            this.currentLevel = this.levelInfo[0];
+            this.currentLevel = this.levelInfo.at(0);
         }
     }
 
     public nextLevel(): void {
         const index = this.currentLevel.levelIndex + 1;
-        for (let l = 0; l < this.levelInfo.length; l++) {
-            if (this.levelInfo[l].levelIndex == index) {
+        for (let l = 0; l < this.levelInfo.length; l += 1) {
+            if (this.levelInfo[l].levelIndex === index) {
                 this.currentLevel = this.levelInfo[l];
                 return;
             }

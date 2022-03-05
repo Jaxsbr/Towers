@@ -1,4 +1,6 @@
-import { GameScene, ImageObject, Rectangle, Tile } from '../internal';
+import { ImageObject } from '../DataObjects/imageObject';
+import { Rectangle } from '../DataObjects/rectangle';
+import { Tile } from './tile';
 
 export class TileMap {
     public wayPoints: any = [];

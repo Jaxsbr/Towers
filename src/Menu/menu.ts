@@ -1,4 +1,4 @@
-import { ImageKeyPair } from '../internal';
+import { ImageKeyPair } from '../Types/imageKeyPair';
 
 export class Menu {
     public stagedTowerImageWidth = 48;

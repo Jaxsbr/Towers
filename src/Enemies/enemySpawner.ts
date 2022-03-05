@@ -1,4 +1,4 @@
-import { Enemy } from '../internal';
+import { Enemy } from './enemy';
 
 export class EnemySpawner {
     public enemies: Enemy[] = [];

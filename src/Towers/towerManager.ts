@@ -1,4 +1,6 @@
-import { BaseTower, PlainTower, Tile } from '../internal';
+import { Tile } from '../Tiles/tile';
+import { BaseTower } from './baseTower';
+import { PlainTower } from './plainTower';
 
 export class TowerManager {
     public towers: BaseTower[] = [];

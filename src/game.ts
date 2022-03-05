@@ -1,11 +1,9 @@
-import {
-    AssetManager,
-    GameTime,
-    RenderEngine,
-    SceneInterface,
-    SceneManager,
-    Scenes
-} from './internal';
+import { AssetManager } from './AssetLoading/assetManager';
+import { GameTime } from './DataObjects/gameTime';
+import { RenderEngine } from './renderEngine';
+import { SceneInterface } from './Scenes/scene.interface';
+import { SceneManager } from './Scenes/sceneManager';
+import { Scenes } from './Scenes/scenes.enum';
 
 export class Game {
     public assetManager: AssetManager;

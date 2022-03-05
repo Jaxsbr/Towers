@@ -1,4 +1,4 @@
-import { Rectangle } from './internal';
+import { Rectangle } from './DataObjects/rectangle';
 
 export class RenderEngine {
     private context: CanvasRenderingContext2D;
@@ -8,13 +8,13 @@ export class RenderEngine {
         this.context = gameCanvas.getContext('2d');
     }
 
-    public clearRect(rect: Rectangle) {
+    public clearRect(rect: Rectangle): void {
         if (rect) {
             this.context.clearRect(rect.left, rect.top, rect.width, rect.height);
         }
     }
 
-    public renderRect(rect: Rectangle, color: string, fill: boolean) {
+    public renderRect(rect: Rectangle, color: string, fill: boolean): void {
         const originalFillStyle = this.context.fillStyle;
         const originalStrokeStyle = this.context.strokeStyle;
 
@@ -38,13 +38,13 @@ export class RenderEngine {
         color: string,
         fontSize: number,
         fontFamily: string
-    ) {
+    ): void {
         this.context.fillStyle = color;
         this.context.font = `${fontSize}px ${fontFamily}`;
         this.context.fillText(text, x, y);
     }
 
-    public renderImageRect(image: HTMLImageElement, bounds: Rectangle) {
+    public renderImageRect(image: HTMLImageElement, bounds: Rectangle): void {
         this.renderImage(image, bounds.left, bounds.top, bounds.width, bounds.height);
     }
 
@@ -54,13 +54,17 @@ export class RenderEngine {
         y: number,
         width: number = null,
         height: number = null
-    ) {
+    ): void {
         const w = width == null ? image.width : width;
         const h = height == null ? image.height : height;
         this.context.drawImage(image, x, y, w, h);
     }
 
-    public renderImageSource(image: HTMLImageElement, sourceRect: Rectangle, destRect: Rectangle) {
+    public renderImageSource(
+        image: HTMLImageElement,
+        sourceRect: Rectangle,
+        destRect: Rectangle
+    ): void {
         if (
             sourceRect.left < 0 ||
             sourceRect.top < 0 ||
@@ -87,7 +91,7 @@ export class RenderEngine {
         sourceRect: Rectangle,
         destRect: Rectangle,
         rotation = 0
-    ) {
+    ): void {
         this.context.save();
         this.context.translate(destRect.getCenterWidth, destRect.getCenterHeight);
         this.context.rotate((rotation - 90) * (Math.PI / 180));

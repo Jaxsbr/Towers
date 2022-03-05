@@ -1,9 +1,8 @@
-import { GameScene, Rectangle, Vector2 } from '../internal';
+import { Rectangle } from '../DataObjects/rectangle';
+import { Vector2 } from '../DataObjects/vector2';
 
 export class Projectile {
     public active = false;
-
-    private gameScene: GameScene;
 
     private startPosition: Vector2;
 
@@ -76,8 +75,6 @@ export class Projectile {
             this.imageSourceRect,
             this.bounds
         );
-
-        // this.gameScene.renderEngine.renderRect(this.bounds, this.projectileColor, true);
     }
 
     public reset(startPosition: Vector2, direction: Vector2, moveSpeed: number): void {

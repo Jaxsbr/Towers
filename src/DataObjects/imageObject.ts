@@ -1,4 +1,4 @@
-import { Rectangle } from '../internal';
+import { Rectangle } from './rectangle';
 
 export class ImageObject {
     public image: HTMLImageElement;
@@ -19,23 +19,23 @@ export class ImageObject {
 
     public sheight: number;
 
-    private _sourceRectangle: Rectangle = null;
+    private sourceRect: Rectangle = null;
 
-    private _destinationRectangle: Rectangle = null;
+    private destinationRect: Rectangle = null;
 
     public get sourceRectangle(): Rectangle {
-        if (this._sourceRectangle == null) {
-            this._sourceRectangle = new Rectangle(this.sx, this.sy, this.swidth, this.sheight);
+        if (this.sourceRect == null) {
+            this.sourceRect = new Rectangle(this.sx, this.sy, this.swidth, this.sheight);
         }
 
-        return this._sourceRectangle;
+        return this.sourceRect;
     }
 
     public get destinationRectangle(): Rectangle {
-        if (this._destinationRectangle == null) {
-            this._destinationRectangle = new Rectangle(this.x, this.y, this.width, this.height);
+        if (this.destinationRect == null) {
+            this.destinationRect = new Rectangle(this.x, this.y, this.width, this.height);
         }
 
-        return this._destinationRectangle;
+        return this.destinationRect;
     }
 }

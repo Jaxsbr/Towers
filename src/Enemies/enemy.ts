@@ -1,4 +1,5 @@
-import { Rectangle, Vector2 } from '../internal';
+import { Rectangle } from '../DataObjects/rectangle';
+import { Vector2 } from '../DataObjects/vector2';
 
 export class Enemy {
     public position: Vector2;

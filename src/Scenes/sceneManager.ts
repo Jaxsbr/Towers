@@ -1,4 +1,7 @@
-import { GameScene, LoadScene, Scenes, SceneInterface } from '../internal';
+import { GameScene } from './gameScene';
+import { LoadScene } from './loadScene';
+import { SceneInterface } from './scene.interface';
+import { Scenes } from './scenes.enum';
 
 export class SceneManager {
     private currentScene: SceneInterface;
