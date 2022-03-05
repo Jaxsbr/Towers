@@ -1,4 +1,4 @@
-import { Rectangle } from "./rectangle";
+import { Rectangle } from '../internal';
 
 export class ImageObject {
     public image: HTMLImageElement;

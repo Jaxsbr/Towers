@@ -1,10 +1,12 @@
-import { AssetInterface } from "./asset.interface";
-import { AssetManager } from "./assetManager";
+import { AssetInterface, AssetManager } from '../internal';
 
 export class MapAsset implements AssetInterface {
     assetManager: AssetManager;
+
     public jsonRaw: any;
+
     public key: string;
+
     src: string;
 
     constructor(assetManager: AssetManager, key: string, src: string) {
@@ -13,15 +15,15 @@ export class MapAsset implements AssetInterface {
         this.src = src;
     }
 
-    init() {
-        let request = new XMLHttpRequest();        
+    init(): void {
+        const request = new XMLHttpRequest();
         request.onload = event => {
             if (request.status === 200) {
-                let data = JSON.parse(request.responseText);
+                const data = JSON.parse(request.responseText);
                 this.jsonRaw = data;
                 this.assetManager.loadedAssets++;
             }
-        }
+        };
         request.open('get', this.src, true);
         request.send();
     }

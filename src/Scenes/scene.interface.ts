@@ -1,10 +1,7 @@
-import { Game } from "../game";
-import { SceneManager } from "./sceneManager";
-import { RenderEngine } from "../renderEngine";
-import { MouseInfo } from "../Types/MouseInfo";
+import { Game, SceneManager, RenderEngine, MouseInfo } from '../internal';
 
 export interface SceneInterface {
-    game: Game
+    game: Game;
     sceneManager: SceneManager;
     renderEngine: RenderEngine;
     mouseInfo: MouseInfo;

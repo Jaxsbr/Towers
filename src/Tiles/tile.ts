@@ -1,12 +1,13 @@
-import { GameScene } from "../Scenes/gameScene";
-import { Rectangle } from "../DataObjects/rectangle";
-import { ImageObject } from "../DataObjects/imageObject";
+import { GameScene, ImageObject, Rectangle } from '../internal';
 
 export class Tile {
     public bounds: Rectangle;
+
     private gameScene: GameScene;
+
     private imageObject: ImageObject;
-    private fontSize: number = 12;
+
+    private fontSize = 12;
 
     constructor(gameScene: GameScene, bounds: Rectangle, imageObject: ImageObject) {
         this.gameScene = gameScene;
@@ -18,11 +19,11 @@ export class Tile {
         this.gameScene.renderEngine.renderImageSource(
             this.imageObject.image,
             this.imageObject.sourceRectangle,
-            this.imageObject.destinationRectangle);       
-            
+            this.imageObject.destinationRectangle
+        );
 
         // this.gameScene.renderEngine.renderText(
-        //     col + '_' + row, 
+        //     col + '_' + row,
         //     this.bounds.left,
         //     this.bounds.top + this.fontSize,
         //     'black',

@@ -1,9 +1,14 @@
 export class Rectangle {
     public left: number;
-    public top: number;    
+
+    public top: number;
+
     public bottom: number;
+
     public right: number;
+
     public width: number;
+
     public height: number;
 
     constructor(left: number, top: number, width: number, height: number) {
@@ -12,11 +17,11 @@ export class Rectangle {
         this.width = width;
         this.height = height;
 
-        this.update();   
+        this.update();
     }
 
-    private updateRight(): void {        
-        this.right = this.left + this.width;        
+    private updateRight(): void {
+        this.right = this.left + this.width;
     }
 
     private updateBottom(): void {
@@ -24,22 +29,26 @@ export class Rectangle {
     }
 
     public update(): void {
-      this.updateRight();
-      this.updateBottom();
+        this.updateRight();
+        this.updateBottom();
     }
 
     public intersectRect(rectangle: Rectangle): boolean {
-        return !(rectangle.left > this.right ||
-                rectangle.right < this.left ||
-                rectangle.top > this.bottom ||
-                rectangle.bottom < this.top);
+        return !(
+            rectangle.left > this.right ||
+            rectangle.right < this.left ||
+            rectangle.top > this.bottom ||
+            rectangle.bottom < this.top
+        );
     }
 
     public containsRect(rectangle: Rectangle): boolean {
-        return (this.left <= rectangle.left &&
-                rectangle.right <= this.right &&
-                this.top <= rectangle.top &&
-                rectangle.bottom <= this.bottom);
+        return (
+            this.left <= rectangle.left &&
+            rectangle.right <= this.right &&
+            this.top <= rectangle.top &&
+            rectangle.bottom <= this.bottom
+        );
     }
 
     public get getCenterWidth(): number {
@@ -57,13 +66,15 @@ export class Rectangle {
     }
 
     public equals(rect: Rectangle): boolean {
-        return (this.left == rect.left &&
-                this.top == rect.top &&
-                this.width == rect.width &&
-                this.height == rect.height);
+        return (
+            this.left == rect.left &&
+            this.top == rect.top &&
+            this.width == rect.width &&
+            this.height == rect.height
+        );
     }
 
     public toString(): string {
-        return 'x:' + this.left + ' y: ' + this.top + ' w: ' + this.width + ' h:' + this.height;
+        return `x:${this.left} y: ${this.top} w: ${this.width} h:${this.height}`;
     }
 }

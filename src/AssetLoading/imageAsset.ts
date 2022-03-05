@@ -1,10 +1,12 @@
-import { AssetInterface } from "./asset.interface";
-import { AssetManager } from "./assetManager";
+import { AssetInterface, AssetManager } from '../internal';
 
 export class ImageAsset implements AssetInterface {
     assetManager: AssetManager;
+
     public image: HTMLImageElement;
+
     public key: string;
+
     src: string;
 
     constructor(assetManager: AssetManager, key: string, src: string) {
@@ -13,11 +15,11 @@ export class ImageAsset implements AssetInterface {
         this.src = src;
     }
 
-    init() {
+    init(): void {
         this.image = new Image();
         this.image.onload = () => {
             this.assetManager.loadedAssets++;
-        }
+        };
         this.image.src = this.src;
     }
 }
