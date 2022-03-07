@@ -1,5 +1,6 @@
 import { AssetManager } from './AssetLoading/assetManager';
 import { GameTime } from './DataObjects/gameTime';
+import { GameConfig } from './gameConfig';
 import { RenderEngine } from './renderEngine';
 import { SceneInterface } from './Scenes/scene.interface';
 import { SceneManager } from './Scenes/sceneManager';
@@ -13,6 +14,7 @@ export class Game {
     private running: boolean;
 
     constructor() {
+        window.gameConfig = new GameConfig();
         window.renderEngine = new RenderEngine();
         window.assetManager = new AssetManager();
         window.assetManager.init();

@@ -33,7 +33,7 @@ export class Projectile {
         this.worldBounds = window.tileMap.bounds;
 
         this.bounds = new Rectangle(0, 0, 24, 24);
-        this.velocity = new Vector2(0, 0);
+        this.velocity = Vector2.empty;
         this.projectileColor = 'black';
         this.imageSourceRect = new Rectangle(0, 0, 32, 32);
     }

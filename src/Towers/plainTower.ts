@@ -1,16 +1,19 @@
+import { Vector2 } from '../DataObjects/vector2';
 import { Tile } from '../Tiles/tile';
 import { BaseTower } from './baseTower';
 
 export class PlainTower extends BaseTower {
-    private plainTowerShootSpeed = 250;
+    private plainTowerShootSpeed = window.gameConfig.plainTowerShootSpeed;
 
-    private plainTowerShootRate = 0.7;
+    private plainTowerShootRate = window.gameConfig.plainTowerShootRate;
 
     private shootElapsed = 0;
 
+    private accuracyEnabled = true;
+
     constructor(destinationTile: Tile, towerImage: HTMLImageElement) {
         super(destinationTile, towerImage);
-        super.shootRange = 128;
+        super.shootRange = window.gameConfig.plainTowerShootRange;
     }
 
     public update(): void {
@@ -24,12 +27,15 @@ export class PlainTower extends BaseTower {
         this.shootElapsed += delta;
         if (this.targetInRange && this.shootElapsed >= this.plainTowerShootRate) {
             this.shootElapsed = 0;
+            let direction = Vector2.empty;
 
-            // console.log('shoot');
+            if (this.accuracyEnabled) {
+                direction = this.target.futurePosition.subtract(this.center);
+            } else {
+                direction = this.target.center.subtract(this.center);
+            }
 
-            const direction = this.target.center.subtract(this.center);
             const normalizedDirection = direction.normalize();
-
             window.projectileEngine.activateProjectile(
                 this.center,
                 normalizedDirection,

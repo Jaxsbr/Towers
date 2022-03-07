@@ -1,6 +1,7 @@
 import { AssetManager } from './AssetLoading/assetManager';
 import { GameTime } from './DataObjects/gameTime';
 import { EnemySpawner } from './Enemies/enemySpawner';
+import { GameConfig } from './gameConfig';
 import { LevelManager } from './Levels/levelManager';
 import { ProjectileEngine } from './Projectiles/projectileEngine';
 import { RenderEngine } from './renderEngine';
@@ -19,5 +20,6 @@ declare global {
         enemySpawner: EnemySpawner;
         projectileEngine: ProjectileEngine;
         mouseInfo: MouseInfo;
+        gameConfig: GameConfig;
     }
 }

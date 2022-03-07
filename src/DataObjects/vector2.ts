@@ -28,6 +28,13 @@ export class Vector2 {
         const normalX = this.x / distance;
         const normalY = this.y / distance;
 
-        return new Vector2(isNaN(normalX) ? 0 : normalX, isNaN(normalY) ? 0 : normalY);
+        return new Vector2(
+            Number.isNaN(normalX) ? 0 : normalX,
+            Number.isNaN(normalY) ? 0 : normalY
+        );
+    }
+
+    static get empty(): Vector2 {
+        return Vector2.empty;
     }
 }

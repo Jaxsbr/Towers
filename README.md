@@ -26,14 +26,6 @@ npm run dev
 
 
 ## Bugs
-- Undefine Bounds error freezes the game
-  - Launch the game
-  - Open devtools F12
-  - Wait until you see an enemy moving
-  - Right/Left click anyware on right side outside the blue game rectangle
-  - bug: Game freezes
-  - bug: Console shows a undefine error (reading 'bounds')
-  - expectation: Game proceeds without freezing of logging a console error
 
 - Towers on path
   - Launch the game
@@ -57,3 +49,12 @@ npm run dev
   - bug: A tower is placed
   - expectation: A tower is first selected via a menu item and visually selected. Then on selection a tower is placed
   - expectation: Without a item selection, nothing is added when the game are is clicked
+
+- Tower targetting becomes inaccurate after killing enemy
+  - Tweak enemy health/speed to allow a tower to target and kill it.
+  - bug: notice the tower does not rotate back to default upwards position
+  - Wait for 2nd enemy to get in range of the tower
+  - bug: notice the tower does not follow enemy
+  - bug: notice the tower does not shoot the enemy in range per shoot rate
+  - expectation: Tower rotates to default position upon losing target (death/range)
+  - expectation: Next available enemy is targeted, rotated towards, and fired at per shoot rate

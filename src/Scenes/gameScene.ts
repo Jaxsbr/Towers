@@ -83,7 +83,6 @@ export class GameScene implements SceneInterface {
 
     render(): void {
         window.renderEngine.clearRect(window.tileMap.bounds);
-        window.renderEngine.renderImage(this.backgroundImage, 0, 0, 480, 480);
         window.tileMap.draw();
 
         // TODO:
