@@ -35,6 +35,6 @@ export class Vector2 {
     }
 
     static get empty(): Vector2 {
-        return Vector2.empty;
+        return new Vector2(0, 0);
     }
 }
