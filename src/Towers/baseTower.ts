@@ -26,7 +26,7 @@ export abstract class BaseTower {
         this.destinationTile = destinationTile;
         this.towerImage = towerImage;
 
-        this.center = new Vector2(0, 0);
+        this.center = Vector2.empty;
     }
 
     public update(): void {

@@ -12,6 +12,8 @@ export class Enemy {
 
     public bounds: Rectangle;
 
+    public futurePosition: Vector2;
+
     private enemyImage: HTMLImageElement;
 
     private originalWayPoints: any;
@@ -66,10 +68,11 @@ export class Enemy {
         this.moveSpeed = moveSpeed;
         this.movementWayPoints = this.originalWayPoints.slice();
         this.movements = { left: false, right: false, up: false, down: false };
-        this.position = new Vector2(0, 0);
+        this.position = Vector2.empty;
+        this.futurePosition = Vector2.empty;
         this.size = new Vector2(48, 48);
-        this.center = new Vector2(0, 0);
-        this.velocity = new Vector2(0, 0);
+        this.center = Vector2.empty;
+        this.velocity = Vector2.empty;
         this.bounds = new Rectangle(0, 0, 0, 0);
         this.nextMovePoint = null;
         this.hpBounds = new Rectangle(
@@ -152,6 +155,14 @@ export class Enemy {
 
         this.center.x = this.bounds.getCenterWidth;
         this.center.y = this.bounds.getCenterHeight;
+
+        this.futurePosition.x = this.center.x;
+        this.futurePosition.y = this.center.y;
+
+        this.futurePosition.x =
+            this.center.x + this.velocity.x * window.gameConfig.enemyFuturePositionModifier;
+        this.futurePosition.y =
+            this.center.y + this.velocity.y * window.gameConfig.enemyFuturePositionModifier;
     }
 
     private updateHpBounds(): void {

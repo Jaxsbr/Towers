@@ -7,13 +7,13 @@ export class TileMap {
 
     public tileMatrix: Tile[][];
 
-    public rows = 10;
+    public rows = window.gameConfig.tileMapRows;
 
-    public cols = 10;
+    public cols = window.gameConfig.tileMapCols;
 
-    public tileWidth = 48;
+    public tileWidth = window.gameConfig.tileMapTileWidth;
 
-    public tileHeight = 48;
+    public tileHeight = window.gameConfig.tileMapTileHeight;
 
     public bounds: Rectangle;
 
@@ -77,9 +77,9 @@ export class TileMap {
         ];
 
         this.tileMatrix = [];
-        for (let row = 0; row < this.rows; row++) {
+        for (let row = 0; row < this.rows; row += 1) {
             this.tileMatrix[row] = [];
-            for (let col = 0; col < this.cols; col++) {
+            for (let col = 0; col < this.cols; col += 1) {
                 const matrixValue = matrix[row][col];
                 const tileImageObject = this.getTileImageObject(
                     matrixValue,
@@ -116,7 +116,7 @@ export class TileMap {
         tileImageObject.swidth = 32;
         tileImageObject.sheight = 32;
 
-        if (matrixValue == 0) {
+        if (matrixValue === 0) {
             tileImageObject.sx = 0;
             tileImageObject.sy = 0;
         } else {
@@ -128,8 +128,8 @@ export class TileMap {
     }
 
     public draw(): void {
-        for (let row = 0; row < this.rows; row++) {
-            for (let col = 0; col < this.cols; col++) {
+        for (let row = 0; row < this.rows; row += 1) {
+            for (let col = 0; col < this.cols; col += 1) {
                 this.tileMatrix[row][col].draw(col, row);
             }
         }
