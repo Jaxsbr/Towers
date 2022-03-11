@@ -16,11 +16,13 @@ export abstract class BaseTower {
 
     public center: Vector2;
 
-    private rotation: number;
+    private rotation = 0;
 
     private towerImage: HTMLImageElement;
 
     private selected: boolean;
+
+    private southAngle = 180;
 
     constructor(destinationTile: Tile, towerImage: HTMLImageElement) {
         this.destinationTile = destinationTile;
@@ -37,8 +39,6 @@ export abstract class BaseTower {
         this.updateTarget();
         this.updateTargetInRange();
         this.updateRotation();
-
-        // console.log('targetInRange: ' + this.targetInRange);
     }
 
     public draw(): void {
@@ -97,19 +97,30 @@ export abstract class BaseTower {
     private updateRotation(): void {
         // Rotate the tower towards it's current target or
         // rotate to default position if no target exist or if target not in range.
+
+        // Apperantly rotaion can be negative value. e.g. -100
+        // This depends on which direction the tower moves
+        // e.g. start at 0 move clockwise results in positive value 0 to 360
+        // e.g. start at 0 move counter clockwise results in negative value 0 to -360
+
+        // The rotation value can also get greater than 360 of smaller that -360
+        // thus we have to stop and reset rotation at these points
+
         if (this.targetInRange) {
             const xDistance = this.target.center.x - this.center.x;
             const yDistance = this.target.center.y - this.center.y;
+
+            // TODO: update tower image to point north, then reduce below starting angle calculation
             this.rotation = Math.atan2(yDistance, xDistance) * (180 / Math.PI) - 270;
+        } else if (this.rotation < -180 && this.rotation > -360) {
+            // Reset rotaion by moving tower counter clockwise
+            this.rotation -= 1.5;
+        } else if (this.rotation > -180 && this.rotation < 1) {
+            // Reset rotaion by moving tower clockwise
+            this.rotation += 1.5;
+        } else {
+            this.rotation = 0;
         }
-        // else {
-        //     if (this.rotation > 0) {
-        //         this.rotation = this.rotation - 0.01;
-        //     } else {
-        //         this.rotation = -90;
-        //     }
-        // }
-        // this.rotation = this.rotation - 270;
     }
 
     private updateTarget(): void {
@@ -117,8 +128,9 @@ export abstract class BaseTower {
         let closestDistance = 99999;
         let closestEnemy: Enemy;
 
-        for (let e = 0; e < window.enemySpawner.enemies.length; e += 1) {
-            const enemy = window.enemySpawner.enemies[e];
+        const livingEnemies = window.enemySpawner.enemies.filter(e => e.active);
+        for (let e = 0; e < livingEnemies.length; e += 1) {
+            const enemy = livingEnemies[e];
             distance = enemy.center.distance(this.center);
 
             if (distance < closestDistance || closestEnemy == null) {
