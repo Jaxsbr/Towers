@@ -140,10 +140,6 @@ export class GameScene implements SceneInterface {
         const destinationTile = window.tileMap.tileMatrix[y][x];
         this.menu.clearStagedTower();
         this.towerManager.createTower(destinationTile);
-
-        console.log(
-            `tileX:${x} tileY:${y} destTile:${destinationTile.bounds} mouseX:${window.mouseInfo.x} mouseY:${window.mouseInfo.y}`
-        );
     }
 
     mouseMove(x: number, y: number): void {}
