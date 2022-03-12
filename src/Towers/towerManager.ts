@@ -24,6 +24,18 @@ export class TowerManager {
     }
 
     public createTower(destinationTile: Tile): void {
-        this.towers.push(new PlainTower(destinationTile, this.towerImage));
+        const tileEmpty =
+            this.towers.filter(
+                t =>
+                    t.destinationTile.bounds.left === destinationTile.bounds.left &&
+                    t.destinationTile.bounds.top === destinationTile.bounds.top
+            ).length === 0;
+
+        if (tileEmpty) {
+            this.towers.push(new PlainTower(destinationTile, this.towerImage));
+            console.log(
+                `tileX:${destinationTile.bounds.left} tileY:${destinationTile.bounds.top} destTile:${destinationTile.bounds}`
+            );
+        }
     }
 }

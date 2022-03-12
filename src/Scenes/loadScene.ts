@@ -8,7 +8,7 @@ export class LoadScene implements SceneInterface {
     private loadingText: string;
 
     constructor() {
-        this.loadScreenRect = new Rectangle(0, 0, 800, 480);
+        this.loadScreenRect = window.gameConfig.loadScreenRect;
     }
 
     init(): void {}

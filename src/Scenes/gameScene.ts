@@ -33,9 +33,9 @@ export class GameScene implements SceneInterface {
         window.projectileEngine = new ProjectileEngine();
 
         // TODO: Remove, towers to be added with user input
-        this.towerManager.createTower(window.tileMap.tileMatrix[3][3]);
-        this.towerManager.createTower(window.tileMap.tileMatrix[5][5]);
-        this.towerManager.createTower(window.tileMap.tileMatrix[8][7]);
+        //this.towerManager.createTower(window.tileMap.tileMatrix[3][3]);
+        this.towerManager.createTower(window.tileMap.tileMatrix[3][5]);
+        //this.towerManager.createTower(window.tileMap.tileMatrix[8][7]);
 
         window.addEventListener('mousemove', e => {
             this.mouseMove(e.x, e.y);
@@ -140,10 +140,6 @@ export class GameScene implements SceneInterface {
         const destinationTile = window.tileMap.tileMatrix[y][x];
         this.menu.clearStagedTower();
         this.towerManager.createTower(destinationTile);
-
-        console.log(
-            `tileX:${x} tileY:${y} destTile:${destinationTile.bounds} mouseX:${window.mouseInfo.x} mouseY:${window.mouseInfo.y}`
-        );
     }
 
     mouseMove(x: number, y: number): void {}

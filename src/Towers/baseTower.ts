@@ -57,6 +57,17 @@ export abstract class BaseTower {
         );
 
         this.drawSelection();
+
+        window.renderEngine.renderText(
+            `hasTarget: ${this.target ? 'yes' : 'no'}`,
+            64,
+            64,
+            'red',
+            32,
+            'impact'
+        );
+
+        window.renderEngine.renderText(`rotation: ${this.rotation}`, 64, 96, 'red', 32, 'impact');
     }
 
     public setSelection(selected: boolean): void {
@@ -82,10 +93,8 @@ export abstract class BaseTower {
     private updateTargetInRange(): void {
         if (this.target != null && this.target.active) {
             this.targetDirection = this.center.subtract(this.target.center);
-            // console.log('target direction  y: ' + this.targetDirection.x + ' y: ' + this.targetDirection.y);
             const distance = this.targetDirection.magnitude();
             if (distance <= this.shootRange) {
-                // console.log('ranged');
                 this.targetInRange = true;
                 return;
             }
@@ -106,21 +115,30 @@ export abstract class BaseTower {
         // The rotation value can also get greater than 360 of smaller that -360
         // thus we have to stop and reset rotation at these points
 
-        if (this.targetInRange) {
-            const xDistance = this.target.center.x - this.center.x;
-            const yDistance = this.target.center.y - this.center.y;
-
-            // TODO: update tower image to point north, then reduce below starting angle calculation
-            this.rotation = Math.atan2(yDistance, xDistance) * (180 / Math.PI) - 270;
-        } else if (this.rotation < -180 && this.rotation > -360) {
-            // Reset rotaion by moving tower counter clockwise
-            this.rotation -= 1.5;
-        } else if (this.rotation > -180 && this.rotation < 1) {
-            // Reset rotaion by moving tower clockwise
-            this.rotation += 1.5;
-        } else {
-            this.rotation = 0;
+        if (!this.target) {
+            //this.calculateRotation(new Vector2(0, -1));
+            if (this.rotation < -180 && this.rotation > -360) {
+                // Reset rotation by moving tower counter clockwise
+                this.rotation -= 1.5;
+            } else if (this.rotation > -180 && this.rotation < 0) {
+                // Reset rotation by moving tower clockwise
+                this.rotation += 1.5;
+            }
+            return;
         }
+
+        if (this.targetInRange) {
+            this.calculateRotation(
+                new Vector2(
+                    this.target.center.x - this.center.x,
+                    this.target.center.y - this.center.y
+                )
+            );
+        }
+    }
+
+    private calculateRotation(distance: Vector2): void {
+        this.rotation = Math.atan2(distance.y, distance.x) * (180 / Math.PI) - 180;
     }
 
     private updateTarget(): void {
