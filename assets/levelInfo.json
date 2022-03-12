@@ -5,15 +5,15 @@
     "enemySpawnRate": 10,
     "enemySpawnCountMax": 10,
     "enemyMoveSpeed": 75,
-    "enemyMaxHp": 5,
+    "enemyMaxHp": 7,
     "enemyType": "squid"
   },
   {
     "levelName": "Level 2",
     "levelIndex": 2,
-    "enemySpawnRate": 7.5,
+    "enemySpawnRate": 5,
     "enemySpawnCountMax": 20,
-    "enemyMoveSpeed": 75,
+    "enemyMoveSpeed": 80,
     "enemyMaxHp": 10,
     "enemyType": "ork"
   },
@@ -22,7 +22,7 @@
     "levelIndex": 3,
     "enemySpawnRate": 5,
     "enemySpawnCountMax": 30,
-    "enemyMoveSpeed": 75,
+    "enemyMoveSpeed": 85,
     "enemyMaxHp": 15,
     "enemyType": "squid"
   }

@@ -57,6 +57,17 @@ export abstract class BaseTower {
         );
 
         this.drawSelection();
+
+        window.renderEngine.renderText(
+            `hasTarget: ${this.target ? 'yes' : 'no'}`,
+            64,
+            64,
+            'red',
+            32,
+            'impact'
+        );
+
+        window.renderEngine.renderText(`rotation: ${this.rotation}`, 64, 96, 'red', 32, 'impact');
     }
 
     public setSelection(selected: boolean): void {
@@ -105,29 +116,29 @@ export abstract class BaseTower {
         // thus we have to stop and reset rotation at these points
 
         if (!this.target) {
-            this.calculateRotation(Vector2.empty);
+            //this.calculateRotation(new Vector2(0, -1));
+            if (this.rotation < -180 && this.rotation > -360) {
+                // Reset rotation by moving tower counter clockwise
+                this.rotation -= 1.5;
+            } else if (this.rotation > -180 && this.rotation < 0) {
+                // Reset rotation by moving tower clockwise
+                this.rotation += 1.5;
+            }
+            return;
         }
 
         if (this.targetInRange) {
             this.calculateRotation(
                 new Vector2(
-                    this.target.center.y - this.center.y,
-                    this.target.center.x - this.center.x
+                    this.target.center.x - this.center.x,
+                    this.target.center.y - this.center.y
                 )
             );
-        } else if (this.rotation < -180 && this.rotation > -360) {
-            // Reset rotation by moving tower counter clockwise
-            this.rotation -= 1.5;
-        } else if (this.rotation > -180 && this.rotation < 1) {
-            // Reset rotation by moving tower clockwise
-            this.rotation += 1.5;
-        } else {
-            this.rotation = 0;
         }
     }
 
     private calculateRotation(distance: Vector2): void {
-        this.rotation = Math.atan2(distance.y, distance.x) * (180 / Math.PI) - 270;
+        this.rotation = Math.atan2(distance.y, distance.x) * (180 / Math.PI) - 180;
     }
 
     private updateTarget(): void {
