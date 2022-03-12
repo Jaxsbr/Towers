@@ -70,7 +70,7 @@ export class Enemy {
         this.movements = { left: false, right: false, up: false, down: false };
         this.position = Vector2.empty;
         this.futurePosition = Vector2.empty;
-        this.size = new Vector2(48, 48);
+        this.size = window.gameConfig.enemySize;
         this.center = Vector2.empty;
         this.velocity = Vector2.empty;
         this.bounds = new Rectangle(0, 0, 0, 0);

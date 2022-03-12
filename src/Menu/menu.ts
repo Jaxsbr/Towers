@@ -1,9 +1,9 @@
 import { ImageKeyPair } from '../Types/imageKeyPair';
 
 export class Menu {
-    public stagedTowerImageWidth = 48;
+    public stagedTowerImageWidth = window.gameConfig.menuStagedTowerImageWidth;
 
-    public stagedTowerImageHeight = 48;
+    public stagedTowerImageHeight = window.gameConfig.menuStagedTowerImageHeight;
 
     private imageDictionary: ImageKeyPair[];
 
