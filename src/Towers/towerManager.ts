@@ -1,3 +1,4 @@
+import { Rectangle } from '../DataObjects/rectangle';
 import { Tile } from '../Tiles/tile';
 import { BaseTower } from './baseTower';
 import { PlainTower } from './plainTower';
@@ -23,19 +24,32 @@ export class TowerManager {
         });
     }
 
-    public createTower(destinationTile: Tile): void {
+    public isTileEmpty(tileBounds: Rectangle): boolean {
         const tileEmpty =
             this.towers.filter(
                 t =>
-                    t.destinationTile.bounds.left === destinationTile.bounds.left &&
-                    t.destinationTile.bounds.top === destinationTile.bounds.top
+                    t.destinationTile.bounds.left === tileBounds.left &&
+                    t.destinationTile.bounds.top === tileBounds.top
             ).length === 0;
+        return tileEmpty;
+    }
 
-        if (tileEmpty) {
-            this.towers.push(new PlainTower(destinationTile, this.towerImage));
-            console.log(
-                `tileX:${destinationTile.bounds.left} tileY:${destinationTile.bounds.top} destTile:${destinationTile.bounds}`
-            );
+    public createTower(destinationTile: Tile): void {
+        this.towers.push(new PlainTower(destinationTile, this.towerImage));
+    }
+
+    public mouseDown(mouseRect: Rectangle): void {
+        this.selectTower(mouseRect);
+    }
+
+    private selectTower(mouseRect: Rectangle): void {
+        for (let i = 0; i < this.towers.length; i += 1) {
+            const tower = this.towers[i];
+            if (tower.destinationTile.bounds.containsRect(mouseRect)) {
+                tower.setSelection(true);
+            } else {
+                tower.setSelection(false);
+            }
         }
     }
 }

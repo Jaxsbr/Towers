@@ -9,7 +9,9 @@ export class Menu {
 
     private stagedTower: string;
 
-    private menuHeight: number;
+    public menuHeight: number;
+
+    public hasStagedTower = false;
 
     constructor() {
         window.addEventListener('plainTowerClicked', () => {
@@ -28,10 +30,12 @@ export class Menu {
 
     public clearStagedTower(): void {
         this.stagedTower = '';
+        this.hasStagedTower = false;
     }
 
     private towerClicked(type: string): void {
         this.stagedTower = type;
+        this.hasStagedTower = true;
     }
 
     public draw(): void {

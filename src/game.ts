@@ -21,6 +21,7 @@ export class Game {
         window.sceneManager = new SceneManager();
         window.sceneManager.toggleActiveScene(Scenes.loading);
         window.gameTime = new GameTime();
+        window.mouseInfo = { x: 0, y: 0 };
 
         window.addEventListener('mousemove', e => {
             Game.mouseMove(e);

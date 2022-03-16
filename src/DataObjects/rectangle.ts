@@ -67,14 +67,18 @@ export class Rectangle {
 
     public equals(rect: Rectangle): boolean {
         return (
-            this.left == rect.left &&
-            this.top == rect.top &&
-            this.width == rect.width &&
-            this.height == rect.height
+            this.left === rect.left &&
+            this.top === rect.top &&
+            this.width === rect.width &&
+            this.height === rect.height
         );
     }
 
     public toString(): string {
         return `x:${this.left} y: ${this.top} w: ${this.width} h:${this.height}`;
+    }
+
+    static get empty(): Rectangle {
+        return new Rectangle(0, 0, 0, 0);
     }
 }

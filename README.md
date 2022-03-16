@@ -6,11 +6,11 @@ I've always been facinated with tower defence games. This genre got me into prog
 https://jaxsbr.github.io/Towers/
 
 
-## Run
+## Commands
 ```
 npm install
 npm run-script build
-npm run-script run
+npm start
 ```
 
 
