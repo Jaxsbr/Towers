@@ -9,7 +9,7 @@ https://jaxsbr.github.io/Towers/
 ## Commands
 ```
 npm install
-npm build
+npm run-script build
 npm start
 ```
 
