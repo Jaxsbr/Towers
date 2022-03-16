@@ -20,7 +20,7 @@ export abstract class BaseTower {
 
     private towerImage: HTMLImageElement;
 
-    private selected: boolean;
+    private selected = false;
 
     private southAngle = 180;
 
@@ -56,18 +56,9 @@ export abstract class BaseTower {
             this.rotation
         );
 
-        this.drawSelection();
-
-        window.renderEngine.renderText(
-            `hasTarget: ${this.target ? 'yes' : 'no'}`,
-            64,
-            64,
-            'red',
-            32,
-            'impact'
-        );
-
-        window.renderEngine.renderText(`rotation: ${this.rotation}`, 64, 96, 'red', 32, 'impact');
+        if (this.selected) {
+            this.drawSelection();
+        }
     }
 
     public setSelection(selected: boolean): void {
@@ -86,8 +77,14 @@ export abstract class BaseTower {
     }
 
     private drawSelection(): void {
-        // TODO:
-        // Draw any overlay selection effects
+        window.renderEngine.renderEllipse(
+            this.center.x,
+            this.center.y,
+            'yellow',
+            0.5,
+            this.destinationTile.bounds.height,
+            true
+        );
     }
 
     private updateTargetInRange(): void {
@@ -116,13 +113,16 @@ export abstract class BaseTower {
         // thus we have to stop and reset rotation at these points
 
         if (!this.target) {
-            //this.calculateRotation(new Vector2(0, -1));
-            if (this.rotation < -180 && this.rotation > -360) {
+            if (this.rotation < -90 && this.rotation > -270) {
                 // Reset rotation by moving tower counter clockwise
                 this.rotation -= 1.5;
             } else if (this.rotation > -180 && this.rotation < 0) {
                 // Reset rotation by moving tower clockwise
                 this.rotation += 1.5;
+            } else {
+                // NOTE: rotational north is -270
+                // Ideally this should be 0 or 360 but havent found where this is being set.
+                this.rotation = -270;
             }
             return;
         }
