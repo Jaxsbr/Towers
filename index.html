@@ -27,7 +27,8 @@
       }
 
       #container {
-        position:absolute;
+        width: 480px;
+        /* position:absolute; */
         /* border-style: solid;
         border-width: 1px;
         border-color: black; */
@@ -48,16 +49,49 @@
 
       .tower-menu {
         background-color: cornflowerblue;
+        width: 480px;
       }
 
       .tower-menu-button {
         display: inline;
       }      
 
+      .tower-menu-item-padding {
+        padding-top: 7px;
+      }
+
+      .info-pane {
+        background-color: cornflowerblue;
+        width: 480px;
+        height: 40px;
+      }
+
+      .info-text {
+        margin-left: 10px;
+        margin-top: 10px;
+        font-size: 20px;
+      }
+
+      .display-inline {
+        display: inline;
+      }
+
       .no-select {
         -moz-user-select: none;
         -webkit-user-select: none;
         user-select: none;
+      }
+
+      #info_pane > img {
+        float: left;
+      }
+
+      #info_pane, #info_text {
+        overflow: hidden;
+      }
+
+      .hidden {
+        visibility: hidden;
       }
     </style>
   </head>
@@ -65,15 +99,21 @@
     <!-- <h1>Towers</h1> -->
     <div id="tower_menu" class="tower-menu plain-border">
       <div id="tower_plain" class="tower-menu-button" onclick="towerClick('plainTowerClicked');">
-        <img src="assets/tower_plain.png">
+        <img class="tower-menu-item-padding" src="assets/tower_plain.png">
       </div>
       <div id="tower_slow" class="tower-menu-button" onclick="towerClick('slowTowerClicked');">
-        <img src="assets/tower_slow.png" class="no-select">
+        <img class="tower-menu-item-padding" src="assets/tower_slow.png" class="no-select">
       </div>
     </div>
-    <div id="container" class="plain-border" class="no-select">
+    <div id="container" class="plain-border no-select">
       <canvas id="game-canvas" width="480" height="480"></canvas>
-    </div>          
+    </div>   
+    <div id="info_pane" class="info-pane plain-border hidden">
+      <img id="info_img" class="tower-menu-item-padding" src="assets/tower_plain.png"/>
+      <div id="info_text" class="info-text">
+        Tower Info
+      </div>
+    </div>
   </body>
   <script>    
     var canvas = document.getElementById('game-canvas');
