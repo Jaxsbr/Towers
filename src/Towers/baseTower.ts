@@ -42,7 +42,6 @@ export abstract class BaseTower {
     }
 
     public draw(): void {
-        this.drawRange();
 
         // TODO:
         // Implement animation class and call draw
@@ -57,6 +56,7 @@ export abstract class BaseTower {
         );
 
         if (this.selected) {
+            this.drawRange();
             this.drawSelection();
         }
     }
