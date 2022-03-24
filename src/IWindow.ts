@@ -22,7 +22,6 @@ declare global {
         projectileEngine: ProjectileEngine;
         mouseInfo: MouseInfo;
         gameConfig: GameConfig;
-        soundEffectQueue: Array<string>;
         soundEngine: SoundEngine;
     }
 }

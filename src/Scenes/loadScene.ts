@@ -7,26 +7,43 @@ export class LoadScene implements SceneInterface {
 
     private loadingText: string;
 
+    private towerMenu: HTMLElement;
+
     constructor() {
         this.loadScreenRect = window.gameConfig.loadScreenRect;
     }
 
-    init(): void {}
+    init(): void {
+        this.towerMenu = document.getElementById('tower_menu');
+        window.addEventListener('mousedown', () => {
+            this.mouseDown();
+        });
+    }
 
     update(): void {
-        this.loadingText = `${window.assetManager.loadedAssetCount}/${window.assetManager.totalAssets}`;
-        window.assetManager.update();
         if (window.assetManager.loadCompleted) {
-            window.sceneManager.toggleActiveScene(Scenes.game);
+            this.loadingText = 'Tap To Play';
+        } else {
+            this.loadingText = `Loading ${window.assetManager.loadedAssetCount}/${window.assetManager.totalAssets}`;
         }
+
+        window.assetManager.update();
     }
 
     render(): void {
-        window.renderEngine.renderText(this.loadingText, 0, 0, 'blue', 30, 'impact');
         window.renderEngine.renderRect(this.loadScreenRect, 'black', true);
+        window.renderEngine.renderText(this.loadingText, 50, 100, 'yellow', 30, 'impact');
     }
 
-    mouseDown(): void {}
+    mouseDown(): void {
+        if (window.assetManager.loadCompleted) {
+            this.towerMenu.classList.remove('collapsed');
+            window.removeEventListener('mousedown', () => {
+                this.mouseDown();
+            });
+            window.sceneManager.toggleActiveScene(Scenes.game);
+        }
+    }
 
     mouseUp(): void {}
 

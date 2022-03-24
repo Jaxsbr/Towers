@@ -1,3 +1,4 @@
+import { Constants } from '../constants';
 import { Rectangle } from '../DataObjects/rectangle';
 import { Vector2 } from '../DataObjects/vector2';
 
@@ -255,11 +256,10 @@ export class Enemy {
     public hit(): void {
         if (this.active) {
             this.hp -= 1;
-            window.soundEffectQueue.push('assets/sounds/hit.mp3');
+            window.soundEngine.addSoundToQueue(Constants.soundHit);
 
             if (this.hp <= 0) {
                 this.active = false;
-                // console.log(this.enemyName + ': killed');
                 window.dispatchEvent(new CustomEvent('enemyKilled'));
             }
         }

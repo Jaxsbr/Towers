@@ -7,6 +7,11 @@ export class SoundEngine {
         this.sounds = [];
     }
 
+    public addSoundToQueue(soundName: string): void {
+        const soundUrl = `assets/sounds/${soundName}.mp3`;
+        this.play(soundUrl);
+    }
+
     public play(soundEffectUrl: string): void {
         const inactiveSound = this.getInactiveSound();
         inactiveSound.reset(soundEffectUrl, 1, false);
