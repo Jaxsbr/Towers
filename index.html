@@ -93,11 +93,16 @@
       .hidden {
         visibility: hidden;
       }
+
+      .collapsed {
+        visibility: collapse;
+        height: 0;
+      }
     </style>
   </head>
   <body>
     <!-- <h1>Towers</h1> -->
-    <div id="tower_menu" class="tower-menu plain-border">
+    <div id="tower_menu" class="tower-menu plain-border collapsed">
       <div id="tower_plain" class="tower-menu-button" onclick="towerClick('plainTowerClicked');">
         <img class="tower-menu-item-padding" src="assets/tower_plain.png">
       </div>
