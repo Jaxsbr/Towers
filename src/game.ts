@@ -23,7 +23,6 @@ export class Game {
         window.sceneManager.toggleActiveScene(Scenes.loading);
         window.gameTime = new GameTime();
         window.mouseInfo = { x: 0, y: 0 };
-        window.soundEffectQueue = [];
         window.soundEngine = new SoundEngine();
 
         window.addEventListener('mousemove', e => {
@@ -47,20 +46,8 @@ export class Game {
             window.sceneManager.update();
             window.sceneManager.render();
         }
-        Game.updateSoundEffectsQueue();
 
         requestAnimationFrame(() => this.loop());
-    }
-
-    static updateSoundEffectsQueue(): void {
-        if (window.soundEffectQueue.length === 0) {
-            return;
-        }
-
-        for (let index = 0; index < window.soundEffectQueue.length; index += 1) {
-            const soundEffect = window.soundEffectQueue.pop();
-            window.soundEngine.play(soundEffect);
-        }
     }
 
     static mouseMove(event: any): void {
