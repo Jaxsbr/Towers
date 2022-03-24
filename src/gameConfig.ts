@@ -31,4 +31,6 @@ export class GameConfig {
     public menuStagedTowerImageHeight = 48;
 
     public enemySize = new Vector2(48, 48);
+
+    public projectileSize = new Vector2(12, 12);
 }

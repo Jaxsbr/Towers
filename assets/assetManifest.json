@@ -3,7 +3,7 @@
   "imageAssets": [
     { "key": "background", "src": "./assets/game_background.png" },
     { "key": "ork", "src": "./assets/ork_spritesheet.png" },
-    { "key": "projectile", "src": "./assets/projectile_spritesheet.png" },
+    { "key": "projectile", "src": "./assets/projectile.png" },
     { "key": "squid", "src": "./assets/squid_spritesheet.png" },
     { "key": "tiles", "src": "./assets/tiles_spritesheet.png" },
     { "key": "towerplain", "src": "./assets/tower_plain.png" },

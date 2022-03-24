@@ -255,7 +255,7 @@ export class Enemy {
     public hit(): void {
         if (this.active) {
             this.hp -= 1;
-            // console.log(this.enemyName + ': hit ' + this.hp);
+            window.soundEffectQueue.push('assets/sounds/hit.mp3');
 
             if (this.hp <= 0) {
                 this.active = false;

@@ -32,7 +32,12 @@ export class Projectile {
         this.projectileImage = projectileImage;
         this.worldBounds = window.tileMap.bounds;
 
-        this.bounds = new Rectangle(0, 0, 24, 24);
+        this.bounds = new Rectangle(
+            0,
+            0,
+            window.gameConfig.projectileSize.x,
+            window.gameConfig.projectileSize.y
+        );
         this.velocity = Vector2.empty;
         this.projectileColor = 'black';
         this.imageSourceRect = new Rectangle(0, 0, 32, 32);

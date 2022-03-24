@@ -6,6 +6,7 @@ import { LevelManager } from './Levels/levelManager';
 import { ProjectileEngine } from './Projectiles/projectileEngine';
 import { RenderEngine } from './renderEngine';
 import { SceneManager } from './Scenes/sceneManager';
+import { SoundEngine } from './soundEngine';
 import { TileMap } from './Tiles/tileMap';
 import { MouseInfo } from './Types/MouseInfo';
 
@@ -21,5 +22,7 @@ declare global {
         projectileEngine: ProjectileEngine;
         mouseInfo: MouseInfo;
         gameConfig: GameConfig;
+        soundEffectQueue: Array<string>;
+        soundEngine: SoundEngine;
     }
 }
