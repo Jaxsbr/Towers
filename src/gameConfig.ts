@@ -20,7 +20,7 @@ export class GameConfig {
 
     public plainTowerShootSpeed = 250;
 
-    public plainTowerShootRate = 0.7;
+    public plainTowerShootRate = 0.8;
 
     public plainTowerShootRange = 150;
 
