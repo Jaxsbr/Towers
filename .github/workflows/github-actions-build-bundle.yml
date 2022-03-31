@@ -20,3 +20,10 @@ jobs:
       - name: Prep and build bundle
         run: npm ci
       - run: npm run-script build
+      - name: Commit bundle
+        run: |
+          git config --global user.name 'Jaxsbr'
+          git config --global user.email 'Jaxsbr@users.noreply.github.com'
+          git add -A
+          git commit -m "bundle updated"
+          git push
